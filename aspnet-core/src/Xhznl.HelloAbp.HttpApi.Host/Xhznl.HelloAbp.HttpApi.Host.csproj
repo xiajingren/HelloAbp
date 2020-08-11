@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Xhznl.HelloAbp</RootNamespace>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <UserSecretsId>Xhznl.HelloAbp-4681b4fd-151f-4221-84a4-929d86723e4c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="3.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xhznl.HelloAbp.Application\Xhznl.HelloAbp.Application.csproj" />
+    <ProjectReference Include="..\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrations\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrations.csproj" />
+    <ProjectReference Include="..\Xhznl.HelloAbp.HttpApi\Xhznl.HelloAbp.HttpApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+</Project>
