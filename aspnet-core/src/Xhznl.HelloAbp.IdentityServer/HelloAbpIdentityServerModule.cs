@@ -39,6 +39,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpAccountApplicationModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(HelloAbpEntityFrameworkCoreDbMigrationsModule),
+        typeof(HelloAbpEntityFrameworkCoreDbMigrationsIdsModule),
         typeof(AbpAspNetCoreSerilogModule)
         )]
     public class HelloAbpIdentityServerModule : AbpModule
