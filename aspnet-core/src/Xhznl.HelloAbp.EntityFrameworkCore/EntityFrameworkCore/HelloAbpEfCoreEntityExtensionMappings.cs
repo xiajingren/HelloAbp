@@ -1,6 +1,7 @@
 ﻿using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
+using Xhznl.HelloAbp.Users;
 
 namespace Xhznl.HelloAbp.EntityFrameworkCore
 {
@@ -11,7 +12,7 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
         public static void Configure()
         {
             HelloAbpModulePropertyConfigurator.Configure();
-            
+
             OneTimeRunner.Run(() =>
             {
                 /* You can configure entity extension properties for the
@@ -33,6 +34,16 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
+
+                ObjectExtensionManager.Instance
+                    .MapEfCoreProperty<IdentityUser, string>(
+                        nameof(AppUser.Avatar),
+                        b => { b.HasMaxLength(AppUserConsts.MaxAvatarLength); }
+                    )
+                    .MapEfCoreProperty<IdentityUser, string>(
+                        nameof(AppUser.Introduction),
+                        b => { b.HasMaxLength(AppUserConsts.MaxIntroductionLength); }
+                    );
             });
         }
     }

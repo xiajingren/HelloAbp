@@ -55,6 +55,16 @@ namespace Xhznl.HelloAbp.Users
          * schema change to the database.
          */
 
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string Avatar { get; set; }
+
+        /// <summary>
+        /// 个人介绍
+        /// </summary>
+        public string Introduction { get; set; }
+
         private AppUser()
         {
             

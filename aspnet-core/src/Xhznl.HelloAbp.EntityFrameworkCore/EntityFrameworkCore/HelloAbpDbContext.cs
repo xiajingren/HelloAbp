@@ -48,6 +48,9 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
                 /* Configure mappings for your additional properties
                  * Also see the HelloAbpEfCoreEntityExtensionMappings class
                  */
+
+                b.Property(x => x.Avatar).IsRequired(false).HasMaxLength(AppUserConsts.MaxAvatarLength).HasColumnName(nameof(AppUser.Avatar));
+                b.Property(x => x.Introduction).IsRequired(false).HasMaxLength(AppUserConsts.MaxIntroductionLength).HasColumnName(nameof(AppUser.Introduction));
             });
 
             /* Configure your own tables/entities inside the ConfigureHelloAbp method */
