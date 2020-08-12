@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { getLanguage } from '@/lang/index'
+import { applicationConfiguration } from '@/api/abp'
 
 const state = {
   sidebar: {
@@ -8,7 +9,8 @@ const state = {
   },
   device: 'desktop',
   language: getLanguage(),
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
+  abpConfig: null
 }
 
 const mutations = {
@@ -36,6 +38,9 @@ const mutations = {
   SET_SIZE: (state, size) => {
     state.size = size
     Cookies.set('size', size)
+  },
+  SET_ABPCONFIG: (state, abpConfig) => {
+    state.abpConfig = abpConfig
   }
 }
 
@@ -54,6 +59,19 @@ const actions = {
   },
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
+  },
+  applicationConfiguration({ commit }) {
+    return new Promise((resolve, reject) => {
+      applicationConfiguration()
+        .then(response => {
+          const data = response
+          commit('SET_ABPCONFIG', data)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
   }
 }
 

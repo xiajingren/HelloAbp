@@ -7,11 +7,12 @@ using Xhznl.HelloAbp.Data;
 
 namespace Xhznl.HelloAbp.EntityFrameworkCore
 {
-    class EntityFrameworkCoreHelloAbpIdsDbSchemaMigrator : IHelloAbpDbSchemaMigrator, ITransientDependency
+    public class EntityFrameworkCoreIdsHelloAbpDbSchemaMigrator
+        : IHelloAbpDbSchemaMigrator, ITransientDependency
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public EntityFrameworkCoreHelloAbpIdsDbSchemaMigrator(
+        public EntityFrameworkCoreIdsHelloAbpDbSchemaMigrator(
             IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

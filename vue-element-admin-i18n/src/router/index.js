@@ -138,7 +138,7 @@ export const asyncRoutes = [
     meta: {
       title: 'permission',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      policy: 'AbpIdentity.Roles'
     },
     children: [
       {
@@ -147,7 +147,7 @@ export const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          policy: 'AbpIdentity.Roles'
         }
       },
       {
@@ -155,8 +155,8 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
-          title: 'directivePermission'
-          // if do not set roles, means: this page does not require permission
+          title: 'directivePermission',
+          policy: 'AbpIdentity.Roles'
         }
       },
       {
@@ -165,7 +165,7 @@ export const asyncRoutes = [
         name: 'RolePermission',
         meta: {
           title: 'rolePermission',
-          roles: ['admin']
+          policy: 'AbpIdentity.Roles'
         }
       }
     ]

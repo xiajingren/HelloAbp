@@ -1,24 +1,27 @@
 import request from '@/utils/request'
+import qs from 'querystring'
 
 export function login(data) {
   return request({
-    url: '/vue-element-admin/user/login',
+    baseURL: 'https://localhost:44364',
+    url: '/connect/token',
     method: 'post',
-    data
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/vue-element-admin/user/info',
-    method: 'get',
-    params: { token }
+    url: '/api/identity/my-profile',
+    method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: '/vue-element-admin/user/logout',
-    method: 'post'
+    baseURL: 'https://localhost:44364',
+    url: '/api/account/logout',
+    method: 'get'
   })
 }

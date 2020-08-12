@@ -3,7 +3,6 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -17,27 +16,36 @@ router.beforeEach(async(to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
 
-  // determine whether the user has logged in
-  const hasToken = getToken()
+  let abpConfig = store.getters.abpConfig
+  if (!abpConfig) {
+    abpConfig = await store.dispatch('app/applicationConfiguration')
+  }
 
-  if (hasToken) {
+  if (abpConfig.currentUser.isAuthenticated) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
-      // determine whether the user has obtained his permission roles through getInfo
-      const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      if (hasRoles) {
+      // user name
+      const name = store.getters.name
+
+      if (name) {
         next()
       } else {
         try {
           // get user info
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
+          await store.dispatch('user/getInfo')
 
-          // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          store.dispatch('user/setRoles', abpConfig.currentUser.roles)
+
+          const grantedPolicies = abpConfig.auth.grantedPolicies
+
+          // generate accessible routes map based on grantedPolicies
+          const accessRoutes = await store.dispatch(
+            'permission/generateRoutes',
+            grantedPolicies
+          )
 
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
@@ -55,8 +63,6 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
-    /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
