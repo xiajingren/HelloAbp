@@ -1,10 +1,12 @@
 import Cookies from 'js-cookie'
-import { getLanguage } from '@/lang/index'
+import { getLanguage, setLocale } from '@/lang/index'
 import { applicationConfiguration } from '@/api/abp'
 
 const state = {
   sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+    opened: Cookies.get('sidebarStatus')
+      ? !!+Cookies.get('sidebarStatus')
+      : true,
     withoutAnimation: false
   },
   device: 'desktop',
@@ -66,6 +68,11 @@ const actions = {
         .then(response => {
           const data = response
           commit('SET_ABPCONFIG', data)
+
+          const language = data.localization.currentCulture.cultureName
+          const values = data.localization.values
+          setLocale(language, values)
+
           resolve(data)
         })
         .catch(error => {

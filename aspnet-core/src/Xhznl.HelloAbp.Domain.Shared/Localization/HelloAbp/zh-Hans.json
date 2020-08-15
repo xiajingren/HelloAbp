@@ -1,8 +1,37 @@
 {
-    "culture": "zh-Hans",
-    "texts": {
-      "Menu:Home": "首页",
-      "Welcome": "欢迎",
-      "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io."
-    }
+  "culture": "zh-Hans",
+  "texts": {
+    "Menu:Home": "首页",
+    "Welcome": "欢迎",
+    "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io.",
+    "Menu:Dashboard": "首页",
+    "Menu:Documentation": "文档",
+    "Menu:Guide": "引导页",
+    "Menu:Profile": "个人中心",
+    "Navbar:Dashboard": "首页",
+    "Navbar:Github": "项目地址",
+    "Navbar:LogOut": "退出登录",
+    "Navbar:Profile": "个人中心",
+    "Navbar:Theme": "换肤",
+    "Navbar:Size": "布局大小",
+    "Login:Title": "系统登录",
+    "Login:LogIn": "登录",
+    "Login:UserName": "账号",
+    "Login:Password": "密码",
+    "Login:ThirdParty": "第三方登录",
+    "Login:ThirdPartyTips": "本地不能模拟，请结合自己业务进行模拟！！！",
+    "Documentation:Documentation": "文档",
+    "Documentation:Github": "Github 地址",
+    "Guide:Description": "引导页对于一些第一次进入项目的人很有用，你可以简单介绍下项目的功能。本 Demo 是基于",
+    "Guide:Button": "打开引导",
+    "TagsView:Refresh": "刷新",
+    "TagsView:Close": "关闭",
+    "TagsView:CloseOthers": "关闭其它",
+    "TagsView:CloseAll": "关闭所有",
+    "Settings:Title": "系统布局配置",
+    "Settings:Theme": "主题色",
+    "Settings:TagsView": "开启 Tags-View",
+    "Settings:FixedHeader": "固定 Header",
+    "Settings:SidebarLogo": "侧边栏 Logo"
   }
+}

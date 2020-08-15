@@ -77,7 +77,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+        meta: { title: 'HelloAbp["Menu:Dashboard"]', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -89,7 +89,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'documentation', icon: 'documentation', affix: true }
+        meta: { title: 'HelloAbp["Menu:Documentation"]', icon: 'documentation', affix: true }
       }
     ]
   },
@@ -102,7 +102,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/guide/index'),
         name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true }
+        meta: { title: 'HelloAbp["Menu:Guide"]', icon: 'guide', noCache: true }
       }
     ]
   },
@@ -116,7 +116,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'profile', icon: 'user', noCache: true }
+        meta: { title: 'HelloAbp["Menu:Profile"]', icon: 'user', noCache: true }
       }
     ]
   }

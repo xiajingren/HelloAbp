@@ -8,7 +8,7 @@ const identityRouter = {
   redirect: 'noRedirect',
   name: 'Identity',
   meta: {
-    title: 'identity',
+    title: 'AbpIdentity["Menu:IdentityManagement"]',
     icon: 'user'
   },
   children: [
@@ -16,13 +16,13 @@ const identityRouter = {
       path: 'roles',
       component: () => import('@/views/identity/roles'),
       name: 'Roles',
-      meta: { title: 'roles', policy: 'AbpIdentity.Roles' }
+      meta: { title: 'AbpIdentity["Permission:RoleManagement"]', policy: 'AbpIdentity.Roles' }
     },
     {
       path: 'users',
       component: () => import('@/views/identity/users'),
       name: 'Users',
-      meta: { title: 'users', policy: 'AbpIdentity.Users' }
+      meta: { title: 'AbpIdentity["Permission:UserManagement"]', policy: 'AbpIdentity.Users' }
     }
   ]
 }

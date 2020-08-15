@@ -12,15 +12,16 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(
-  (config) => {
+  config => {
     // do something before request is sent
+    config.headers['accept-language'] = store.getters.language
 
     if (store.getters.token) {
       config.headers['authorization'] = 'Bearer ' + getToken()
     }
     return config
   },
-  (error) => {
+  error => {
     // do something with request error
     console.log(error) // for debug
     return Promise.reject(error)
@@ -29,12 +30,12 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  (response) => {
+  response => {
     const res = response.data
 
     return res
   },
-  (error) => {
+  error => {
     console.log('err' + error) // for debug
     Message({
       message: error.message,

@@ -42,6 +42,9 @@ export default {
     lang() {
       return this.$store.getters.language
     },
+    abpConfig() {
+      return this.$store.getters.abpConfig
+    },
     supportPinyinSearch() {
       return this.$store.state.settings.supportPinyinSearch
     }
@@ -50,12 +53,15 @@ export default {
     lang() {
       this.searchPool = this.generateRoutes(this.routes)
     },
+    abpConfig() {
+      this.searchPool = this.generateRoutes(this.routes)
+    },
     routes() {
       this.searchPool = this.generateRoutes(this.routes)
     },
     searchPool(list) {
       // Support pinyin search
-      if (this.lang === 'zh' && this.supportPinyinSearch) {
+      if (this.lang.indexOf('zh') === 0 && this.supportPinyinSearch) {
         this.addPinyinField(list)
       }
       this.initFuse(list)
@@ -141,7 +147,7 @@ export default {
         }
         if (router.meta && router.meta.title) {
           // generate internationalized title
-          const i18ntitle = i18n.t(`route.${router.meta.title}`)
+          const i18ntitle = i18n.t(router.meta.title)
           data.title = [...data.title, i18ntitle]
           if (router.redirect !== 'noRedirect') {
             // only push the routes with title

@@ -1,25 +1,25 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">{{ $t('settings.title') }}</h3>
+      <h3 class="drawer-title">{{ $t('HelloAbp[\'Settings:Title\']') }}</h3>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.theme') }}</span>
+        <span>{{ $t('HelloAbp[\'Settings:Theme\']') }}</span>
         <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.tagsView') }}</span>
+        <span>{{ $t('HelloAbp[\'Settings:TagsView\']') }}</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.fixedHeader') }}</span>
+        <span>{{ $t('HelloAbp[\'Settings:FixedHeader\']') }}</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.sidebarLogo') }}</span>
+        <span>{{ $t('HelloAbp[\'Settings:SidebarLogo\']') }}</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
       <a v-if="isShowJob" href="https://panjiachen.github.io/vue-element-admin-site/zh/job/" target="_blank" class="job-link">
@@ -30,7 +30,7 @@
         />
       </a>
 
-      <div v-if="lang === 'zh'" class="drawer-item">
+      <div v-if="lang.indexOf('zh') === 0" class="drawer-item">
         <span>菜单支持拼音搜索</span>
         <el-switch v-model="supportPinyinSearch" class="drawer-switch" />
       </div>
@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     isShowJob() {
-      return this.$store.getters.language === 'zh'
+      return this.$store.getters.language.indexOf('zh') === 0
     },
     fixedHeader: {
       get() {
