@@ -22,13 +22,20 @@ function hasPermission(grantedPolicies, route) {
 export function filterAsyncRoutes(routes, grantedPolicies) {
   const res = []
 
-  routes.forEach((route) => {
+  routes.forEach(route => {
     const tmp = { ...route }
     if (hasPermission(grantedPolicies, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, grantedPolicies)
       }
-      res.push(tmp)
+
+      if (route.meta && route.meta.policy === '') {
+        if (tmp.children.length > 0) {
+          res.push(tmp)
+        }
+      } else {
+        res.push(tmp)
+      }
     }
   })
 
@@ -49,7 +56,7 @@ const mutations = {
 
 const actions = {
   generateRoutes({ commit }, grantedPolicies) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const accessedRoutes = filterAsyncRoutes(asyncRoutes, grantedPolicies)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)

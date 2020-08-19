@@ -29,7 +29,7 @@ export function getLanguage() {
       return locale
     }
   }
-  return 'en'
+  return 'zh-Hans'
 }
 export function setLocale(language, values) {
   i18n.mergeLocaleMessage(language, values)

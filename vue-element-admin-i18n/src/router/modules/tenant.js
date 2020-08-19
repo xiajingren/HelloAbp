@@ -10,14 +10,15 @@ const tenantRouter = {
   name: 'Tenant',
   meta: {
     title: 'AbpTenantManagement["Menu:TenantManagement"]',
-    icon: 'tree'
+    icon: 'tree',
+    policy: ''
   },
   children: [
     {
       path: 'tenants',
       component: () => import('@/views/tenant/tenants'),
       name: 'Tenants',
-      meta: { title: 'AbpTenantManagement["Permission:TenantManagement"]', policy: 'AbpTenantManagement.Tenants' }
+      meta: { title: 'AbpTenantManagement["Tenants"]', policy: 'AbpTenantManagement.Tenants' }
     }
   ]
 }

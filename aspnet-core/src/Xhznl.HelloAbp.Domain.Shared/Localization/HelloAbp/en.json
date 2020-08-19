@@ -32,6 +32,12 @@
     "Settings:Theme": "Theme Color",
     "Settings:TagsView": "Open Tags-View",
     "Settings:FixedHeader": "Fixed Header",
-    "Settings:SidebarLogo": "Sidebar Logo"
+    "Settings:SidebarLogo": "Sidebar Logo",
+    "Success": "Successful",
+    "SuccessMessage": "The operation was successful!",
+    "Warning": "Warning",
+    "Info": "Info",
+    "Error": "Error",
+    "ErrorMessage": "The operation failed!"
   }
 }

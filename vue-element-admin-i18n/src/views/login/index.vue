@@ -22,7 +22,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          :placeholder="$t('HelloAbp[\'Login:UserName\']')"
+          :placeholder="$t('AbpAccount[\'UserNameOrEmailAddress\']')"
           name="username"
           type="text"
           tabindex="1"
@@ -45,7 +45,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            :placeholder="$t('HelloAbp[\'Login:Password\']')"
+            :placeholder="$t('AbpAccount[\'Password\']')"
             name="password"
             tabindex="2"
             autocomplete="on"
@@ -92,7 +92,10 @@
       </div>
     </el-form>
 
-    <el-dialog :title="$t('HelloAbp[\'Login:ThirdParty\']')" :visible.sync="showDialog">
+    <el-dialog
+      :title="$t('HelloAbp[\'Login:ThirdParty\']')"
+      :visible.sync="showDialog"
+    >
       {{ $t("HelloAbp['Login:ThirdPartyTips']") }}
       <br>
       <br>
@@ -103,7 +106,6 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './components/SocialSignin'
 
@@ -111,20 +113,6 @@ export default {
   name: 'Login',
   components: { LangSelect, SocialSign },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         username: 'admin',
@@ -132,10 +120,18 @@ export default {
       },
       loginRules: {
         username: [
-          { required: true, trigger: 'blur', validator: validateUsername }
+          {
+            required: true,
+            message: this.$i18n.t("AbpAccount['ThisFieldIsRequired.']"),
+            trigger: ['blur', 'change']
+          }
         ],
         password: [
-          { required: true, trigger: 'blur', validator: validatePassword }
+          {
+            required: true,
+            message: this.$i18n.t("AbpAccount['ThisFieldIsRequired.']"),
+            trigger: ['blur', 'change']
+          }
         ]
       },
       passwordType: 'password',

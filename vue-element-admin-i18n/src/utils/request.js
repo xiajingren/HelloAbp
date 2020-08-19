@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import { param as encodeParam } from '@/utils'
 
 // create an axios instance
 const service = axios.create({
@@ -19,6 +20,11 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers['authorization'] = 'Bearer ' + getToken()
     }
+
+    config.paramsSerializer = function(params) {
+      return encodeParam(params)
+    }
+
     return config
   },
   error => {
@@ -36,12 +42,7 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    console.log(error.response) // for debug
 
     if (error.status === 401) {
       // to re-login
@@ -59,6 +60,19 @@ service.interceptors.response.use(
         })
       })
     }
+
+    let message = ''
+    if (error.response.data && error.response.data.error) {
+      message = error.response.data.error.message
+    } else {
+      message = error.message
+    }
+
+    Message({
+      message: message,
+      type: 'error',
+      duration: 5 * 1000
+    })
 
     return Promise.reject(error)
   }

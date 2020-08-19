@@ -32,6 +32,12 @@
     "Settings:Theme": "主题色",
     "Settings:TagsView": "开启 Tags-View",
     "Settings:FixedHeader": "固定 Header",
-    "Settings:SidebarLogo": "侧边栏 Logo"
+    "Settings:SidebarLogo": "侧边栏 Logo",
+    "Success": "成功",
+    "SuccessMessage": "操作成功！",
+    "Warning": "警告",
+    "Info": "消息",
+    "Error": "错误",
+    "ErrorMessage": "操作失败！"
   }
 }
