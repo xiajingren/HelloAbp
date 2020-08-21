@@ -76,13 +76,20 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="
+        dialogStatus == 'create'
+          ? $t('AbpIdentity[\'NewRole\']')
+          : $t('AbpIdentity[\'Edit\']')
+      "
+      :visible.sync="dialogFormVisible"
+    >
       <el-form
         ref="dataForm"
         :rules="rules"
         :model="temp"
         label-position="right"
-        label-width="100px"
+        label-width="120px"
       >
         <el-form-item :label="$t('AbpIdentity[\'RoleName\']')" prop="name">
           <el-input v-model="temp.name" :disabled="temp.isStatic" />
@@ -113,7 +120,7 @@
       </div>
     </el-dialog>
 
-    <permission-management ref="permissionDialog" provider-name="R" />
+    <permission-dialog ref="permissionDialog" provider-name="R" />
   </div>
 </template>
 
@@ -124,16 +131,14 @@ import {
   getRoleById,
   updateRole,
   deleteRole
-} from '@/api/identity/roles'
-import waves from '@/directive/waves' // waves directive
+} from '@/api/identity/role'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
-import PermissionManagement from './components/permission-management'
+import PermissionDialog from './components/permission-dialog'
 
 export default {
   name: 'Roles',
-  components: { Pagination, PermissionManagement },
-  directives: { waves },
+  components: { Pagination, PermissionDialog },
   data() {
     return {
       tableKey: 0,
@@ -148,10 +153,6 @@ export default {
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: this.$i18n.t("AbpIdentity['Edit']"),
-        create: this.$i18n.t("AbpIdentity['NewRole']")
-      },
       rules: {
         name: [
           {
@@ -187,8 +188,8 @@ export default {
         this.listLoading = false
       })
     },
-    handleFilter() {
-      this.listQuery.page = 1
+    handleFilter(firstPage = true) {
+      if (firstPage) this.listQuery.page = 1
       this.getList()
     },
     sortChange(data) {
@@ -215,7 +216,6 @@ export default {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           createRole(this.temp).then(() => {
-            // this.list.unshift(this.temp);
             this.handleFilter()
             this.dialogFormVisible = false
             this.$notify({
@@ -245,8 +245,7 @@ export default {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           updateRole(this.temp).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
+            this.handleFilter(false)
             this.dialogFormVisible = false
             this.$notify({
               title: this.$i18n.t("HelloAbp['Success']"),
@@ -271,7 +270,7 @@ export default {
         }
       ).then(async() => {
         deleteRole(row.id).then(() => {
-          this.list.splice(index, 1)
+          this.handleFilter()
           this.$notify({
             title: this.$i18n.t("HelloAbp['Success']"),
             message: this.$i18n.t("HelloAbp['SuccessMessage']"),

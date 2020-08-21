@@ -103,13 +103,20 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="
+        dialogStatus == 'create'
+          ? $t('AbpIdentity[\'NewUser\']')
+          : $t('AbpIdentity[\'Edit\']')
+      "
+      :visible.sync="dialogFormVisible"
+    >
       <el-form
         ref="dataForm"
         :rules="rules"
         :model="temp"
         label-position="right"
-        label-width="100px"
+        label-width="120px"
       >
         <el-tabs tab-position="top">
           <el-tab-pane :label="$t('AbpIdentity[\'UserInformations\']')">
@@ -195,7 +202,7 @@
       </div>
     </el-dialog>
 
-    <permission-management ref="permissionDialog" provider-name="U" />
+    <permission-dialog ref="permissionDialog" provider-name="U" />
   </div>
 </template>
 
@@ -208,16 +215,14 @@ import {
   deleteUser,
   getRolesByUserId,
   getAssignableRoles
-} from '@/api/identity/users'
-import waves from '@/directive/waves' // waves directive
+} from '@/api/identity/user'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
-import PermissionManagement from './components/permission-management'
+import PermissionDialog from './components/permission-dialog'
 
 export default {
   name: 'Users',
-  components: { Pagination, PermissionManagement },
-  directives: { waves },
+  components: { Pagination, PermissionDialog },
   data() {
     const passwordValidator = (rule, value, callback) => {
       if (this.temp.id && !value) {
@@ -314,10 +319,6 @@ export default {
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: this.$i18n.t("AbpIdentity['Edit']"),
-        create: this.$i18n.t("AbpIdentity['NewUser']")
-      },
       assignableRoles: null,
       rules: {
         userName: [
@@ -412,8 +413,8 @@ export default {
         this.listLoading = false
       })
     },
-    handleFilter() {
-      this.listQuery.page = 1
+    handleFilter(firstPage = true) {
+      if (firstPage) this.listQuery.page = 1
       this.getList()
     },
     sortChange(data) {
@@ -450,7 +451,6 @@ export default {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           createUser(this.temp).then(() => {
-            // this.list.unshift(this.temp);
             this.handleFilter()
             this.dialogFormVisible = false
             this.$notify({
@@ -490,8 +490,7 @@ export default {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           updateUser(this.temp).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
+            this.handleFilter(false)
             this.dialogFormVisible = false
             this.$notify({
               title: this.$i18n.t("HelloAbp['Success']"),
@@ -516,7 +515,7 @@ export default {
         }
       ).then(async() => {
         deleteUser(row.id).then(() => {
-          this.list.splice(index, 1)
+          this.handleFilter()
           this.$notify({
             title: this.$i18n.t("HelloAbp['Success']"),
             message: this.$i18n.t("HelloAbp['SuccessMessage']"),

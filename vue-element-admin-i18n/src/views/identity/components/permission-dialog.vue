@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import { getPermissions, updatePermissions } from '@/api/permission-management'
+import { getPermissions, updatePermissions } from '@/api/permission-management/permissions'
 import { fetchAppConfig } from '@/utils/abp'
 
 export default {
-  name: 'PermissionManagement',
+  name: 'PermissionDialog',
   props: {
     providerName: {
       type: String,

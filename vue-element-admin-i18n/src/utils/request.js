@@ -42,7 +42,7 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    console.log(error.response) // for debug
+    console.log(error) // for debug
 
     if (error.status === 401) {
       // to re-login
