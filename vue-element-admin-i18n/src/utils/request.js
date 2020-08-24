@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
 import { param as encodeParam } from '@/utils'
 
 // create an axios instance
@@ -18,7 +17,11 @@ service.interceptors.request.use(
     config.headers['accept-language'] = store.getters.language
 
     if (store.getters.token) {
-      config.headers['authorization'] = 'Bearer ' + getToken()
+      config.headers['authorization'] = 'Bearer ' + store.getters.token
+    }
+
+    if (store.getters.tenant) {
+      config.headers['__tenant'] = store.getters.tenant
     }
 
     config.paramsSerializer = function(params) {

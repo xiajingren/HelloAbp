@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import { getLanguage, setLocale } from '@/lang/index'
-import { applicationConfiguration } from '@/api/abp'
+import { applicationConfiguration, tenantsByName } from '@/api/abp'
 
 const state = {
   sidebar: {
@@ -12,7 +12,8 @@ const state = {
   device: 'desktop',
   language: getLanguage(),
   size: Cookies.get('size') || 'medium',
-  abpConfig: null
+  abpConfig: null,
+  tenant: Cookies.get('tenant')
 }
 
 const mutations = {
@@ -43,6 +44,10 @@ const mutations = {
   },
   SET_ABPCONFIG: (state, abpConfig) => {
     state.abpConfig = abpConfig
+  },
+  SET_TENANT: (state, tenant) => {
+    state.tenant = tenant
+    Cookies.set('tenant', tenant)
   }
 }
 
@@ -66,14 +71,39 @@ const actions = {
     return new Promise((resolve, reject) => {
       applicationConfiguration()
         .then(response => {
-          const data = response
-          commit('SET_ABPCONFIG', data)
+          commit('SET_ABPCONFIG', response)
 
-          const language = data.localization.currentCulture.cultureName
-          const values = data.localization.values
+          const language = response.localization.currentCulture.cultureName
+          const values = response.localization.values
           setLocale(language, values)
 
-          resolve(data)
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  setTenant({ commit, dispatch }, name) {
+    return new Promise((resolve, reject) => {
+      if (!name) {
+        commit('SET_TENANT', '')
+        dispatch('applicationConfiguration').then(() => {
+          resolve()
+        })
+        return
+      }
+      tenantsByName(name)
+        .then(response => {
+          if (response.success) {
+            commit('SET_TENANT', response.tenantId)
+            dispatch('applicationConfiguration').then(() => {
+              resolve(response)
+            })
+            return
+          }
+
+          resolve(response)
         })
         .catch(error => {
           reject(error)

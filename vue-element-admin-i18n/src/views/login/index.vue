@@ -67,21 +67,28 @@
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
       >
-        {{ $t("HelloAbp['Login:LogIn']") }}
+        {{ $t("AbpAccount['Login']") }}
       </el-button>
 
-      <div style="position:relative">
-        <div class="tips">
-          <span>{{ $t("HelloAbp['Login:UserName']") }} : admin</span>
-          <span>{{ $t("HelloAbp['Login:Password']") }} : 1q2w3E*</span>
-        </div>
-        <div class="tips">
-          <span
-            style="margin-right:18px;"
-          >{{ $t("HelloAbp['Login:UserName']") }} : editor</span>
-          <span>{{ $t("HelloAbp['Login:Password']") }} : 1q2w3E*</span>
-        </div>
-
+      <div style="text-align:right;">
+        <span
+          style="color:#fff;font-size:14px;padding-right:15px;"
+        >{{ $t("AbpUiMultiTenancy['Tenant']") }}
+          <el-tooltip
+            :content="$t('AbpUiMultiTenancy[\'Switch\']')"
+            effect="dark"
+            placement="bottom"
+          >
+            <el-link
+              :underline="false"
+              @click="tenantDialogFormVisible = true"
+            ><i>{{
+              currentTenant
+                ? currentTenant
+                : $t("AbpUiMultiTenancy['NotSelected']")
+            }}</i></el-link>
+          </el-tooltip>
+        </span>
         <el-button
           class="thirdparty-button"
           type="primary"
@@ -90,7 +97,39 @@
           {{ $t("HelloAbp['Login:ThirdParty']") }}
         </el-button>
       </div>
+
+      <p style="font-size:14px;text-align:center;color:#fff;">
+        {{ $t("AbpAccount['AreYouANewUser']") }}
+        <el-link
+          :underline="false"
+        ><i>{{ $t("AbpAccount['Register']") }}</i></el-link>
+      </p>
+
     </el-form>
+
+    <el-dialog
+      :title="$t('AbpUiMultiTenancy[\'SwitchTenant\']')"
+      :visible.sync="tenantDialogFormVisible"
+    >
+      <el-form ref="dataForm" :model="tenant" label-position="top">
+        <el-form-item :label="$t('AbpUiMultiTenancy[\'Name\']')">
+          <el-input v-model="tenant.name" type="text" />
+          <span>{{ $t("AbpUiMultiTenancy['SwitchTenantHint']") }}</span>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="tenantDialogFormVisible = false">
+          {{ $t("AbpTenantManagement['Cancel']") }}
+        </el-button>
+        <el-button
+          type="primary"
+          :disabled="tenantDisabled"
+          @click="saveTenant()"
+        >
+          {{ $t("AbpTenantManagement['Save']") }}
+        </el-button>
+      </div>
+    </el-dialog>
 
     <el-dialog
       :title="$t('HelloAbp[\'Login:ThirdParty\']')"
@@ -139,7 +178,23 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      tenantDialogFormVisible: false,
+      tenant: { name: this.$store.getters.abpConfig.currentTenant.name }
+    }
+  },
+  computed: {
+    currentTenant() {
+      return this.$store.getters.abpConfig.currentTenant.name
+    },
+    tenantDisabled() {
+      if (
+        this.tenant.name &&
+        this.tenant.name === this.$store.getters.abpConfig.currentTenant.name
+      ) {
+        return true
+      }
+      return false
     }
   },
   watch: {
@@ -211,6 +266,24 @@ export default {
         }
         return acc
       }, {})
+    },
+    saveTenant() {
+      this.$store.dispatch('app/setTenant', this.tenant.name).then(response => {
+        if (response && !response.success) {
+          this.$notify({
+            title: this.$i18n.t("AbpUi['Error']"),
+            message: this.$i18n.t(
+              "AbpUiMultiTenancy['GivenTenantIsNotAvailable']",
+              [this.tenant.name]
+            ),
+            type: 'error',
+            duration: 2000
+          })
+          return
+        }
+
+        this.tenantDialogFormVisible = false
+      })
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
@@ -243,13 +316,13 @@ $light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .login-container .login-form .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container {
+.login-container .login-form {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -353,8 +426,6 @@ $light_gray: #eee;
   }
 
   .thirdparty-button {
-    position: absolute;
-    right: 0;
     bottom: 6px;
   }
 

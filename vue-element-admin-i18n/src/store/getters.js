@@ -12,6 +12,7 @@ const getters = {
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs,
-  abpConfig: state => state.app.abpConfig
+  abpConfig: state => state.app.abpConfig,
+  tenant: state => state.app.tenant
 }
 export default getters
