@@ -18,7 +18,7 @@ ABP vNext + vue-element-admin入门级项目实战
 1. 修改Xhznl.HelloAbp.IdentityServer、Xhznl.HelloAbp.HttpApi.Host、Xhznl.HelloAbp.DbMigrator项目的数据库连接字符串
 2. 运行/run/db-migrator.bat（初始化数据库、种子数据）
 3. 运行/run/npm-install.bat（安装npm依赖）
-4. 运行/run.bat
+4. 运行/run/run.bat
 
 步骤2、3只需执行一次。你也可以直接使用vs/vscode来运行
 
