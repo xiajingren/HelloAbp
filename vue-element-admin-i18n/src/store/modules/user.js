@@ -34,6 +34,13 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  CLEAN: state => {
+    state.token = ''
+    state.name = ''
+    state.avatar = ''
+    state.introduction = ''
+    state.roles = []
   }
 }
 
@@ -46,9 +53,8 @@ const actions = {
       clientSetting.password = password
       login(clientSetting)
         .then(response => {
-          const data = response
-          commit('SET_TOKEN', data.access_token)
-          setToken(data.access_token).then(() => {
+          commit('SET_TOKEN', response.access_token)
+          setToken(response.access_token).then(() => {
             resolve()
           })
         })
@@ -63,18 +69,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo()
         .then(response => {
-          const data = response
-
-          if (!data) {
+          if (!response) {
             reject('Verification failed, please Login again.')
           }
 
-          const { name, extraProperties } = data
+          const { name, extraProperties } = response
 
           commit('SET_NAME', name)
           commit('SET_AVATAR', extraProperties.Avatar)
           commit('SET_INTRODUCTION', extraProperties.Introduction)
-          resolve(data)
+          resolve(response)
         })
         .catch(error => {
           reject(error)
@@ -91,11 +95,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout()
         .then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_NAME', '')
-          commit('SET_AVATAR', '')
-          commit('SET_INTRODUCTION', '')
-          commit('SET_ROLES', [])
+          commit('CLEAN')
           removeToken().then(() => {
             resetRouter()
             // reset visited views and cached views
@@ -114,11 +114,7 @@ const actions = {
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
-      commit('SET_TOKEN', '')
-      commit('SET_NAME', '')
-      commit('SET_AVATAR', '')
-      commit('SET_INTRODUCTION', '')
-      commit('SET_ROLES', [])
+      commit('CLEAN')
       removeToken().then(() => {
         resolve()
       })
