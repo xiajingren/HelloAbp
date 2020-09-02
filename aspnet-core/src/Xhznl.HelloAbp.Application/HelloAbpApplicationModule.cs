@@ -26,7 +26,7 @@ namespace Xhznl.HelloAbp
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.TryAddTransient<IHelloIIdentityUserAppService,HelloIdentityUserAppService>();
+            context.Services.TryAddTransient<IHelloIdentityUserAppService,HelloIdentityUserAppService>();
 
             Configure<AbpAutoMapperOptions>(options =>
             {

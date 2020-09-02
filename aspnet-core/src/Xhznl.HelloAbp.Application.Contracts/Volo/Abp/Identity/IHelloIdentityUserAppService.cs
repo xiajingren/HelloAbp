@@ -7,7 +7,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Volo.Abp.Identity
 {
-    public interface IHelloIIdentityUserAppService : IApplicationService
+    public interface IHelloIdentityUserAppService : IApplicationService
     {
         Task AddToOrganizationUnitAsync(Guid userId, Guid ouId);
     }

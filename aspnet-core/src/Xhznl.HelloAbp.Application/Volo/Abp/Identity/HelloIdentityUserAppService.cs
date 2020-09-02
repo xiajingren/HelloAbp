@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Volo.Abp.Identity
 {
     [RemoteService(false)]
-    public class HelloIdentityUserAppService : IdentityAppServiceBase, IHelloIIdentityUserAppService
+    public class HelloIdentityUserAppService : IdentityAppServiceBase, IHelloIdentityUserAppService
     {
         protected IdentityUserManager UserManager { get; }
         public HelloIdentityUserAppService(IdentityUserManager userManager)
