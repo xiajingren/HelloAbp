@@ -13,7 +13,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpIdentityHttpApiModule),
         typeof(AbpPermissionManagementHttpApiModule),
         typeof(AbpTenantManagementHttpApiModule),
-        typeof(AbpFeatureManagementHttpApiModule)
+        typeof(AbpFeatureManagementHttpApiModule),
+        typeof(EasyAbp.Abp.SettingUi.SettingUiHttpApiModule)
         )]
     public class HelloAbpHttpApiModule : AbpModule
     {

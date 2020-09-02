@@ -15,6 +15,7 @@ const state = {
   token: getToken(),
   name: '',
   avatar: '',
+  email: '',
   introduction: '',
   roles: []
 }
@@ -34,6 +35,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_EMAIL: (state, email) => {
+    state.email = email
   },
   CLEAN: state => {
     state.token = ''
@@ -73,10 +77,11 @@ const actions = {
             reject('Verification failed, please Login again.')
           }
 
-          const { name, extraProperties } = response
+          const { name, email, extraProperties } = response
 
           commit('SET_NAME', name)
           commit('SET_AVATAR', extraProperties.Avatar)
+          commit('SET_EMAIL', email)
           commit('SET_INTRODUCTION', extraProperties.Introduction)
           resolve(response)
         })

@@ -1,4 +1,5 @@
-﻿using Xhznl.HelloAbp.Localization;
+﻿using EasyAbp.Abp.SettingUi.Localization;
+using Xhznl.HelloAbp.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -22,7 +23,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpIdentityServerDomainSharedModule),
         typeof(AbpPermissionManagementDomainSharedModule),
         typeof(AbpSettingManagementDomainSharedModule),
-        typeof(AbpTenantManagementDomainSharedModule)
+        typeof(AbpTenantManagementDomainSharedModule),
+        typeof(EasyAbp.Abp.SettingUi.SettingUiDomainSharedModule)
         )]
     public class HelloAbpDomainSharedModule : AbpModule
     {
@@ -43,6 +45,10 @@ namespace Xhznl.HelloAbp
                 options.Resources
                     .Add<HelloAbpResource>("en")
                     .AddBaseTypes(typeof(AbpValidationResource))
+                    .AddVirtualJson("/Localization/HelloAbp");
+
+                options.Resources
+                    .Get<SettingUiResource>()
                     .AddVirtualJson("/Localization/HelloAbp");
                 
                 options.DefaultResourceType = typeof(HelloAbpResource);

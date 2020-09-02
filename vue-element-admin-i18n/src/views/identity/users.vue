@@ -240,10 +240,10 @@ export default {
         )
         return
       }
-      if (value.length < 6) {
+      if (value.length < this.requiredLength) {
         callback(
           new Error(
-            this.$i18n.t("AbpIdentity['Identity.PasswordTooShort']", ['6'])
+            this.$i18n.t("AbpIdentity['Identity.PasswordTooShort']", [`${this.requiredLength}`])
           )
         )
         return
@@ -260,7 +260,7 @@ export default {
         return
       }
       let reg = /\d+/
-      if (!reg.test(value)) {
+      if (this.requireDigit && !reg.test(value)) {
         callback(
           new Error(
             this.$i18n.t("AbpIdentity['Identity.PasswordRequiresDigit']")
@@ -269,7 +269,7 @@ export default {
         return
       }
       reg = /[a-z]+/
-      if (!reg.test(value)) {
+      if (this.requireLowercase && !reg.test(value)) {
         callback(
           new Error(
             this.$i18n.t("AbpIdentity['Identity.PasswordRequiresLower']")
@@ -278,7 +278,7 @@ export default {
         return
       }
       reg = /[A-Z]+/
-      if (!reg.test(value)) {
+      if (this.requireUppercase && !reg.test(value)) {
         callback(
           new Error(
             this.$i18n.t("AbpIdentity['Identity.PasswordRequiresUpper']")
@@ -287,7 +287,7 @@ export default {
         return
       }
       reg = /\W+/
-      if (!reg.test(value)) {
+      if (this.requireNonAlphanumeric && !reg.test(value)) {
         callback(
           new Error(
             this.$i18n.t(
@@ -397,6 +397,26 @@ export default {
           { validator: passwordValidator, trigger: ['blur', 'change'] }
         ]
       }
+    }
+  },
+  computed: {
+    requiredLength() {
+      return this.$store.state.app.abpConfig.setting.values['Abp.Identity.Password.RequiredLength'] || 6
+    },
+    requiredUniqueChars() {
+      return this.$store.state.app.abpConfig.setting.values['Abp.Identity.Password.RequiredUniqueChars'] || 1
+    },
+    requireLowercase() {
+      return this.$store.state.app.abpConfig.setting.values['Abp.Identity.Password.RequireLowercase'] || true
+    },
+    requireNonAlphanumeric() {
+      return this.$store.state.app.abpConfig.setting.values['Abp.Identity.Password.RequireNonAlphanumeric'] || true
+    },
+    requireUppercase() {
+      return this.$store.state.app.abpConfig.setting.values['Abp.Identity.Password.RequireUppercase'] || true
+    },
+    requireDigit() {
+      return this.$store.state.app.abpConfig.setting.values['Abp.Identity.Password.RequireDigit'] || true
     }
   },
   created() {

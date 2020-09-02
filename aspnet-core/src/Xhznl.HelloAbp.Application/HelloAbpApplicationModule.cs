@@ -15,7 +15,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpIdentityApplicationModule),
         typeof(AbpPermissionManagementApplicationModule),
         typeof(AbpTenantManagementApplicationModule),
-        typeof(AbpFeatureManagementApplicationModule)
+        typeof(AbpFeatureManagementApplicationModule),
+        typeof(EasyAbp.Abp.SettingUi.SettingUiApplicationModule)
         )]
     public class HelloAbpApplicationModule : AbpModule
     {
