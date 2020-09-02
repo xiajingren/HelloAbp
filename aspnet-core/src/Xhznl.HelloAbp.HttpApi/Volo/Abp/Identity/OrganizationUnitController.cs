@@ -59,5 +59,12 @@ namespace Volo.Abp.Identity
         {
             return UnitAppService.UpdateAsync(id, input);
         }
+
+        [HttpPut]
+        [Route("move")]
+        public Task MoveAsync(Guid id, Guid? parentId)
+        {
+            return UnitAppService.MoveAsync(id, parentId);
+        }
     }
 }

@@ -93,5 +93,15 @@ namespace Volo.Abp.Identity
             }
             await UnitManager.DeleteAsync(id);
         }
+
+        public async Task MoveAsync(Guid id, Guid? parentId)
+        {
+            var ou = await UnitRepository.GetAsync(id, false);
+            if (ou == null)
+            {
+                return;
+            }
+            await UnitManager.MoveAsync(id, parentId);
+        }
     }
 }

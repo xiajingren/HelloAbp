@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Account;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -24,22 +26,12 @@ namespace Xhznl.HelloAbp
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            context.Services.TryAddTransient<IHelloIIdentityUserAppService,HelloIdentityUserAppService>();
+
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<HelloAbpApplicationModule>();
             });
-        }
-
-        public override void PostConfigureServices(ServiceConfigurationContext context)
-        {
-            ModuleExtensionConfigurationHelper
-                .ApplyEntityConfigurationToApi(
-                    IdentityModuleExtensionConsts.ModuleName,
-                    IdentityModuleExtensionConsts.EntityNames.OrganizationUnit,
-                    getApiTypes: new[] { typeof(OrganizationUnitDto) },
-                    createApiTypes: new[] { typeof(OrganizationUnitCreateDto) },
-                    updateApiTypes: new[] { typeof(OrganizationUnitUpdateDto) }
-                );
         }
     }
 }

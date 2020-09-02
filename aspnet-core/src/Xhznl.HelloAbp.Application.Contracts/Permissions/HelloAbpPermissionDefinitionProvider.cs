@@ -9,12 +9,18 @@ namespace Xhznl.HelloAbp.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var identityGroup = context.GetGroup(HelloIdentityPermissions.GroupName);
+            var identityGroup = context.GetGroup(IdentityPermissions.GroupName);
 
             var ouPermission = identityGroup.AddPermission(HelloIdentityPermissions.OrganitaionUnits.Default, L("Permission:OrganitaionUnitManagement"));
             ouPermission.AddChild(HelloIdentityPermissions.OrganitaionUnits.Create, L("Permission:Create"));
             ouPermission.AddChild(HelloIdentityPermissions.OrganitaionUnits.Update, L("Permission:Edit"));
             ouPermission.AddChild(HelloIdentityPermissions.OrganitaionUnits.Delete, L("Permission:Delete"));
+
+            var userPermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Users.Default);
+            if (userPermission!=null)
+            {
+                userPermission.AddChild(HelloIdentityPermissions.Users.DistributionOrganizationUnit, L("Permission:DistributionOrganizationUnit"));
+            }
         }
 
         private static LocalizableString L(string name)
