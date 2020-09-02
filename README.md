@@ -20,7 +20,7 @@ ABP vNext + vue-element-admin入门级项目实战
 3. 运行/run/npm-install.bat（安装npm依赖）
 4. 运行/run/run.bat
 
-步骤2、3只需执行一次。你也可以直接使用vs/vscode来运行
+前3步只需执行一次。你也可以直接使用vs/vscode来运行
 
 另一个干净的vue版本（只有abp启动模板中的功能）：https://github.com/xiajingren/ABP-vNext-Vue
 

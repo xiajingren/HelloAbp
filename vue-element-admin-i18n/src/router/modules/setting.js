@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
 const settingRouter = {
-  path: '/setting',
+  path: '/settings',
   component: Layout,
   // redirect: 'noRedirect',
   // alwaysShow: true,
-  // name: 'Setting',
+  // name: 'Settings',
   // meta: {
   //   title: 'AbpSettingManagement["Settings"]',
   //   icon: 'el-icon-setting',
@@ -13,14 +13,13 @@ const settingRouter = {
   // },
   children: [
     {
-      path: 'businessRule',
+      path: 'setting',
       component: () => import('@/views/settings/setting'),
-      name: 'BusinessRule',
+      name: 'Setting',
       meta: {
         title: 'AbpSettingManagement["Settings"]',
         policy: 'SettingUi.Tenant',
-        icon: 'el-icon-setting',
-        affix: true
+        icon: 'el-icon-setting'
       }
     }
   ]
