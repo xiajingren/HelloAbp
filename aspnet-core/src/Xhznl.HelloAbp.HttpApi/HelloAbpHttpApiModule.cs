@@ -1,9 +1,12 @@
-﻿using Volo.Abp.Account;
+﻿using Localization.Resources.AbpUi;
+using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
+using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.TenantManagement;
+using Xhznl.HelloAbp.Localization;
 
 namespace Xhznl.HelloAbp
 {
@@ -18,6 +21,16 @@ namespace Xhznl.HelloAbp
         )]
     public class HelloAbpHttpApiModule : AbpModule
     {
-        
+        public override void ConfigureServices(ServiceConfigurationContext context)
+        {
+            Configure<AbpLocalizationOptions>(options =>
+            {
+                options.Resources
+                    .Get<HelloAbpResource>()
+                    .AddBaseTypes(
+                        typeof(AbpUiResource)
+                    );
+            });
+        }
     }
 }

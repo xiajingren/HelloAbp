@@ -42,7 +42,7 @@
                     :id="info.name"
                     v-model="info.value"
                     :name="info.formName"
-                    :checked="info.value==='True'"
+                    :checked="info.value==='true' || info.value==='True'"
                   >{{ info.description }}</el-checkbox>
                 </div>
                 <div v-if="info.properties.Type==='select'">

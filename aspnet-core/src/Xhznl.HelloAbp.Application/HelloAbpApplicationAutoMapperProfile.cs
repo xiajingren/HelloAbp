@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Volo.Abp.Identity;
 
 namespace Xhznl.HelloAbp
 {
@@ -9,6 +10,9 @@ namespace Xhznl.HelloAbp
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+
+            CreateMap<OrganizationUnit, OrganizationUnitDto>()
+                .MapExtraProperties();
         }
     }
 }

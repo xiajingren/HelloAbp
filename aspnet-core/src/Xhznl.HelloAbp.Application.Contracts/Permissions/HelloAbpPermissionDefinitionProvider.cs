@@ -1,6 +1,7 @@
 ﻿using Xhznl.HelloAbp.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
+using Volo.Abp.Identity;
 
 namespace Xhznl.HelloAbp.Permissions
 {
@@ -8,10 +9,12 @@ namespace Xhznl.HelloAbp.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var myGroup = context.AddGroup(HelloAbpPermissions.GroupName);
+            var identityGroup = context.GetGroup(HelloIdentityPermissions.GroupName);
 
-            //Define your own permissions here. Example:
-            //myGroup.AddPermission(HelloAbpPermissions.MyPermission1, L("Permission:MyPermission1"));
+            var ouPermission = identityGroup.AddPermission(HelloIdentityPermissions.OrganitaionUnits.Default, L("Permission:OrganitaionUnitManagement"));
+            ouPermission.AddChild(HelloIdentityPermissions.OrganitaionUnits.Create, L("Permission:Create"));
+            ouPermission.AddChild(HelloIdentityPermissions.OrganitaionUnits.Update, L("Permission:Edit"));
+            ouPermission.AddChild(HelloIdentityPermissions.OrganitaionUnits.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)
