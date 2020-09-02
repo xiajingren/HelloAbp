@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.DependencyInjection;
-using Volo.Abp.Identity;
 
-namespace Xhznl.HelloAbp.Volo.Abp.Identity
+namespace Volo.Abp.Identity
 {
     [RemoteService(Name = IdentityRemoteServiceConsts.RemoteServiceName)]
     [Area("identity")]
