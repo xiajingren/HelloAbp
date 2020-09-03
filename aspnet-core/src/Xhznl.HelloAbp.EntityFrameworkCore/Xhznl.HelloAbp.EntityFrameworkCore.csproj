@@ -19,5 +19,9 @@
     <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="3.0.5" />
     <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="3.0.5" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Volo\Abp\Identity\EntityFrameworkCore\" />
+  </ItemGroup>
 
 </Project>
