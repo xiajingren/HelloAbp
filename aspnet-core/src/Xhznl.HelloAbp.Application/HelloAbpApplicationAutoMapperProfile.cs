@@ -13,6 +13,9 @@ namespace Xhznl.HelloAbp
 
             CreateMap<OrganizationUnit, OrganizationUnitDto>()
                 .MapExtraProperties();
+
+            CreateMap<OrganizationUnit, OrganizationUnitDetailDto>()
+                .MapExtraProperties();
         }
     }
 }

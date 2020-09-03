@@ -66,5 +66,33 @@ namespace Volo.Abp.Identity
         {
             return UnitAppService.MoveAsync(id, parentId);
         }
+
+        [HttpGet]
+        [Route("{id}/details")]
+        public Task<OrganizationUnitDetailDto> GetDetailsAsync(Guid id)
+        {
+            return UnitAppService.GetDetailsAsync(id);
+        }
+
+        [HttpGet]
+        [Route("details")]
+        public Task<PagedResultDto<OrganizationUnitDetailDto>> GetListDetailsAsync(GetOrganizationUnitInput input)
+        {
+            return UnitAppService.GetListDetailsAsync(input);
+        }
+
+        [HttpGet]
+        [Route("all/details")]
+        public Task<ListResultDto<OrganizationUnitDetailDto>> GetAllListDetailsAsync()
+        {
+            return UnitAppService.GetAllListDetailsAsync();
+        }
+
+        [HttpGet]
+        [Route("children")]
+        public Task<List<OrganizationUnitDetailDto>> GetChildrenAsync(Guid parentId)
+        {
+            return UnitAppService.GetChildrenAsync(parentId);
+        }
     }
 }
