@@ -4,6 +4,8 @@
     "Menu:Home": "Home",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Permission:OrganitaionUnitManagement": "OrganitaionUnitManagement",
+    "Permission:DistributionOrganizationUnit": "AddUnitMember",
     "Menu:Dashboard": "Dashboard",
     "Menu:Documentation": "Documentation",
     "Menu:Guide": "Guide",
@@ -38,6 +40,7 @@
     "Warning": "Warning",
     "Info": "Info",
     "Error": "Error",
-    "ErrorMessage": "The operation failed!"
+    "ErrorMessage": "The operation failed!",
+    "Identity.OrganizationUnit.MemberExists": "The member {0} already exists in the current organization {1}"
   }
 }
