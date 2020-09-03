@@ -11,7 +11,17 @@ namespace Volo.Abp.Identity
 {
     public interface IOrganizationUnitAppService : ICrudAppService<OrganizationUnitDto, Guid, GetOrganizationUnitInput, OrganizationUnitCreateDto, OrganizationUnitUpdateDto>
     {
+
+        Task<OrganizationUnitDetailDto> GetDetailsAsync(Guid id);
+
+        Task<PagedResultDto<OrganizationUnitDetailDto>> GetListDetailsAsync(GetOrganizationUnitInput input);
+
         Task<ListResultDto<OrganizationUnitDto>> GetAllListAsync();
+
+        Task<ListResultDto<OrganizationUnitDetailDto>> GetAllListDetailsAsync();
+
+        Task<List<OrganizationUnitDetailDto>> GetChildrenAsync(Guid parentId);
+
 
         Task MoveAsync(Guid id, Guid? parentId);
     }

@@ -1,208 +1,218 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input
-        v-model="listQuery.filter"
-        :placeholder="$t('AbpUi[\'PagerSearch\']')"
-        style="width: 200px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-button
-        v-if="checkPermission('AbpIdentity.Users.Create')"
-        class="filter-item"
-        style="margin-left: 10px;"
-        type="primary"
-        icon="el-icon-edit"
-        @click="handleCreate"
-      >
-        {{ $t("AbpIdentity['NewUser']") }}
-      </el-button>
-    </div>
-
-    <el-table
-      :key="tableKey"
-      v-loading="listLoading"
-      :data="list"
-      border
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        :label="$t('AbpIdentity[\'UserName\']')"
-        prop="userName"
-        sortable
-        align="center"
-      >
-        <template slot-scope="{ row }">
-          <span>{{ row.userName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t('AbpIdentity[\'EmailAddress\']')"
-        prop="email"
-        sortable
-        align="center"
-      >
-        <template slot-scope="{ row }">
-          <span>{{ row.email }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t('AbpIdentity[\'PhoneNumber\']')"
-        prop="phoneNumber"
-        sortable
-        align="center"
-      >
-        <template slot-scope="{ row }">
-          <span>{{ row.phoneNumber }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t('AbpIdentity[\'Actions\']')"
-        align="center"
-        width="300"
-        class-name="small-padding fixed-width"
-      >
-        <template slot-scope="{ row, $index }">
+    <el-row :gutter="0">
+      <el-col :span="4">
+        <el-tree
+          :data="userTree"
+          :props="defaultProps"
+        />
+      </el-col>
+      <el-col :span="18">
+        <div class="filter-container">
+          <el-input
+            v-model="listQuery.filter"
+            :placeholder="$t('AbpUi[\'PagerSearch\']')"
+            style="width: 200px;"
+            class="filter-item"
+            @keyup.enter.native="handleFilter"
+          />
           <el-button
-            v-if="checkPermission('AbpIdentity.Users.Update')"
+            v-if="checkPermission('AbpIdentity.Users.Create')"
+            class="filter-item"
+            style="margin-left: 10px;"
             type="primary"
-            size="mini"
-            @click="handleUpdate(row)"
+            icon="el-icon-edit"
+            @click="handleCreate"
           >
-            {{ $t("AbpIdentity['Edit']") }}
+            {{ $t("AbpIdentity['NewUser']") }}
           </el-button>
-          <el-button
-            v-if="checkPermission('AbpIdentity.Users.ManagePermissions')"
-            type="primary"
-            size="mini"
-            @click="handleUpdatePermission(row)"
-          >
-            {{ $t("AbpIdentity['Permissions']") }}
-          </el-button>
-          <el-button
-            v-if="checkPermission('AbpIdentity.Users.Delete')"
-            size="mini"
-            type="danger"
-            @click="handleDelete(row, $index)"
-          >
-            {{ $t("AbpIdentity['Delete']") }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        </div>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-      @pagination="getList"
-    />
-
-    <el-dialog
-      :title="
-        dialogStatus == 'create'
-          ? $t('AbpIdentity[\'NewUser\']')
-          : $t('AbpIdentity[\'Edit\']')
-      "
-      :visible.sync="dialogFormVisible"
-    >
-      <el-form
-        ref="dataForm"
-        :rules="rules"
-        :model="temp"
-        label-position="right"
-        label-width="120px"
-      >
-        <el-tabs tab-position="top">
-          <el-tab-pane :label="$t('AbpIdentity[\'UserInformations\']')">
-            <el-form-item
-              :label="$t('AbpIdentity[\'UserName\']')"
-              prop="userName"
-            >
-              <el-input v-model="temp.userName" />
-            </el-form-item>
-            <el-form-item
-              :label="$t('AbpIdentity[\'DisplayName:Name\']')"
-              prop="name"
-            >
-              <el-input v-model="temp.name" />
-            </el-form-item>
-            <el-form-item
-              :label="$t('AbpIdentity[\'DisplayName:Surname\']')"
-              prop="surname"
-            >
-              <el-input v-model="temp.surname" />
-            </el-form-item>
-            <el-form-item
-              :label="$t('AbpIdentity[\'Password\']')"
-              prop="password"
-              :class="{ 'is-required': !temp.id }"
-            >
-              <el-input
-                v-model="temp.password"
-                type="password"
-                auto-complete="off"
-              />
-            </el-form-item>
-            <el-form-item
-              :label="$t('AbpIdentity[\'EmailAddress\']')"
-              prop="email"
-            >
-              <el-input v-model="temp.email" />
-            </el-form-item>
-            <el-form-item
-              :label="$t('AbpIdentity[\'PhoneNumber\']')"
-              prop="phoneNumber"
-            >
-              <el-input v-model="temp.phoneNumber" />
-            </el-form-item>
-            <el-form-item prop="lockoutEnabled">
-              <el-checkbox
-                v-model="temp.lockoutEnabled"
-                :label="$t('AbpIdentity[\'DisplayName:LockoutEnabled\']')"
-              />
-            </el-form-item>
-            <el-form-item prop="twoFactorEnabled">
-              <el-checkbox
-                v-model="temp.twoFactorEnabled"
-                :label="$t('AbpIdentity[\'DisplayName:TwoFactorEnabled\']')"
-              />
-            </el-form-item>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('AbpIdentity[\'Roles\']')">
-            <el-form-item>
-              <el-checkbox-group v-model="temp.roleNames">
-                <el-checkbox
-                  v-for="role in assignableRoles"
-                  :key="role.id"
-                  :label="role.name"
-                  name="roleName"
-                  style="width:100%;"
-                />
-              </el-checkbox-group>
-            </el-form-item>
-          </el-tab-pane>
-        </el-tabs>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">
-          {{ $t("AbpIdentity['Cancel']") }}
-        </el-button>
-        <el-button
-          type="primary"
-          @click="dialogStatus === 'create' ? createData() : updateData()"
+        <el-table
+          :key="tableKey"
+          v-loading="listLoading"
+          :data="list"
+          border
+          fit
+          highlight-current-row
+          style="width: 100%;"
+          @sort-change="sortChange"
         >
-          {{ $t("AbpIdentity['Save']") }}
-        </el-button>
-      </div>
-    </el-dialog>
+          <el-table-column
+            :label="$t('AbpIdentity[\'UserName\']')"
+            prop="userName"
+            sortable
+            align="center"
+          >
+            <template slot-scope="{ row }">
+              <span>{{ row.userName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('AbpIdentity[\'EmailAddress\']')"
+            prop="email"
+            sortable
+            align="center"
+          >
+            <template slot-scope="{ row }">
+              <span>{{ row.email }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('AbpIdentity[\'PhoneNumber\']')"
+            prop="phoneNumber"
+            sortable
+            align="center"
+          >
+            <template slot-scope="{ row }">
+              <span>{{ row.phoneNumber }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('AbpIdentity[\'Actions\']')"
+            align="center"
+            width="300"
+            class-name="small-padding fixed-width"
+          >
+            <template slot-scope="{ row, $index }">
+              <el-button
+                v-if="checkPermission('AbpIdentity.Users.Update')"
+                type="primary"
+                size="mini"
+                @click="handleUpdate(row)"
+              >
+                {{ $t("AbpIdentity['Edit']") }}
+              </el-button>
+              <el-button
+                v-if="checkPermission('AbpIdentity.Users.ManagePermissions')"
+                type="primary"
+                size="mini"
+                @click="handleUpdatePermission(row)"
+              >
+                {{ $t("AbpIdentity['Permissions']") }}
+              </el-button>
+              <el-button
+                v-if="checkPermission('AbpIdentity.Users.Delete')"
+                size="mini"
+                type="danger"
+                @click="handleDelete(row, $index)"
+              >
+                {{ $t("AbpIdentity['Delete']") }}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
-    <permission-dialog ref="permissionDialog" provider-name="U" />
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getList"
+        />
+
+        <el-dialog
+          :title="
+            dialogStatus == 'create'
+              ? $t('AbpIdentity[\'NewUser\']')
+              : $t('AbpIdentity[\'Edit\']')
+          "
+          :visible.sync="dialogFormVisible"
+        >
+          <el-form
+            ref="dataForm"
+            :rules="rules"
+            :model="temp"
+            label-position="right"
+            label-width="120px"
+          >
+            <el-tabs tab-position="top">
+              <el-tab-pane :label="$t('AbpIdentity[\'UserInformations\']')">
+                <el-form-item
+                  :label="$t('AbpIdentity[\'UserName\']')"
+                  prop="userName"
+                >
+                  <el-input v-model="temp.userName" />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('AbpIdentity[\'DisplayName:Name\']')"
+                  prop="name"
+                >
+                  <el-input v-model="temp.name" />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('AbpIdentity[\'DisplayName:Surname\']')"
+                  prop="surname"
+                >
+                  <el-input v-model="temp.surname" />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('AbpIdentity[\'Password\']')"
+                  prop="password"
+                  :class="{ 'is-required': !temp.id }"
+                >
+                  <el-input
+                    v-model="temp.password"
+                    type="password"
+                    auto-complete="off"
+                  />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('AbpIdentity[\'EmailAddress\']')"
+                  prop="email"
+                >
+                  <el-input v-model="temp.email" />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('AbpIdentity[\'PhoneNumber\']')"
+                  prop="phoneNumber"
+                >
+                  <el-input v-model="temp.phoneNumber" />
+                </el-form-item>
+                <el-form-item prop="lockoutEnabled">
+                  <el-checkbox
+                    v-model="temp.lockoutEnabled"
+                    :label="$t('AbpIdentity[\'DisplayName:LockoutEnabled\']')"
+                  />
+                </el-form-item>
+                <el-form-item prop="twoFactorEnabled">
+                  <el-checkbox
+                    v-model="temp.twoFactorEnabled"
+                    :label="$t('AbpIdentity[\'DisplayName:TwoFactorEnabled\']')"
+                  />
+                </el-form-item>
+              </el-tab-pane>
+              <el-tab-pane :label="$t('AbpIdentity[\'Roles\']')">
+                <el-form-item>
+                  <el-checkbox-group v-model="temp.roleNames">
+                    <el-checkbox
+                      v-for="role in assignableRoles"
+                      :key="role.id"
+                      :label="role.name"
+                      name="roleName"
+                      style="width:100%;"
+                    />
+                  </el-checkbox-group>
+                </el-form-item>
+              </el-tab-pane>
+            </el-tabs>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">
+              {{ $t("AbpIdentity['Cancel']") }}
+            </el-button>
+            <el-button
+              type="primary"
+              @click="dialogStatus === 'create' ? createData() : updateData()"
+            >
+              {{ $t("AbpIdentity['Save']") }}
+            </el-button>
+          </div>
+        </el-dialog>
+
+        <permission-dialog ref="permissionDialog" provider-name="U" />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -396,6 +406,45 @@ export default {
         password: [
           { validator: passwordValidator, trigger: ['blur', 'change'] }
         ]
+      },
+      userTree: [{
+        label: '一级 1',
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      }, {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
+        }, {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
+        }]
+      }, {
+        label: '一级 3',
+        children: [{
+          label: '二级 3-1',
+          children: [{
+            label: '三级 3-1-1'
+          }]
+        }, {
+          label: '二级 3-2',
+          children: [{
+            label: '三级 3-2-1'
+          }]
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       }
     }
   },
