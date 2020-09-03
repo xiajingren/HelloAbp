@@ -41,6 +41,9 @@
     "Info": "消息",
     "Error": "错误",
     "ErrorMessage": "操作失败！",
-    "Identity.OrganizationUnit.MemberExists": "该成员{0}在当前组织{1}已存在"
+    "Identity.OrganizationUnit.MemberExists": "该成员{0}在当前组织{1}已存在",
+    "Feature:SocialLogins": "社交登录",
+    "Feature:UserCount": "用户数量",
+    "Feature:UserCount.Maximum": "允许的最大用户数量为{0}"
   }
 }

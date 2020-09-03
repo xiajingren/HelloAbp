@@ -6,6 +6,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Xhznl.HelloAbp</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Volo\**" />
+    <EmbeddedResource Remove="Volo\**" />
+    <None Remove="Volo\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain\Xhznl.HelloAbp.Domain.csproj" />
@@ -18,10 +24,6 @@
     <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="3.0.5" />
     <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="3.0.5" />
     <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="3.0.5" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Volo\Abp\Identity\EntityFrameworkCore\" />
   </ItemGroup>
 
 </Project>
