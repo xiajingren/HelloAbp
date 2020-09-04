@@ -44,13 +44,7 @@ namespace Volo.Abp.Identity
         {
             //TODO:Consider submitting to ABP to get the ou root node PR
             var root = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(await UnitRepository.GetChildrenAsync(null));
-            foreach (var item in root)
-            {
-                if ((await UnitRepository.GetChildrenAsync(item.Id)).Count == 0)
-                {
-                    item.SetLeaf();
-                }
-            }
+            await SetLeaf(root);
             return new PagedResultDto<OrganizationUnitDto>(
                 root.Count,
                 root
@@ -111,13 +105,7 @@ namespace Volo.Abp.Identity
         {
             //TODO:How to set is a leaf node when lazy loading
             var list = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(await UnitManager.FindChildrenAsync(parentId));
-            foreach (var item in list)
-            {
-                if ((await UnitRepository.GetChildrenAsync(item.Id)).Count == 0)
-                {
-                    item.SetLeaf();
-                }
-            }
+            await SetLeaf(list);
             return list;
         }
 
@@ -175,6 +163,22 @@ namespace Volo.Abp.Identity
                 return;
             }
             await UnitManager.MoveAsync(id, parentId);
+        }
+
+        /// <summary>
+        /// 后面考虑处理存储leaf到数据库,避免这么进行处理
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        protected virtual async Task SetLeaf(List<OrganizationUnitDto> list)
+        {
+            foreach (var item in list)
+            {
+                if ((await UnitRepository.GetChildrenAsync(item.Id)).Count == 0)
+                {
+                    item.SetLeaf();
+                }
+            }
         }
 
         protected virtual async Task TraverseTreeAsync(OrganizationUnitDto dto, List<OrganizationUnitDto> children)

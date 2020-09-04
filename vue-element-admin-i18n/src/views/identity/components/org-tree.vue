@@ -1,9 +1,11 @@
 <template>
   <div class="app-container">
-    <el-input
-      v-model="filterText"
-      placeholder="输入关键字进行过滤"
-    />
+    <div class="filter-container">
+      <el-input
+        v-model="filterText"
+        placeholder="输入关键字进行过滤"
+      />
+    </div>
     <el-tree
       ref="orgTree"
       :data="orgTreeData"
