@@ -4,8 +4,6 @@
     "Menu:Home": "首页",
     "Welcome": "欢迎",
     "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io.",
-    "Permission:OrganitaionUnitManagement": "组织单元管理",
-    "Permission:DistributionOrganizationUnit": "添加组织成员",
     "Menu:Dashboard": "首页",
     "Menu:Documentation": "文档",
     "Menu:Guide": "引导页",
@@ -40,7 +38,6 @@
     "Warning": "警告",
     "Info": "消息",
     "Error": "错误",
-    "ErrorMessage": "操作失败！",
-    "Identity.OrganizationUnit.MemberExists": "该成员{0}在当前组织{1}已存在"
+    "ErrorMessage": "操作失败！"
   }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -37,6 +38,17 @@ namespace Volo.Abp.Identity
             var ouDto = ObjectMapper.Map<OrganizationUnit, OrganizationUnitDetailDto>(ou);
             await TraverseTreeAsync(ouDto, ouDto.Children);
             return ouDto;
+        }
+
+        public virtual async Task<PagedResultDto<OrganizationUnitDto>> GetRootListAsync(GetOrganizationUnitInput input)
+        {
+            //TODO:Consider submitting to ABP to get the ou root node PR
+            var list = await GetListAsync(input);
+            var root = list.Items.Where(item => !item.ParentId.HasValue).ToList();
+            return new PagedResultDto<OrganizationUnitDto>(
+                root.Count,
+                root
+            );
         }
 
         public virtual async Task<PagedResultDto<OrganizationUnitDto>> GetListAsync(GetOrganizationUnitInput input)
@@ -158,7 +170,13 @@ namespace Volo.Abp.Identity
             }
             foreach (var child in children)
             {
-                child.Children.AddRange(await GetChildrenAsync(child.Id));
+                var next = await GetChildrenAsync(child.Id);
+                if (next.Count == 0)
+                {
+                    child.SetLeaf();
+                    continue;
+                }
+                child.Children.AddRange(next);
                 await TraverseTreeAsync(dto, child.Children);
             }
         }

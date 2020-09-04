@@ -22,7 +22,7 @@ namespace Volo.Abp.Identity
             if (await UserManager.IsInOrganizationUnitAsync(userId, ouId))
             {
                 // TODO:Replace the ID with the name later
-                throw new UserFriendlyException(L["Identity.OrganizationUnit.MemberExists", userId, ouId]);
+                throw new UserFriendlyException(L["AbpIdentity.MemberExists", userId, ouId]);
             }
 
             await UserManager.AddToOrganizationUnitAsync(userId, ouId);

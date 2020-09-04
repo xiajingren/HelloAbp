@@ -89,10 +89,17 @@ namespace Volo.Abp.Identity
         }
 
         [HttpGet]
-        [Route("children")]
+        [Route("children/{parentId}")]
         public Task<List<OrganizationUnitDetailDto>> GetChildrenAsync(Guid parentId)
         {
             return UnitAppService.GetChildrenAsync(parentId);
+        }
+
+        [HttpGet]
+        [Route("root")]
+        public Task<PagedResultDto<OrganizationUnitDto>> GetRootListAsync(GetOrganizationUnitInput input)
+        {
+            return UnitAppService.GetRootListAsync(input);
         }
     }
 }

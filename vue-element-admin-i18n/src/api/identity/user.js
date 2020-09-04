@@ -52,3 +52,15 @@ export function getAssignableRoles() {
     method: 'get'
   })
 }
+
+/**
+ * 添加成员到组织单元中
+ * @param {string} id
+ * @param {string} ouId
+ */
+export function addToOrganization(id, ouId) {
+  return request({
+    url: `/api/identity/users/${id}/add-to-organization/${ouId}`,
+    method: 'get'
+  })
+}

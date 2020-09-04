@@ -26,6 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Volo\Abp\Identity\Localization\en.json" />
+    <None Remove="Volo\Abp\Identity\Localization\zh-Hans.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Volo\Abp\Identity\Localization\HelloAbp\en.json" />
+    <EmbeddedResource Include="Volo\Abp\Identity\Localization\HelloAbp\zh-Hans.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.5" />
   </ItemGroup>
 
