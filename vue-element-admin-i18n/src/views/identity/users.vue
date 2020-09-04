@@ -2,10 +2,7 @@
   <div class="app-container">
     <el-row :gutter="0">
       <el-col :span="4">
-        <el-tree
-          :data="userTree"
-          :props="defaultProps"
-        />
+        <org-tree />
       </el-col>
       <el-col :span="18">
         <div class="filter-container">
@@ -229,10 +226,11 @@ import {
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
 import PermissionDialog from './components/permission-dialog'
+import OrgTree from './components/org-tree'
 
 export default {
   name: 'Users',
-  components: { Pagination, PermissionDialog },
+  components: { Pagination, PermissionDialog, OrgTree },
   data() {
     const passwordValidator = (rule, value, callback) => {
       if (this.temp.id && !value) {

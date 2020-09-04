@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 import { transformAbpListQuery } from '@/utils/abp'
 
-export function getOrganizationsAllWithDetails() {
+export function getOrganizationsAllWithDetails(query) {
   return request({
     url: '/api/identity/organizations/all/details',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 
@@ -25,11 +26,10 @@ export function getOrganizationsWithDetails(query) {
  * 后期考虑提交PR给abp,没有获取根节点的方法
  * @param {object} query
  */
-export function getOrganizationsRoot(query) {
+export function getOrganizationsRoot() {
   return request({
     url: '/api/identity/organizations/root',
-    method: 'get',
-    params: transformAbpListQuery(query)
+    method: 'get'
   })
 }
 
@@ -77,10 +77,10 @@ export function createOrganization(payload) {
   })
 }
 
-export function updateOrganization(payload) {
+export function updateOrganization(id, payload) {
   return request({
-    url: `/api/identity/organizations/${payload.id}`,
-    method: 'post',
+    url: `/api/identity/organizations/${id}`,
+    method: 'put',
     data: payload
   })
 }

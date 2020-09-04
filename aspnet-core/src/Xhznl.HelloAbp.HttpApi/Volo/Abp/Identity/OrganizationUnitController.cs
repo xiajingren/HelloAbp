@@ -35,9 +35,9 @@ namespace Volo.Abp.Identity
 
         [HttpGet]
         [Route("all")]
-        public virtual Task<ListResultDto<OrganizationUnitDto>> GetAllListAsync()
+        public virtual Task<ListResultDto<OrganizationUnitDto>> GetAllListAsync(GetAllOrgnizationUnitInput input)
         {
-            return UnitAppService.GetAllListAsync();
+            return UnitAppService.GetAllListAsync(input);
         }
 
         [HttpGet]
@@ -69,37 +69,44 @@ namespace Volo.Abp.Identity
 
         [HttpGet]
         [Route("{id}/details")]
-        public Task<OrganizationUnitDetailDto> GetDetailsAsync(Guid id)
+        public Task<OrganizationUnitDto> GetDetailsAsync(Guid id)
         {
             return UnitAppService.GetDetailsAsync(id);
         }
 
         [HttpGet]
         [Route("details")]
-        public Task<PagedResultDto<OrganizationUnitDetailDto>> GetListDetailsAsync(GetOrganizationUnitInput input)
+        public Task<PagedResultDto<OrganizationUnitDto>> GetListDetailsAsync(GetOrganizationUnitInput input)
         {
             return UnitAppService.GetListDetailsAsync(input);
         }
 
         [HttpGet]
         [Route("all/details")]
-        public Task<ListResultDto<OrganizationUnitDetailDto>> GetAllListDetailsAsync()
+        public Task<ListResultDto<OrganizationUnitDto>> GetAllListDetailsAsync(GetAllOrgnizationUnitInput input)
         {
-            return UnitAppService.GetAllListDetailsAsync();
+            return UnitAppService.GetAllListDetailsAsync(input);
         }
 
         [HttpGet]
         [Route("children/{parentId}")]
-        public Task<List<OrganizationUnitDetailDto>> GetChildrenAsync(Guid parentId)
+        public Task<List<OrganizationUnitDto>> GetChildrenAsync(Guid parentId)
         {
             return UnitAppService.GetChildrenAsync(parentId);
         }
 
         [HttpGet]
         [Route("root")]
-        public Task<PagedResultDto<OrganizationUnitDto>> GetRootListAsync(GetOrganizationUnitInput input)
+        public Task<ListResultDto<OrganizationUnitDto>> GetRootListAsync()
         {
-            return UnitAppService.GetRootListAsync(input);
+            return UnitAppService.GetRootListAsync();
+        }
+
+        [HttpGet]
+        [Route("next-code")]
+        public Task<string> GetNextChildCodeAsync(Guid? parentId)
+        {
+            return UnitAppService.GetNextChildCodeAsync(parentId);
         }
     }
 }

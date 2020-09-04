@@ -32,19 +32,25 @@ namespace Volo.Abp.Identity
             );
         }
 
-        public virtual async Task<OrganizationUnitDetailDto> GetDetailsAsync(Guid id)
+        public virtual async Task<OrganizationUnitDto> GetDetailsAsync(Guid id)
         {
             var ou = await UnitRepository.GetAsync(id);
-            var ouDto = ObjectMapper.Map<OrganizationUnit, OrganizationUnitDetailDto>(ou);
+            var ouDto = ObjectMapper.Map<OrganizationUnit, OrganizationUnitDto>(ou);
             await TraverseTreeAsync(ouDto, ouDto.Children);
             return ouDto;
         }
 
-        public virtual async Task<PagedResultDto<OrganizationUnitDto>> GetRootListAsync(GetOrganizationUnitInput input)
+        public virtual async Task<ListResultDto<OrganizationUnitDto>> GetRootListAsync()
         {
             //TODO:Consider submitting to ABP to get the ou root node PR
-            var list = await GetListAsync(input);
-            var root = list.Items.Where(item => !item.ParentId.HasValue).ToList();
+            var root = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(await UnitRepository.GetChildrenAsync(null));
+            foreach (var item in root)
+            {
+                if ((await UnitRepository.GetChildrenAsync(item.Id)).Count == 0)
+                {
+                    item.SetLeaf();
+                }
+            }
             return new PagedResultDto<OrganizationUnitDto>(
                 root.Count,
                 root
@@ -61,43 +67,58 @@ namespace Volo.Abp.Identity
             );
         }
 
-        public virtual async Task<PagedResultDto<OrganizationUnitDetailDto>> GetListDetailsAsync(GetOrganizationUnitInput input)
+        public virtual async Task<PagedResultDto<OrganizationUnitDto>> GetListDetailsAsync(GetOrganizationUnitInput input)
         {
             var count = await UnitRepository.GetCountAsync();
             var list = await UnitRepository.GetListAsync(input.Sorting, input.MaxResultCount, input.SkipCount);
-            var listDto = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDetailDto>>(list);
+            var listDto = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(list);
             foreach (var ouDto in listDto)
             {
                 await TraverseTreeAsync(ouDto, ouDto.Children);
             }
-            return new PagedResultDto<OrganizationUnitDetailDto>(
+            return new PagedResultDto<OrganizationUnitDto>(
                 count,
                 listDto
             );
         }
 
-        public virtual async Task<ListResultDto<OrganizationUnitDto>> GetAllListAsync()
+        public virtual async Task<ListResultDto<OrganizationUnitDto>> GetAllListAsync(GetAllOrgnizationUnitInput input)
         {
-            var list = await UnitRepository.GetListAsync();
-            return new ListResultDto<OrganizationUnitDto>(
-                ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(list)
-            );
-        }
-
-        public virtual async Task<ListResultDto<OrganizationUnitDetailDto>> GetAllListDetailsAsync()
-        {
-            var list = await UnitRepository.GetListAsync();
-            var listDto = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDetailDto>>(list);
-            foreach (var ouDto in listDto)
+            var root = await GetRootListAsync();
+            foreach (var ouDto in root.Items)
             {
                 await TraverseTreeAsync(ouDto, ouDto.Children);
             }
-            return new ListResultDto<OrganizationUnitDetailDto>(listDto);
+            return root;
         }
 
-        public virtual async Task<List<OrganizationUnitDetailDto>> GetChildrenAsync(Guid parentId)
+        public virtual async Task<ListResultDto<OrganizationUnitDto>> GetAllListDetailsAsync(GetAllOrgnizationUnitInput input)
         {
-            return ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDetailDto>>(await UnitRepository.GetChildrenAsync(parentId));
+            var root = await GetRootListAsync();
+            foreach (var ouDto in root.Items)
+            {
+                await TraverseTreeAsync(ouDto, ouDto.Children);
+            }
+            return root;
+        }
+
+        public Task<string> GetNextChildCodeAsync(Guid? parentId)
+        {
+            return UnitManager.GetNextChildCodeAsync(parentId);
+        }
+
+        public virtual async Task<List<OrganizationUnitDto>> GetChildrenAsync(Guid parentId)
+        {
+            //TODO:How to set is a leaf node when lazy loading
+            var list = ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(await UnitManager.FindChildrenAsync(parentId));
+            foreach (var item in list)
+            {
+                if ((await UnitRepository.GetChildrenAsync(item.Id)).Count == 0)
+                {
+                    item.SetLeaf();
+                }
+            }
+            return list;
         }
 
         [Authorize(HelloIdentityPermissions.OrganitaionUnits.Create)]
@@ -156,7 +177,7 @@ namespace Volo.Abp.Identity
             await UnitManager.MoveAsync(id, parentId);
         }
 
-        protected virtual async Task TraverseTreeAsync(OrganizationUnitDetailDto dto, List<OrganizationUnitDetailDto> children)
+        protected virtual async Task TraverseTreeAsync(OrganizationUnitDto dto, List<OrganizationUnitDto> children)
         {
             if (dto.Children.Count == 0)
             {
@@ -171,14 +192,11 @@ namespace Volo.Abp.Identity
             foreach (var child in children)
             {
                 var next = await GetChildrenAsync(child.Id);
-                if (next.Count == 0)
-                {
-                    child.SetLeaf();
-                    continue;
-                }
                 child.Children.AddRange(next);
                 await TraverseTreeAsync(dto, child.Children);
             }
         }
+
+
     }
 }
