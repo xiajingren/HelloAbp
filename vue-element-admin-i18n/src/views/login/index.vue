@@ -90,6 +90,7 @@
           </el-tooltip>
         </span>
         <el-button
+          v-if="features['HelloAbp.SocialLogins'] === 'true'"
           class="thirdparty-button"
           type="primary"
           @click="showDialog = true"
@@ -186,6 +187,9 @@ export default {
   computed: {
     currentTenant() {
       return this.$store.getters.abpConfig.currentTenant.name
+    },
+    features() {
+      return this.$store.getters.abpConfig.features.values
     },
     tenantDisabled() {
       if (

@@ -38,6 +38,10 @@
     "Warning": "Warning",
     "Info": "Info",
     "Error": "Error",
-    "ErrorMessage": "The operation failed!"
+    "ErrorMessage": "The operation failed!",
+    "Identity.OrganizationUnit.MemberExists": "The member {0} already exists in the current organization {1}",
+    "Feature:SocialLogins": "SocialLogins",
+    "Feature:UserCount": "UserCount",
+    "Feature:UserCount.Maximum": "The maximum number of users allowed is {0}"
   }
 }

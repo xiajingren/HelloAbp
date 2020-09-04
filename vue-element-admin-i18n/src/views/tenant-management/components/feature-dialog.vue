@@ -13,7 +13,7 @@
       <el-form-item
         v-for="feature in features"
         :key="feature.name"
-        :label="feature.name"
+        :label="feature.displayName"
       >
         <el-checkbox
           v-if="feature.valueType.name === 'ToggleStringValueType'"
@@ -102,7 +102,7 @@ export default {
             if (feature.valueType.name === 'ToggleStringValueType') {
               tempData.features.push({
                 name: feature.name,
-                value: this.temp[feature.name] ? true : null
+                value: !!this.temp[feature.name]
               })
             } else if (feature.valueType.name === 'FreeTextStringValueType') {
               tempData.features.push({

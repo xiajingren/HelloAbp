@@ -78,7 +78,7 @@
 <script>
 import { getSettingValues, setSettingValues, resetSettingValues } from '@/api/settings/setting'
 export default {
-  name: 'Settings',
+  name: 'Setting',
   data() {
     return {
       settingData: [],
