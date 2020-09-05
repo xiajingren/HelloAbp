@@ -3,6 +3,7 @@
   "texts": {
     "Permission:OrganitaionUnitManagement": "OrganitaionUnitManagement",
     "Permission:DistributionOrganizationUnit": "AddUnitMember",
+    "Permission:AddOrganizationUnitRole": "AddUnitRole",
     "MemberExists": "The member {0} already exists in the current organization {1}",
     "OrganitaionUnits": "OrganitaionUnits",
     "NewOrganitaionUnitChild": "NewChild",

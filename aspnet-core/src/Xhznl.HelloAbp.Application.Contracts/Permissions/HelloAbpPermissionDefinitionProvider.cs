@@ -2,6 +2,7 @@
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 using Volo.Abp.Identity;
+using Volo.Abp.Identity.Localization;
 
 namespace Xhznl.HelloAbp.Permissions
 {
@@ -21,11 +22,17 @@ namespace Xhznl.HelloAbp.Permissions
             {
                 userPermission.AddChild(HelloIdentityPermissions.Users.DistributionOrganizationUnit, L("Permission:DistributionOrganizationUnit"));
             }
+
+            var rolePermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Roles.Default);
+            if (rolePermission != null)
+            {
+                rolePermission.AddChild(HelloIdentityPermissions.Roles.AddOrganizationUnitRole, L("Permission:AddOrganizationUnitRole"));
+            }
         }
 
         private static LocalizableString L(string name)
         {
-            return LocalizableString.Create<HelloAbpResource>(name);
+            return LocalizableString.Create<IdentityResource>(name);
         }
     }
 }

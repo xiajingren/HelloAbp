@@ -24,6 +24,14 @@ export function createRole(payload) {
   })
 }
 
+export function createRoleToOrg(payload) {
+  return request({
+    url: '/api/identity/roles/create-to-organization',
+    method: 'post',
+    data: payload
+  })
+}
+
 export function updateRole(payload) {
   return request({
     url: `/api/identity/roles/${payload.id}`,

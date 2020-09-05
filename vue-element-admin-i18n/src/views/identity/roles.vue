@@ -107,6 +107,9 @@
             label-position="right"
             label-width="120px"
           >
+            <el-form-item :label="$t('AbpIdentity[\'OrganitaionUnits\']')" prop="orgName">
+              <el-input v-model="orgName" disabled />
+            </el-form-item>
             <el-form-item :label="$t('AbpIdentity[\'RoleName\']')" prop="name">
               <el-input v-model="temp.name" :disabled="temp.isStatic" />
             </el-form-item>
@@ -145,7 +148,8 @@
 <script>
 import {
   // getRoles,
-  createRole,
+  // createRole,
+  createRoleToOrg,
   getRoleById,
   updateRole,
   deleteRole
@@ -168,7 +172,9 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: baseListQuery,
+      orgData: null,
       temp: {
+        orgId: '',
         name: '',
         isDefault: false,
         isPublic: false
@@ -194,6 +200,14 @@ export default {
           }
         ]
       }
+    }
+  },
+  computed: {
+    orgName() {
+      if (this.orgData === null) {
+        return ''
+      }
+      return `${this.orgData.displayName}(${this.orgData.code})`
     }
   },
   created() {
@@ -226,6 +240,7 @@ export default {
     },
     resetTemp() {
       this.temp = {
+        orgId: '',
         name: '',
         isDefault: false,
         isPublic: false
@@ -242,7 +257,10 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          createRole(this.temp).then(() => {
+          if (this.orgData !== null) {
+            this.temp.orgId = this.orgData.id
+          }
+          createRoleToOrg(this.temp).then(() => {
             this.handleFilter()
             this.dialogFormVisible = false
             this.$notify({
@@ -311,8 +329,11 @@ export default {
       this.$refs['permissionDialog'].handleUpdatePermission(row)
     },
     handleOrgTreeNodeClick(data) {
-      this.listQuery.ouId = data.id
-      this.handleFilter()
+      if (data.id) {
+        this.listQuery.ouId = data.id
+        this.orgData = data
+        this.handleFilter()
+      }
     }
   }
 }

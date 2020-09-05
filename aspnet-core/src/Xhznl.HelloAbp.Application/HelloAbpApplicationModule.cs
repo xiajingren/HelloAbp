@@ -26,7 +26,9 @@ namespace Xhznl.HelloAbp
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.TryAddTransient<IHelloIdentityUserAppService,HelloIdentityUserAppService>();
+            // 后面排查下为什么需要手动注册
+            context.Services.TryAddTransient<IHelloIdentityUserAppService, HelloIdentityUserAppService>();
+            context.Services.TryAddTransient<IHelloIdentityRoleAppService, HelloIdentityRoleAppService>();
 
             Configure<AbpAutoMapperOptions>(options =>
             {
