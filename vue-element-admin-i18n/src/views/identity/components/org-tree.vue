@@ -76,16 +76,18 @@ export default {
       return data.displayName.indexOf(value) !== -1
     },
     checkChange(data, checked, indeterminate) {
-      const keys = this.$refs.orgTree.getCheckedKeys()
-      console.log(keys, 'keys.length:', keys.length)
-      if (keys.length > 1) {
+      if (checked) {
+        const keys = this.$refs.orgTree.getCheckedKeys()
+        if (keys.length > 1) {
         // this.$message({
         //   message: '只能选择一个组织',
         //   type: 'warning',
         //   showClose: true
         // })
-        this.$refs.orgTree.setCheckedKeys([])
-        this.$refs.orgTree.setChecked(data.id, true)
+          this.$refs.orgTree.setCheckedKeys([])
+          this.$refs.orgTree.setChecked(data, true)
+        }
+        this.$emit('handleCheckChange', data)
       }
     }
   }

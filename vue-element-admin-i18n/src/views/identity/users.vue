@@ -209,7 +209,7 @@
                     ref="dialogOrgTree"
                     :show-checkbox="true"
                     :check-strictly="true"
-                    @check-change="handleCheckChange"
+                    @handleCheckChange="handleCheckChange"
                   />
                 </el-form-item>
               </el-tab-pane>
@@ -243,7 +243,7 @@
 <script>
 import {
   // getUsers,
-  createUser,
+  createUserToOrg,
   getUserById,
   updateUser,
   deleteUser,
@@ -346,6 +346,7 @@ export default {
       listLoading: true,
       listQuery: baseListQuery,
       temp: {
+        orgId: '',
         userName: '',
         email: '',
         name: '',
@@ -486,6 +487,7 @@ export default {
     },
     resetTemp() {
       this.temp = {
+        orgId: '',
         userName: '',
         email: '',
         name: '',
@@ -512,7 +514,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          createUser(this.temp).then(() => {
+          createUserToOrg(this.temp).then(() => {
             this.handleFilter()
             this.dialogFormVisible = false
             this.$notify({
@@ -547,6 +549,8 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
+
+      // handle org
     },
     updateData() {
       this.$refs['dataForm'].validate(valid => {
@@ -594,12 +598,11 @@ export default {
       this.listQuery.ouId = data.id
       this.handleFilter()
     },
-    handleDialogOrgTreeNodeClick() {
-
-    },
-    handleCheckChange(data, checked, indeterminate) {
-      var orgIds = this.$refs.dialogOrgTree.$refs.orgTree.getCheckedKeys
-      console.log('orgIds-select:', orgIds)
+    handleCheckChange(data) {
+      console.log('handleCheckChange:', data)
+      if (data.id) {
+        this.temp.orgId = data.id
+      }
     }
   }
 }
