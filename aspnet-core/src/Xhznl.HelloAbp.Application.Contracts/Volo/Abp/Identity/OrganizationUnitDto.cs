@@ -9,6 +9,11 @@ namespace Volo.Abp.Identity
 {
     public class OrganizationUnitDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiTenant, IHasConcurrencyStamp
     {
+        public OrganizationUnitDto()
+        {
+            Children = new List<OrganizationUnitDto>();
+        }
+
         public Guid? TenantId { get; set; }
 
         public string ConcurrencyStamp { get; set; }
@@ -23,10 +28,13 @@ namespace Volo.Abp.Identity
 
         public virtual bool IsLeaf { get; set; }
 
+        public List<OrganizationUnitDto> Children { get; set; }
+
         private int GetLevel(string code)
         {
             return Code.Split('.').Length;
         }
+
         public void SetLeaf()
         {
             IsLeaf = true;

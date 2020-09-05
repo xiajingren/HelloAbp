@@ -43,7 +43,6 @@ namespace Volo.Abp.Identity
                 // TODO:Replace the ID with the name later
                 throw new UserFriendlyException(_localizer["Identity.OrganizationUnit.MemberExists", userId, ouId]);
             }
-
             await UserManager.AddToOrganizationUnitAsync(userId, ouId);
         }
 

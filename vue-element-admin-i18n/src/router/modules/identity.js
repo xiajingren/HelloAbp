@@ -15,6 +15,12 @@ const identityRouter = {
   },
   children: [
     {
+      path: 'organizations',
+      component: () => import('@/views/identity/organizations'),
+      name: 'OrganizaitonUnits',
+      meta: { title: 'AbpIdentity["OrganitaionUnits"]', policy: 'AbpIdentity.OrganitaionUnits' }
+    },
+    {
       path: 'roles',
       component: () => import('@/views/identity/roles'),
       name: 'Roles',

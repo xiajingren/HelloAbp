@@ -1,0 +1,16 @@
+{
+  "culture": "zh-Hans",
+  "texts": {
+    "Permission:OrganitaionUnitManagement": "组织单元管理",
+    "Permission:DistributionOrganizationUnit": "添加组织成员",
+    "MemberExists": "该成员{0}在当前组织{1}已存在",
+    "OrganitaionUnits": "组织单元",
+    "NewOrganitaionUnitChild": "添加子节点",
+    "NewOrganitaionUnit": "新组织",
+    "OUCode": "编码",
+    "OUParentCode": "上级编码",
+    "OUDisplayName": "名称",
+    "OUParentDisplayName": "上级名称",
+    "OUDeletionConfirmationMessage": "组织 '{0}' 将被删除. 你确定吗?"
+  }
+}

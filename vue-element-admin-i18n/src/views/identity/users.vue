@@ -2,10 +2,7 @@
   <div class="app-container">
     <el-row :gutter="0">
       <el-col :span="4">
-        <el-tree
-          :data="userTree"
-          :props="defaultProps"
-        />
+        <org-tree />
       </el-col>
       <el-col :span="18">
         <div class="filter-container">
@@ -229,10 +226,11 @@ import {
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
 import PermissionDialog from './components/permission-dialog'
+import OrgTree from './components/org-tree'
 
 export default {
   name: 'Users',
-  components: { Pagination, PermissionDialog },
+  components: { Pagination, PermissionDialog, OrgTree },
   data() {
     const passwordValidator = (rule, value, callback) => {
       if (this.temp.id && !value) {
@@ -406,45 +404,6 @@ export default {
         password: [
           { validator: passwordValidator, trigger: ['blur', 'change'] }
         ]
-      },
-      userTree: [{
-        label: '一级 1',
-        children: [{
-          label: '二级 1-1',
-          children: [{
-            label: '三级 1-1-1'
-          }]
-        }]
-      }, {
-        label: '一级 2',
-        children: [{
-          label: '二级 2-1',
-          children: [{
-            label: '三级 2-1-1'
-          }]
-        }, {
-          label: '二级 2-2',
-          children: [{
-            label: '三级 2-2-1'
-          }]
-        }]
-      }, {
-        label: '一级 3',
-        children: [{
-          label: '二级 3-1',
-          children: [{
-            label: '三级 3-1-1'
-          }]
-        }, {
-          label: '二级 3-2',
-          children: [{
-            label: '三级 3-2-1'
-          }]
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
       }
     }
   },

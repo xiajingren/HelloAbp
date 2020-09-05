@@ -1,0 +1,16 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:OrganitaionUnitManagement": "OrganitaionUnitManagement",
+    "Permission:DistributionOrganizationUnit": "AddUnitMember",
+    "MemberExists": "The member {0} already exists in the current organization {1}",
+    "OrganitaionUnits": "OrganitaionUnits",
+    "NewOrganitaionUnitChild": "NewChild",
+    "NewOrganitaionUnit": "NewOrganitaionUnit",
+    "OUCode": "code",
+    "OUParentCode": "parentCode",
+    "OUDisplayName": "name",
+    "OUParentDisplayName": "parentName",
+    "OUDeletionConfirmationMessage": "OrganitaionUnit '{0}' will be deleted. Do you confirm that?"
+  }
+}
