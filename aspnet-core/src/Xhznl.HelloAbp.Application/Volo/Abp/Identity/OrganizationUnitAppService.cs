@@ -17,12 +17,15 @@ namespace Volo.Abp.Identity
     {
         protected OrganizationUnitManager UnitManager { get; }
         protected IOrganizationUnitRepository UnitRepository { get; }
+        protected IIdentityUserAppService UserAppService { get; }
         public OrganizationUnitAppService(
             OrganizationUnitManager unitManager,
-            IOrganizationUnitRepository unitRepository)
+            IOrganizationUnitRepository unitRepository,
+            IIdentityUserAppService userAppService)
         {
             UnitManager = unitManager;
             UnitRepository = unitRepository;
+            UserAppService = userAppService;
         }
 
         public virtual async Task<OrganizationUnitDto> GetAsync(Guid id)
@@ -201,6 +204,37 @@ namespace Volo.Abp.Identity
             }
         }
 
-
+        [Authorize(IdentityPermissions.Users.Default)]
+        public virtual async Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId, GetIdentityUsersInput usersInput)
+        {
+            if (!ouId.HasValue)
+            {
+                return await UserAppService.GetListAsync(usersInput);
+            }
+            IEnumerable<IdentityUser> list = new List<IdentityUser>();
+            var ou = await UnitRepository.GetAsync(ouId.Value);
+            var selfAndChildren = await UnitRepository.GetAllChildrenWithParentCodeAsync(ou.Code, ou.Id);
+            selfAndChildren.Add(ou);
+            //Consider submitting PR to get its own overloading method containing all the members of the child node
+            foreach (var child in selfAndChildren)
+            {
+                // Find child nodes where users have duplicates (users can have multiple organizations)
+                //count += await UnitRepository.GetMembersCountAsync(child, usersInput.Filter);
+                list = Enumerable.Union(list, await UnitRepository.GetMembersAsync(
+                       child,
+                       usersInput.Sorting,
+                       //usersInput.MaxResultCount, // So let's think about looking up all the members of the subset
+                       //usersInput.SkipCount,  
+                       filter: usersInput.Filter
+                ));
+            }
+            return new PagedResultDto<IdentityUserDto>(
+                list.Count(),
+                ObjectMapper.Map<List<IdentityUser>, List<IdentityUserDto>>(
+                    list.Skip(usersInput.SkipCount).Take(usersInput.MaxResultCount)
+                    .ToList()
+                )
+            );
+        }
     }
 }

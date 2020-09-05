@@ -11,10 +11,10 @@
       :data="orgTreeData"
       :props="orgTreeProps"
       :filter-node-method="filterOrg"
+      :expand-on-click-node="false"
       node-key="id"
       highlight-current
       default-expand-all
-      icon-class="el-icon-folder"
       @node-click="handleOrgClick"
     />
   </div>
@@ -26,6 +26,12 @@ import {
 } from '@/api/identity/organization'
 export default {
   name: 'OrgTree',
+  props: {
+    orgTreeNodeClick: {
+      type: Function,
+      default: null
+    }
+  },
   data() {
     return {
       orgTreeData: null,
@@ -45,7 +51,7 @@ export default {
   watch: {
     filterText(val) {
       this.treeQuery.filter = val
-      this.$refs.tree.filter(val)
+      this.$refs.orgTree.filter(val)
     }
   },
   created() {
@@ -58,11 +64,11 @@ export default {
       })
     },
     handleOrgClick(data) {
-      console.log(data)
+      this.orgTreeNodeClick(data)
     },
     filterOrg(value, data) {
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      return data.displayName.indexOf(value) !== -1
     }
   }
 }

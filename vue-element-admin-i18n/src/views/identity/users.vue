@@ -2,7 +2,9 @@
   <div class="app-container">
     <el-row :gutter="0">
       <el-col :span="4">
-        <org-tree />
+        <org-tree
+          :org-tree-node-click="handleOrgTreeNodeClick"
+        />
       </el-col>
       <el-col :span="18">
         <div class="filter-container">
@@ -22,6 +24,14 @@
             @click="handleCreate"
           >
             {{ $t("AbpIdentity['NewUser']") }}
+          </el-button>
+          <el-button
+            class="filter-item"
+            style="margin-left: 10px;"
+            icon="el-icon-refresh"
+            @click="handleRefresh"
+          >
+            {{ $t("AbpIdentity['Refresh']") }}
           </el-button>
         </div>
 
@@ -194,7 +204,10 @@
               </el-tab-pane>
             </el-tabs>
           </el-form>
-          <div slot="footer" class="dialog-footer">
+          <div
+            slot="footer"
+            class="dialog-footer"
+          >
             <el-button @click="dialogFormVisible = false">
               {{ $t("AbpIdentity['Cancel']") }}
             </el-button>
@@ -207,7 +220,10 @@
           </div>
         </el-dialog>
 
-        <permission-dialog ref="permissionDialog" provider-name="U" />
+        <permission-dialog
+          ref="permissionDialog"
+          provider-name="U"
+        />
       </el-col>
     </el-row>
   </div>
@@ -215,7 +231,7 @@
 
 <script>
 import {
-  getUsers,
+  // getUsers,
   createUser,
   getUserById,
   updateUser,
@@ -223,6 +239,9 @@ import {
   getRolesByUserId,
   getAssignableRoles
 } from '@/api/identity/user'
+import {
+  getOrgUsers
+} from '@/api/identity/organization'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
 import PermissionDialog from './components/permission-dialog'
@@ -434,7 +453,7 @@ export default {
     checkPermission,
     getList() {
       this.listLoading = true
-      getUsers(this.listQuery).then(response => {
+      getOrgUsers(this.listQuery).then(response => {
         this.list = response.items
         this.total = response.totalCount
 
@@ -443,6 +462,10 @@ export default {
     },
     handleFilter(firstPage = true) {
       if (firstPage) this.listQuery.page = 1
+      this.getList()
+    },
+    handleRefresh() {
+      this.listQuery.filter = undefined
       this.getList()
     },
     sortChange(data) {
@@ -555,6 +578,10 @@ export default {
     },
     handleUpdatePermission(row) {
       this.$refs['permissionDialog'].handleUpdatePermission(row)
+    },
+    handleOrgTreeNodeClick(data) {
+      this.listQuery.ouId = data.id
+      this.handleFilter()
     }
   }
 }

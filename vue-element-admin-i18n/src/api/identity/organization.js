@@ -69,6 +69,14 @@ export function getOrganizationChildren(pid) {
   })
 }
 
+export function getOrgUsers(query) {
+  return request({
+    url: '/api/identity/organizations/users',
+    method: 'get',
+    params: transformAbpListQuery(query)
+  })
+}
+
 export function createOrganization(payload) {
   return request({
     url: '/api/identity/organizations',

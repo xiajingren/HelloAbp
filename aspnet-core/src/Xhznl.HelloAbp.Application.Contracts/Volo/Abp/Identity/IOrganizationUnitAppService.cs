@@ -26,5 +26,7 @@ namespace Volo.Abp.Identity
         Task<string> GetNextChildCodeAsync(Guid? parentId);
 
         Task MoveAsync(Guid id, Guid? parentId);
+
+        Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId,GetIdentityUsersInput usersInput);
     }
 }
