@@ -18,14 +18,17 @@ namespace Volo.Abp.Identity
         protected OrganizationUnitManager UnitManager { get; }
         protected IOrganizationUnitRepository UnitRepository { get; }
         protected IIdentityUserAppService UserAppService { get; }
+        protected IIdentityRoleAppService RoleAppService { get; }
         public OrganizationUnitAppService(
             OrganizationUnitManager unitManager,
             IOrganizationUnitRepository unitRepository,
-            IIdentityUserAppService userAppService)
+            IIdentityUserAppService userAppService,
+            IIdentityRoleAppService roleAppService)
         {
             UnitManager = unitManager;
             UnitRepository = unitRepository;
             UserAppService = userAppService;
+            RoleAppService = roleAppService;
         }
 
         public virtual async Task<OrganizationUnitDto> GetAsync(Guid id)
@@ -205,11 +208,11 @@ namespace Volo.Abp.Identity
         }
 
         [Authorize(IdentityPermissions.Users.Default)]
-        public virtual async Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId, GetIdentityUsersInput usersInput)
+        public virtual async Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId, GetIdentityUsersInput userInput)
         {
             if (!ouId.HasValue)
             {
-                return await UserAppService.GetListAsync(usersInput);
+                return await UserAppService.GetListAsync(userInput);
             }
             IEnumerable<IdentityUser> list = new List<IdentityUser>();
             var ou = await UnitRepository.GetAsync(ouId.Value);
@@ -222,16 +225,43 @@ namespace Volo.Abp.Identity
                 //count += await UnitRepository.GetMembersCountAsync(child, usersInput.Filter);
                 list = Enumerable.Union(list, await UnitRepository.GetMembersAsync(
                        child,
-                       usersInput.Sorting,
+                       userInput.Sorting,
                        //usersInput.MaxResultCount, // So let's think about looking up all the members of the subset
                        //usersInput.SkipCount,  
-                       filter: usersInput.Filter
+                       filter: userInput.Filter
                 ));
             }
             return new PagedResultDto<IdentityUserDto>(
                 list.Count(),
                 ObjectMapper.Map<List<IdentityUser>, List<IdentityUserDto>>(
-                    list.Skip(usersInput.SkipCount).Take(usersInput.MaxResultCount)
+                    list.Skip(userInput.SkipCount).Take(userInput.MaxResultCount)
+                    .ToList()
+                )
+            );
+        }
+
+        [Authorize(IdentityPermissions.Roles.Default)]
+        public virtual async Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId, PagedAndSortedResultRequestDto roleInput)
+        {
+            if (!ouId.HasValue)
+            {
+                return await RoleAppService.GetListAsync(roleInput);
+            }
+            IEnumerable<IdentityRole> list = new List<IdentityRole>();
+            var ou = await UnitRepository.GetAsync(ouId.Value);
+            var selfAndChildren = await UnitRepository.GetAllChildrenWithParentCodeAsync(ou.Code, ou.Id);
+            selfAndChildren.Add(ou);
+            foreach (var child in selfAndChildren)
+            {
+                list = Enumerable.Union(list, await UnitRepository.GetRolesAsync(
+                       child,
+                       roleInput.Sorting
+                ));
+            }
+            return new PagedResultDto<IdentityRoleDto>(
+                list.Count(),
+                ObjectMapper.Map<List<IdentityRole>, List<IdentityRoleDto>>(
+                    list.Skip(roleInput.SkipCount).Take(roleInput.MaxResultCount)
                     .ToList()
                 )
             );

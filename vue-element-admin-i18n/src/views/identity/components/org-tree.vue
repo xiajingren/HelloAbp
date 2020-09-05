@@ -12,10 +12,13 @@
       :props="orgTreeProps"
       :filter-node-method="filterOrg"
       :expand-on-click-node="false"
+      :show-checkbox="showCheckbox"
+      :check-strictly="checkStrictly"
       node-key="id"
       highlight-current
       default-expand-all
       @node-click="handleOrgClick"
+      @check-change="checkChange"
     />
   </div>
 </template>
@@ -24,12 +27,14 @@
 import {
   getOrganizationsAllWithDetails
 } from '@/api/identity/organization'
+import { Tree } from 'element-ui'
 export default {
   name: 'OrgTree',
+  mixins: [Tree],
   props: {
     orgTreeNodeClick: {
       type: Function,
-      default: null
+      default: () => {}
     }
   },
   data() {
@@ -69,6 +74,19 @@ export default {
     filterOrg(value, data) {
       if (!value) return true
       return data.displayName.indexOf(value) !== -1
+    },
+    checkChange(data, checked, indeterminate) {
+      const keys = this.$refs.orgTree.getCheckedKeys()
+      console.log(keys, 'keys.length:', keys.length)
+      if (keys.length > 1) {
+        // this.$message({
+        //   message: '只能选择一个组织',
+        //   type: 'warning',
+        //   showClose: true
+        // })
+        this.$refs.orgTree.setCheckedKeys([])
+        this.$refs.orgTree.setChecked(data.id, true)
+      }
     }
   }
 }

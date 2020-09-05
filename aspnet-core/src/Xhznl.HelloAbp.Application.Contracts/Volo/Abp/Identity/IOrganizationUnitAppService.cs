@@ -27,6 +27,7 @@ namespace Volo.Abp.Identity
 
         Task MoveAsync(Guid id, Guid? parentId);
 
-        Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId,GetIdentityUsersInput usersInput);
+        Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId,GetIdentityUsersInput userInput);
+        Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId, PagedAndSortedResultRequestDto roleInput);
     }
 }

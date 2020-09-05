@@ -77,6 +77,14 @@ export function getOrgUsers(query) {
   })
 }
 
+export function getOrgRoles(query) {
+  return request({
+    url: '/api/identity/organizations/roles',
+    method: 'get',
+    params: transformAbpListQuery(query)
+  })
+}
+
 export function createOrganization(payload) {
   return request({
     url: '/api/identity/organizations',

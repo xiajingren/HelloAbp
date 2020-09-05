@@ -3,6 +3,7 @@
     <el-row :gutter="0">
       <el-col :span="4">
         <org-tree
+          ref="userOrgTree"
           :org-tree-node-click="handleOrgTreeNodeClick"
         />
       </el-col>
@@ -200,6 +201,16 @@
                       style="width:100%;"
                     />
                   </el-checkbox-group>
+                </el-form-item>
+              </el-tab-pane>
+              <el-tab-pane :label="$t('AbpIdentity[\'OrganitaionUnits\']')">
+                <el-form-item>
+                  <org-tree
+                    ref="dialogOrgTree"
+                    :show-checkbox="true"
+                    :check-strictly="true"
+                    @check-change="handleCheckChange"
+                  />
                 </el-form-item>
               </el-tab-pane>
             </el-tabs>
@@ -582,6 +593,13 @@ export default {
     handleOrgTreeNodeClick(data) {
       this.listQuery.ouId = data.id
       this.handleFilter()
+    },
+    handleDialogOrgTreeNodeClick() {
+
+    },
+    handleCheckChange(data, checked, indeterminate) {
+      var orgIds = this.$refs.dialogOrgTree.$refs.orgTree.getCheckedKeys
+      console.log('orgIds-select:', orgIds)
     }
   }
 }
