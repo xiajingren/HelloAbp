@@ -11,6 +11,6 @@ namespace Volo.Abp.Identity
         {
             Children = new List<OrganizationUnitDetailDto>();
         }
-        public List<OrganizationUnitDetailDto> Children { get; set; }
+        public new List<OrganizationUnitDetailDto> Children { get; set; }
     }
 }
