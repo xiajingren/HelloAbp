@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.TestBase" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="3.0.5" />
-    <PackageReference Include="Volo.Abp.Authorization" Version="3.0.5" />
+    <PackageReference Include="Volo.Abp.TestBase" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="3.1.0" />
     <ProjectReference Include="..\..\src\Xhznl.HelloAbp.Domain\Xhznl.HelloAbp.Domain.csproj" />
   </ItemGroup>
 

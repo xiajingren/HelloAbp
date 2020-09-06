@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using Xhznl.HelloAbp.EntityFrameworkCore;
@@ -10,9 +11,10 @@ using Xhznl.HelloAbp.EntityFrameworkCore;
 namespace Xhznl.HelloAbp.Migrations
 {
     [DbContext(typeof(HelloAbpMigrationsDbContext))]
-    partial class HelloAbpMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200906113249_upgrade_3.1.0")]
+    partial class upgrade_310
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
