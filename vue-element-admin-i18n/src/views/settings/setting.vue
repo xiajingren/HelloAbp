@@ -7,68 +7,73 @@
         :key="group.groupName"
         :label="group.groupDisplayName"
       >
-        <el-card
-          v-for="card in group.settingInfos"
-          :key="card[0].properties.Group2"
-          class="box-card"
-        >
-          <div
-            slot="header"
-            class="clearfix"
+        <el-tabs tab-position="top">
+          <el-tab-pane
+            v-for="card in group.settingInfos"
+            :key="card[0].properties.Group2"
+            :label="$t(`SettingUi.${card[0].properties.Group2}`)"
           >
-            <span>{{ $t(`SettingUi.${card[0].properties.Group2}`) }}</span>
-          </div>
-          <div class="text item">
-            <el-form
-              :ref="card[0].properties.Group2"
-              label-position="top"
+            <el-card
+              class="box-card"
             >
-              <el-form-item
-                v-for="info in card"
-                :key="info.name"
-                :label="info.displayName"
+              <div
+                slot="header"
+                class="clearfix"
               >
-                <div v-if="info.properties.Type==='number' || info.properties.Type==='text'">
-                  <label :for="info.name">{{ info.description }}</label>
-                  <el-input
-                    :id="info.name"
-                    v-model="info.value"
-                    :type="info.properties.Type"
-                    :name="info.formName"
-                  />
-                </div>
-                <div v-if="info.properties.Type==='checkbox'">
-                  <el-checkbox
-                    :id="info.name"
-                    v-model="info.value"
-                    :name="info.formName"
-                    :checked="info.value==='true' || info.value==='True'"
-                  >{{ info.description }}</el-checkbox>
-                </div>
-                <div v-if="info.properties.Type==='select'">
-                  <label :for="info.name">{{ info.description }}</label>
-                  <el-select
-                    :id="info.name"
-                    v-model="info.value"
-                    :name="info.formName"
+                <span>{{ $t(`SettingUi.${card[0].properties.Group2}`) }}</span>
+              </div>
+              <div class="text item">
+                <el-form
+                  :ref="card[0].properties.Group2"
+                  label-position="top"
+                >
+                  <el-form-item
+                    v-for="info in card"
+                    :key="info.name"
+                    :label="info.displayName"
                   >
-                    <el-option
-                      v-for="item in info.properties.Options.split('|')"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                    />
-                  </el-select>
-                </div>
-              </el-form-item>
-              <el-button
-                type="primary"
-                @click="updateSettingValues(card[0].properties.Group2,sIndex)"
-              >{{ $t('SettingUi.Save') }}</el-button>
-            </el-form>
-          </div>
-        </el-card>
-
+                    <div v-if="info.properties.Type==='number' || info.properties.Type==='text'">
+                      <label :for="info.name">{{ info.description }}</label>
+                      <el-input
+                        :id="info.name"
+                        v-model="info.value"
+                        :type="info.properties.Type"
+                        :name="info.formName"
+                      />
+                    </div>
+                    <div v-if="info.properties.Type==='checkbox'">
+                      <el-checkbox
+                        :id="info.name"
+                        v-model="info.value"
+                        :name="info.formName"
+                        :checked="info.value==='true' || info.value==='True'"
+                      >{{ info.description }}</el-checkbox>
+                    </div>
+                    <div v-if="info.properties.Type==='select'">
+                      <label :for="info.name">{{ info.description }}</label>
+                      <el-select
+                        :id="info.name"
+                        v-model="info.value"
+                        :name="info.formName"
+                      >
+                        <el-option
+                          v-for="item in info.properties.Options.split('|')"
+                          :key="item"
+                          :label="item"
+                          :value="item"
+                        />
+                      </el-select>
+                    </div>
+                  </el-form-item>
+                  <el-button
+                    type="primary"
+                    @click="updateSettingValues(card[0].properties.Group2,sIndex)"
+                  >{{ $t('SettingUi.Save') }}</el-button>
+                </el-form>
+              </div>
+            </el-card>
+          </el-tab-pane>
+        </el-tabs>
       </el-tab-pane>
     </el-tabs>
 
