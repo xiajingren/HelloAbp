@@ -108,5 +108,19 @@ namespace Volo.Abp.Identity
         {
             return UnitAppService.GetNextChildCodeAsync(parentId);
         }
+
+        [HttpGet]
+        [Route("users")]
+        public Task<PagedResultDto<IdentityUserDto>> GetUsersAsync(Guid? ouId, GetIdentityUsersInput usersInput)
+        {
+            return UnitAppService.GetUsersAsync(ouId, usersInput);
+        }
+
+        [HttpGet]
+        [Route("roles")]
+        public Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId, PagedAndSortedResultRequestDto roleInput)
+        {
+            return UnitAppService.GetRolesAsync(ouId, roleInput);
+        }
     }
 }

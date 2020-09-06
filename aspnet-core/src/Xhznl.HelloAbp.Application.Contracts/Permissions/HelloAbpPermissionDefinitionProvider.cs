@@ -19,6 +19,9 @@ namespace Xhznl.HelloAbp.Permissions
 
             var userPermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Users.Default);
             userPermission?.AddChild(HelloIdentityPermissions.Users.DistributionOrganizationUnit, IdentityL("Permission:DistributionOrganizationUnit"));
+            
+            var rolePermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Roles.Default);
+            rolePermission?.AddChild(HelloIdentityPermissions.Roles.AddOrganizationUnitRole, IdentityL("Permission:AddOrganizationUnitRole"));
         }
 
         private static LocalizableString L(string name)

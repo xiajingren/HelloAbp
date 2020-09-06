@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <!-- <div class="filter-container">
-      <el-input
+    <div class="filter-container">
+      <!-- <el-input
         v-model="listQuery.filter"
         :placeholder="$t('AbpUi[\'PagerSearch\']')"
         style="width: 200px;"
         class="filter-item"
         @keyup.enter.native="handleRefresh"
-      />
+      /> -->
       <el-button
         v-if="checkPermission('AbpIdentity.OrganitaionUnits.Create')"
         class="filter-item"
@@ -18,7 +18,7 @@
       >
         {{ $t("AbpIdentity['NewOrganitaionUnit']") }}
       </el-button>
-    </div> -->
+    </div>
     <el-table
       :data="list"
       :load="loadChildren"
@@ -98,11 +98,6 @@
         label-position="right"
         label-width="120px"
       >
-        <el-form-item
-          prop="parentId"
-        >
-          <el-input v-model="temp.parentId" type="hidden" />
-        </el-form-item>
         <el-form-item
           v-if="currentParentName!==''"
           :label="$t('AbpIdentity[\'OUParentDisplayName\']')"
@@ -196,7 +191,6 @@ export default {
       })
     },
     createData() {
-      console.log('Organizations-createData-params:', this.temp)
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           createOrganization(this.temp).then(() => {

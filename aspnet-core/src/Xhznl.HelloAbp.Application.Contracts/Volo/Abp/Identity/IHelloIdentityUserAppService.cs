@@ -10,5 +10,7 @@ namespace Volo.Abp.Identity
     public interface IHelloIdentityUserAppService : IApplicationService
     {
         Task AddToOrganizationUnitAsync(Guid userId, Guid ouId);
+
+        Task<IdentityUserDto> CreateAsync(IdentityUserOrgCreateDto input);
     }
 }

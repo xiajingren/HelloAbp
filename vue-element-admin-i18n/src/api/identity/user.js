@@ -24,6 +24,14 @@ export function createUser(payload) {
   })
 }
 
+export function createUserToOrg(payload) {
+  return request({
+    url: '/api/identity/users/create-to-organization',
+    method: 'post',
+    data: payload
+  })
+}
+
 export function updateUser(payload) {
   return request({
     url: `/api/identity/users/${payload.id}`,

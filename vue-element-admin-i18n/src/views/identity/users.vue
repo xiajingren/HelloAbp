@@ -2,7 +2,10 @@
   <div class="app-container">
     <el-row :gutter="0">
       <el-col :span="4">
-        <org-tree />
+        <org-tree
+          ref="userOrgTree"
+          :org-tree-node-click="handleOrgTreeNodeClick"
+        />
       </el-col>
       <el-col :span="18">
         <div class="filter-container">
@@ -22,6 +25,14 @@
             @click="handleCreate"
           >
             {{ $t("AbpIdentity['NewUser']") }}
+          </el-button>
+          <el-button
+            class="filter-item"
+            style="margin-left: 10px;"
+            icon="el-icon-refresh"
+            @click="handleRefresh"
+          >
+            {{ $t("AbpIdentity['Refresh']") }}
           </el-button>
         </div>
 
@@ -192,9 +203,22 @@
                   </el-checkbox-group>
                 </el-form-item>
               </el-tab-pane>
+              <el-tab-pane :label="$t('AbpIdentity[\'OrganitaionUnits\']')">
+                <el-form-item>
+                  <org-tree
+                    ref="dialogOrgTree"
+                    :show-checkbox="true"
+                    :check-strictly="true"
+                    @handleCheckChange="handleCheckChange"
+                  />
+                </el-form-item>
+              </el-tab-pane>
             </el-tabs>
           </el-form>
-          <div slot="footer" class="dialog-footer">
+          <div
+            slot="footer"
+            class="dialog-footer"
+          >
             <el-button @click="dialogFormVisible = false">
               {{ $t("AbpIdentity['Cancel']") }}
             </el-button>
@@ -207,7 +231,10 @@
           </div>
         </el-dialog>
 
-        <permission-dialog ref="permissionDialog" provider-name="U" />
+        <permission-dialog
+          ref="permissionDialog"
+          provider-name="U"
+        />
       </el-col>
     </el-row>
   </div>
@@ -215,14 +242,17 @@
 
 <script>
 import {
-  getUsers,
-  createUser,
+  // getUsers,
+  createUserToOrg,
   getUserById,
   updateUser,
   deleteUser,
   getRolesByUserId,
   getAssignableRoles
 } from '@/api/identity/user'
+import {
+  getOrgUsers
+} from '@/api/identity/organization'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
 import PermissionDialog from './components/permission-dialog'
@@ -316,6 +346,7 @@ export default {
       listLoading: true,
       listQuery: baseListQuery,
       temp: {
+        orgId: '',
         userName: '',
         email: '',
         name: '',
@@ -434,7 +465,7 @@ export default {
     checkPermission,
     getList() {
       this.listLoading = true
-      getUsers(this.listQuery).then(response => {
+      getOrgUsers(this.listQuery).then(response => {
         this.list = response.items
         this.total = response.totalCount
 
@@ -445,6 +476,10 @@ export default {
       if (firstPage) this.listQuery.page = 1
       this.getList()
     },
+    handleRefresh() {
+      this.listQuery.filter = undefined
+      this.getList()
+    },
     sortChange(data) {
       const { prop, order } = data
       this.listQuery.sort = order ? `${prop} ${order}` : undefined
@@ -452,6 +487,7 @@ export default {
     },
     resetTemp() {
       this.temp = {
+        orgId: '',
         userName: '',
         email: '',
         name: '',
@@ -478,7 +514,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          createUser(this.temp).then(() => {
+          createUserToOrg(this.temp).then(() => {
             this.handleFilter()
             this.dialogFormVisible = false
             this.$notify({
@@ -513,6 +549,8 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
+
+      // handle org
     },
     updateData() {
       this.$refs['dataForm'].validate(valid => {
@@ -555,6 +593,16 @@ export default {
     },
     handleUpdatePermission(row) {
       this.$refs['permissionDialog'].handleUpdatePermission(row)
+    },
+    handleOrgTreeNodeClick(data) {
+      this.listQuery.ouId = data.id
+      this.handleFilter()
+    },
+    handleCheckChange(data) {
+      console.log('handleCheckChange:', data)
+      if (data.id) {
+        this.temp.orgId = data.id
+      }
     }
   }
 }

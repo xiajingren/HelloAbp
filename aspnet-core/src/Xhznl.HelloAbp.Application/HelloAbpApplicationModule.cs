@@ -25,9 +25,7 @@ namespace Xhznl.HelloAbp
     public class HelloAbpApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            context.Services.TryAddTransient<IHelloIdentityUserAppService,HelloIdentityUserAppService>();
-
+        {           
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<HelloAbpApplicationModule>();

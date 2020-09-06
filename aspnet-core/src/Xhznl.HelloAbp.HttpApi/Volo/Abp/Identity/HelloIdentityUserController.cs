@@ -29,5 +29,12 @@ namespace Volo.Abp.Identity
         {
             return UserAppService.AddToOrganizationUnitAsync(userId, ouId);
         }
+
+        [HttpPost]
+        [Route("create-to-organization")]
+        public Task<IdentityUserDto> CreateAsync(IdentityUserOrgCreateDto input)
+        {
+            return UserAppService.CreateAsync(input);
+        }
     }
 }

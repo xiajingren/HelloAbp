@@ -10,7 +10,10 @@ namespace Volo.Abp.Identity
 {
     [RemoteService(IsEnabled = false)]
     [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IIdentityUserAppService), typeof(IdentityUserAppService))]
+    [ExposeServices(typeof(IIdentityUserAppService), 
+        typeof(IdentityUserAppService),
+        typeof(IHelloIdentityUserAppService),
+        typeof(HelloIdentityUserAppService))]
     public class HelloIdentityUserAppService : IdentityUserAppService, IHelloIdentityUserAppService
     {
         private readonly IStringLocalizer<HelloAbpResource> _localizer;
@@ -33,6 +36,20 @@ namespace Volo.Abp.Identity
             }
 
             return await base.CreateAsync(input);
+        }
+
+        [Authorize(IdentityPermissions.Users.Create)]
+        [Authorize(HelloIdentityPermissions.Users.DistributionOrganizationUnit)]
+        public virtual async Task<IdentityUserDto> CreateAsync(IdentityUserOrgCreateDto input)
+        {
+            var identity = await CreateAsync(
+                ObjectMapper.Map<IdentityUserOrgCreateDto, IdentityUserCreateDto>(input)
+            );
+            if (input.OrgId.HasValue)
+            {
+                await AddToOrganizationUnitAsync(identity.Id, input.OrgId.Value);
+            }
+            return identity;
         }
 
         [Authorize(HelloIdentityPermissions.Users.DistributionOrganizationUnit)]
