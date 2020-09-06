@@ -10,7 +10,10 @@ namespace Volo.Abp.Identity
 {
     [RemoteService(IsEnabled = false)]
     [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IIdentityUserAppService), typeof(IdentityUserAppService),typeof(HelloIdentityUserAppService))]
+    [ExposeServices(typeof(IIdentityUserAppService), 
+        typeof(IdentityUserAppService),
+        typeof(IHelloIdentityUserAppService),
+        typeof(HelloIdentityUserAppService))]
     public class HelloIdentityUserAppService : IdentityUserAppService, IHelloIdentityUserAppService
     {
         private readonly IStringLocalizer<HelloAbpResource> _localizer;
