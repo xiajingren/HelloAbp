@@ -32,6 +32,10 @@ export default {
   name: 'OrgTree',
   mixins: [Tree],
   props: {
+    supportSingleChecked: {
+      type: Boolean,
+      default: false
+    },
     orgTreeNodeClick: {
       type: Function,
       default: () => {}
@@ -78,7 +82,7 @@ export default {
     checkChange(data, checked, indeterminate) {
       if (checked) {
         const keys = this.$refs.orgTree.getCheckedKeys()
-        if (keys.length > 1) {
+        if (this.supportSingleChecked && keys.length > 1) {
         // this.$message({
         //   message: '只能选择一个组织',
         //   type: 'warning',
@@ -87,7 +91,7 @@ export default {
           this.$refs.orgTree.setCheckedKeys([])
           this.$refs.orgTree.setChecked(data, true)
         }
-        this.$emit('handleCheckChange', data)
+        this.$emit('handleCheckChange', data, keys)
       }
     }
   }

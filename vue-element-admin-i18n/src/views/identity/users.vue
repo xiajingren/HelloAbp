@@ -209,6 +209,7 @@
                     ref="dialogOrgTree"
                     :show-checkbox="true"
                     :check-strictly="true"
+                    :support-single-checked="singleChecked"
                     @handleCheckChange="handleCheckChange"
                   />
                 </el-form-item>
@@ -345,6 +346,7 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: baseListQuery,
+      singleChecked: true,
       temp: {
         orgId: '',
         userName: '',
@@ -502,6 +504,8 @@ export default {
       this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
+      // create org has single check
+      this.singleChecked = true
 
       getAssignableRoles().then(response => {
         this.assignableRoles = response.items
@@ -531,6 +535,8 @@ export default {
       this.temp = Object.assign({ roleNames: [] }, row) // copy obj
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
+      // update can check many
+      this.singleChecked = false
 
       getUserById(row.id).then(response => {
         this.temp = Object.assign({ roleNames: [] }, response)
@@ -546,11 +552,11 @@ export default {
         this.assignableRoles = response.items
       })
 
+      // handle org
+
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
-
-      // handle org
     },
     updateData() {
       this.$refs['dataForm'].validate(valid => {
@@ -598,8 +604,8 @@ export default {
       this.listQuery.ouId = data.id
       this.handleFilter()
     },
-    handleCheckChange(data) {
-      console.log('handleCheckChange:', data)
+    handleCheckChange(data, orgIds) {
+      console.log('handleCheckChange:', data, orgIds)
       if (data.id) {
         this.temp.orgId = data.id
       }
