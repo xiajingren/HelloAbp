@@ -40,7 +40,7 @@ namespace Volo.Abp.Identity
             );
             if (input.OrgId.HasValue)
             {
-                await OrgManager.AddRoleToOrganizationUnitAsync(input.OrgId.Value, role.Id);
+                await OrgManager.AddRoleToOrganizationUnitAsync(role.Id,input.OrgId.Value);
             }
             return role;
         }
