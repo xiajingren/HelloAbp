@@ -80,17 +80,23 @@ export default {
       return data.displayName.indexOf(value) !== -1
     },
     checkChange(data, checked, indeterminate) {
-      if (checked) {
-        const keys = this.$refs.orgTree.getCheckedKeys()
-        if (this.supportSingleChecked && keys.length > 1) {
-        // this.$message({
-        //   message: '只能选择一个组织',
-        //   type: 'warning',
-        //   showClose: true
-        // })
-          this.$refs.orgTree.setCheckedKeys([])
-          this.$refs.orgTree.setChecked(data, true)
+      // 单个
+      let keys = ''
+      if (this.supportSingleChecked) {
+        if (checked) {
+          console.log(data, checked, indeterminate)
+          keys = this.$refs.orgTree.getCheckedKeys()
+          if (keys.length > 1) {
+            this.$refs.orgTree.setCheckedKeys([])
+            this.$refs.orgTree.setChecked(data, true)
+            keys = this.$refs.orgTree.getCheckedKeys()
+          }
+          console.log('单个-keys:', keys)
+          this.$emit('handleCheckChange', data, keys)
         }
+      } else {
+        keys = this.$refs.orgTree.getCheckedKeys()
+        console.log('多个-keys:', keys)
         this.$emit('handleCheckChange', data, keys)
       }
     }

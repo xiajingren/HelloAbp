@@ -246,10 +246,12 @@ import {
   // getUsers,
   createUserToOrg,
   getUserById,
-  updateUser,
+  // updateUser,
+  updateUserToOrg,
   deleteUser,
   getRolesByUserId,
-  getAssignableRoles
+  getAssignableRoles,
+  getOrganizationsByUserId
 } from '@/api/identity/user'
 import {
   getOrgUsers
@@ -346,9 +348,9 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: baseListQuery,
-      singleChecked: true,
+      singleChecked: false,
       temp: {
-        orgId: '',
+        orgIds: [],
         userName: '',
         email: '',
         name: '',
@@ -489,7 +491,7 @@ export default {
     },
     resetTemp() {
       this.temp = {
-        orgId: '',
+        orgIds: [],
         userName: '',
         email: '',
         name: '',
@@ -504,14 +506,15 @@ export default {
       this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
-      // create org has single check
-      this.singleChecked = true
+      // create org
+      this.singleChecked = false
 
       getAssignableRoles().then(response => {
         this.assignableRoles = response.items
       })
 
       this.$nextTick(() => {
+        this.$refs.dialogOrgTree.$refs.orgTree.setCheckedKeys([])
         this.$refs['dataForm'].clearValidate()
       })
     },
@@ -553,15 +556,22 @@ export default {
       })
 
       // handle org
+      getOrganizationsByUserId(row.id).then(response => {
+        const ids = this.temp.orgIds = response.items.map(item => item.id)
+        // 2.bind checked
+        this.$refs.dialogOrgTree.$refs.orgTree.setCheckedKeys(ids)
+      })
 
       this.$nextTick(() => {
+        // 1.reset dialog tree
+        this.$refs.dialogOrgTree.$refs.orgTree.setCheckedKeys([])
         this.$refs['dataForm'].clearValidate()
       })
     },
     updateData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          updateUser(this.temp).then(() => {
+          updateUserToOrg(this.temp).then(() => {
             this.handleFilter(false)
             this.dialogFormVisible = false
             this.$notify({
@@ -605,9 +615,9 @@ export default {
       this.handleFilter()
     },
     handleCheckChange(data, orgIds) {
-      console.log('handleCheckChange:', data, orgIds)
-      if (data.id) {
-        this.temp.orgId = data.id
+      // singleChecked
+      if (orgIds) {
+        this.temp.orgIds = orgIds
       }
     }
   }

@@ -28,9 +28,10 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
       // user name
-      const name = store.getters.name
+      // modify name to userName;there is bug when the name is null(name can be null when create user)
+      const userName = store.getters.userName
 
-      if (name) {
+      if (userName) {
         next()
       } else {
         try {

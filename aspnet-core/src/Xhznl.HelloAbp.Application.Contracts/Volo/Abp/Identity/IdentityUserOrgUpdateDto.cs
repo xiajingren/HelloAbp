@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Volo.Abp.Identity
 {
-    public class IdentityUserOrgCreateDto: IdentityUserCreateDto
+    public class IdentityUserOrgUpdateDto : IdentityUserUpdateDto
     {
         public List<Guid> OrgIds { get; set; }
     }

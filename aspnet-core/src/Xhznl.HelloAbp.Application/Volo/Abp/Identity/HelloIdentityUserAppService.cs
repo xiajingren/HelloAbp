@@ -5,12 +5,15 @@ using Microsoft.Extensions.Localization;
 using Volo.Abp.DependencyInjection;
 using Xhznl.HelloAbp.Features;
 using Xhznl.HelloAbp.Localization;
+using Volo.Abp.Application.Dtos;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Volo.Abp.Identity
 {
     [RemoteService(IsEnabled = false)]
     [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IIdentityUserAppService), 
+    [ExposeServices(typeof(IIdentityUserAppService),
         typeof(IdentityUserAppService),
         typeof(IHelloIdentityUserAppService),
         typeof(HelloIdentityUserAppService))]
@@ -45,24 +48,35 @@ namespace Volo.Abp.Identity
             var identity = await CreateAsync(
                 ObjectMapper.Map<IdentityUserOrgCreateDto, IdentityUserCreateDto>(input)
             );
-            if (input.OrgId.HasValue)
+            if (input.OrgIds != null)
             {
-                await AddToOrganizationUnitAsync(identity.Id, input.OrgId.Value);
+                await UserManager.SetOrganizationUnitsAsync(identity.Id, input.OrgIds.ToArray());
             }
             return identity;
         }
 
         [Authorize(HelloIdentityPermissions.Users.DistributionOrganizationUnit)]
-        public virtual async Task AddToOrganizationUnitAsync(Guid userId, Guid ouId)
+        public virtual async Task AddToOrganizationUnitsAsync(Guid userId, List<Guid> ouIds)
         {
-            if (await UserManager.IsInOrganizationUnitAsync(userId, ouId))
-            {
-                // TODO:Replace the ID with the name later
-                throw new UserFriendlyException(_localizer["Identity.OrganizationUnit.MemberExists", userId, ouId]);
-            }
-            await UserManager.AddToOrganizationUnitAsync(userId, ouId);
+            await UserManager.SetOrganizationUnitsAsync(userId, ouIds.ToArray());
         }
 
+        public virtual async Task<ListResultDto<OrganizationUnitDto>> GetListOrganizationUnitsAsync(Guid id, bool includeDetails = false)
+        {
+            var list = await UserRepository.GetOrganizationUnitsAsync(id, includeDetails);
+            return new ListResultDto<OrganizationUnitDto>(
+                ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(list)
+            );
+        }
 
+        [Authorize(IdentityPermissions.Users.Update)]
+        [Authorize(HelloIdentityPermissions.Users.DistributionOrganizationUnit)]
+        public virtual async Task<IdentityUserDto> UpdateAsync(Guid id, IdentityUserOrgUpdateDto input)
+        {
+            var update = ObjectMapper.Map<IdentityUserOrgUpdateDto, IdentityUserUpdateDto>(input);
+            var result = await base.UpdateAsync(id, update);
+            await UserManager.SetOrganizationUnitsAsync(result.Id, input.OrgIds.ToArray());
+            return result;
+        }
     }
 }

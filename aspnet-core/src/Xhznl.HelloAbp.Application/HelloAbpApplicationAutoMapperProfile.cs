@@ -15,8 +15,10 @@ namespace Xhznl.HelloAbp
                 .MapExtraProperties();
 
             CreateMap<IdentityUserOrgCreateDto, IdentityUserCreateDto>();
+            CreateMap<IdentityUserOrgUpdateDto, IdentityUserUpdateDto>();
 
             CreateMap<IdentityRoleOrgCreateDto, IdentityRoleCreateDto>();
+                       
         }
     }
 }

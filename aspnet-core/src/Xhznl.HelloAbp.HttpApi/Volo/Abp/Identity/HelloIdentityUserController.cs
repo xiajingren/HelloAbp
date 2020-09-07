@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Volo.Abp.Identity
@@ -21,20 +23,34 @@ namespace Volo.Abp.Identity
         /// Add members to the organizational unit
         /// </summary>
         /// <param name="userId">userId</param>
-        /// <param name="ouId">ouId</param>
+        /// <param name="ouIds">ouId</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("{userId}/add-to-organization/{ouId}")]
-        public virtual Task AddToOrganizationUnitAsync(Guid userId, Guid ouId)
+        [Route("{userId}/add-to-organizations")]
+        public virtual Task AddToOrganizationUnitsAsync(Guid userId, List<Guid> ouIds)
         {
-            return UserAppService.AddToOrganizationUnitAsync(userId, ouId);
+            return UserAppService.AddToOrganizationUnitsAsync(userId, ouIds);
         }
 
         [HttpPost]
-        [Route("create-to-organization")]
-        public Task<IdentityUserDto> CreateAsync(IdentityUserOrgCreateDto input)
+        [Route("create-to-organizations")]
+        public virtual Task<IdentityUserDto> CreateAsync(IdentityUserOrgCreateDto input)
         {
             return UserAppService.CreateAsync(input);
+        }
+
+        [HttpGet]
+        [Route("{id}/organizations")]
+        public virtual Task<ListResultDto<OrganizationUnitDto>> GetListOrganizationUnitsAsync(Guid id, bool includeDetails = false)
+        {
+            return UserAppService.GetListOrganizationUnitsAsync(id, includeDetails);
+        }
+
+        [HttpPut]
+        [Route("{id}/update-to-organizations")]
+        public virtual Task<IdentityUserDto> UpdateAsync(Guid id, IdentityUserOrgUpdateDto input)
+        {
+            return UserAppService.UpdateAsync(id, input);
         }
     }
 }

@@ -48,15 +48,17 @@ namespace Xhznl.HelloAbp
 
         private static void SeedTestData(ApplicationInitializationContext context)
         {
-            AsyncHelper.RunSync(async () =>
+            using (var scope = context.ServiceProvider.CreateScope())
             {
-                using (var scope = context.ServiceProvider.CreateScope())
+                var dataSender = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+                AsyncHelper.RunSync(async () =>
                 {
-                    await scope.ServiceProvider
-                        .GetRequiredService<IDataSeeder>()
-                        .SeedAsync();
-                }
-            });
+                    await dataSender.SeedAsync();
+                    //await scope.ServiceProvider
+                    //    .GetRequiredService<AbpIdentityTestDataBuilder>()
+                    //    .Build();
+                });
+            }
         }
     }
 }
