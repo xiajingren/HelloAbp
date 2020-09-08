@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
-      <el-col :span="4">
+    <el-row :gutter="0">
+      <el-col :span="6">
         <org-tree
           ref="roleOrgTree"
           :org-tree-node-click="handleOrgTreeNodeClick"
@@ -231,6 +231,7 @@ export default {
     handleRefresh() {
       this.listQuery.ouId = undefined
       this.$refs.roleOrgTree.$refs.orgTree.setCurrentKey(null)
+      this.orgData = null
       this.handleFilter()
     },
     sortChange(data) {

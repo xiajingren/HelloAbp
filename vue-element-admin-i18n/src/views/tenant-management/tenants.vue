@@ -97,7 +97,7 @@
       @pagination="getList"
     />
 
-    <tenant-dialog ref="dialogDialog" @handleFilter="handleFilter" />
+    <tenant-dialog ref="tenantDialog" @handleFilter="handleFilter" />
     <connectionstring-dialog ref="connectionstringDialog" />
     <feature-dialog ref="featureDialog" provider-name="T" />
   </div>
@@ -155,10 +155,10 @@ export default {
       this.handleFilter()
     },
     handleCreate() {
-      this.$refs['dialogDialog'].handleCreate()
+      this.$refs['tenantDialog'].handleCreate()
     },
     handleUpdate(row) {
-      this.$refs['dialogDialog'].handleUpdate(row)
+      this.$refs['tenantDialog'].handleUpdate(row)
     },
     handleDelete(row, index) {
       this.$confirm(

@@ -17,7 +17,7 @@ const identityRouter = {
     {
       path: 'organizations',
       component: () => import('@/views/identity/organizations'),
-      name: 'OrganizaitonUnits',
+      name: 'Organizations',
       meta: { title: 'AbpIdentity["OrganitaionUnits"]', policy: 'AbpIdentity.OrganitaionUnits' }
     },
     {

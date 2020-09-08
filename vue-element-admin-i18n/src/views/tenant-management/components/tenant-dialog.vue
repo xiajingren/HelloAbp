@@ -12,7 +12,7 @@
       :rules="rules"
       :model="temp"
       label-position="right"
-      label-width="120px"
+      label-width="180px"
     >
       <el-form-item
         :label="$t('AbpTenantManagement[\'TenantName\']')"
