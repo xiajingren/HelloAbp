@@ -13,6 +13,7 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Identity.Localization;
+using Volo.Abp.AuditLogging.Localization;
 
 namespace Xhznl.HelloAbp
 {
@@ -55,7 +56,11 @@ namespace Xhznl.HelloAbp
                 options.Resources
                     .Get<IdentityResource>()
                     .AddVirtualJson("/Volo/Abp/Identity/Localization/HelloAbp");
-                
+
+                options.Resources
+                    .Get<AuditLoggingResource>()
+                    .AddVirtualJson("/Volo/Abp/Identity/Localization");
+
                 options.DefaultResourceType = typeof(HelloAbpResource);
             });
         }

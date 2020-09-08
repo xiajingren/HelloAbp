@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Volo.Abp.AuditLogging;
 using Volo.Abp.Identity;
 
 namespace Xhznl.HelloAbp
@@ -18,7 +19,11 @@ namespace Xhznl.HelloAbp
             CreateMap<IdentityUserOrgUpdateDto, IdentityUserUpdateDto>();
 
             CreateMap<IdentityRoleOrgCreateDto, IdentityRoleCreateDto>();
-                       
+
+            //AuditLog
+            CreateMap<AuditLog, AuditLogDto>()
+                .MapExtraProperties();
+
         }
     }
 }

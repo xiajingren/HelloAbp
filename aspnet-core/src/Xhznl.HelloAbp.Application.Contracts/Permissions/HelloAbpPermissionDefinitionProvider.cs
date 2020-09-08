@@ -3,6 +3,8 @@ using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.Localization;
+using Volo.Abp.AuditLogging;
+using Volo.Abp.AuditLogging.Localization;
 
 namespace Xhznl.HelloAbp.Permissions
 {
@@ -19,9 +21,14 @@ namespace Xhznl.HelloAbp.Permissions
 
             var userPermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Users.Default);
             userPermission?.AddChild(HelloIdentityPermissions.Users.DistributionOrganizationUnit, IdentityL("Permission:DistributionOrganizationUnit"));
-            
+
             var rolePermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Roles.Default);
             rolePermission?.AddChild(HelloIdentityPermissions.Roles.AddOrganizationUnitRole, IdentityL("Permission:AddOrganizationUnitRole"));
+
+            //AuditLogging
+            var auditLogGroup = context.AddGroup(AuditLogPermissions.GroupName);
+            var aduditLogPermission = auditLogGroup.AddPermission(AuditLogPermissions.AuditLogs.Default, AuditLoggingL("Permission:AuditLogManagement"));
+            aduditLogPermission.AddChild(AuditLogPermissions.AuditLogs.Default, AuditLoggingL("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)
@@ -32,6 +39,11 @@ namespace Xhznl.HelloAbp.Permissions
         private static LocalizableString IdentityL(string name)
         {
             return LocalizableString.Create<IdentityResource>(name);
+        }
+
+        private static LocalizableString AuditLoggingL(string name)
+        {
+            return LocalizableString.Create<AuditLoggingResource>(name);
         }
 
     }

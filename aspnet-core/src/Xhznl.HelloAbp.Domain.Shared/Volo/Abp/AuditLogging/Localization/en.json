@@ -1,0 +1,10 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:AuditLogManagement": "AuditLogManagement",
+    "Permission:AuditLogging": "AuditLogging",
+    "Permission:Delete": "Delete",
+    "AuditLogging": "AuditLogging",
+    "Menu:AuditLogging": "AuditLogging"
+  }
+}
