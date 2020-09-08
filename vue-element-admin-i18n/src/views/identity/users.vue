@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="0">
-      <el-col :span="4">
+      <el-col :span="6">
         <org-tree
           ref="userOrgTree"
           :org-tree-node-click="handleOrgTreeNodeClick"

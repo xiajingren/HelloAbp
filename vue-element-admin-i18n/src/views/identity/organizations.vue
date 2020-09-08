@@ -90,7 +90,7 @@
         dialogStatus==='createChild'?
           $t('AbpIdentity[\'NewOrganitaionUnitChild\']') :
           $t('AbpIdentity[\'Edit\']')"
-      :visible="dialogFormVisible"
+      :visible.sync="dialogFormVisible"
     >
       <el-form
         ref="dataForm"
@@ -164,7 +164,7 @@ export default {
     getList() {
       this.listLoading = true
       // 这里会出现感觉是重新刷新了(给人感觉不好的感觉),后期考虑下通过level进行控制返回层架数据,
-      this.list = null
+      this.list = []
       getOrganizationsRoot().then(response => {
         this.list = this.processingChildrenLeaf(response.items)
         this.listLoading = false
@@ -259,7 +259,7 @@ export default {
       })
     },
     handleRefresh(firstPage = true) {
-      if (firstPage) this.listQuery.page = 1
+      // if (firstPage) this.listQuery.page = 1
       this.getList()
     },
     resetTemp() {

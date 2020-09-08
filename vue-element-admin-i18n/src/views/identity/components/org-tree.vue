@@ -1,9 +1,9 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" style="padding:0 20px;">
     <div class="filter-container">
       <el-input
         v-model="filterText"
-        placeholder="输入关键字进行过滤"
+        :placeholder="$t('AbpUi[\'PagerSearch\']')"
       />
     </div>
     <el-tree
