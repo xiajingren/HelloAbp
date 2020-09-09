@@ -5,6 +5,25 @@
     "Permission:AuditLogging": "AuditLogging",
     "Permission:Delete": "Delete",
     "AuditLogging": "AuditLogging",
-    "Menu:AuditLogging": "AuditLogging"
+    "Menu:AuditLogging": "AuditLogging",
+    "HttpStatusCode": "×´Ì¬Âë",
+    "Comments": "comments",
+    "Exceptions": "exceptions",
+    "Url": "url",
+    "HttpMethod": "method",
+    "BrowserInfo": "browser",
+    "CorrelationId": "correlationId",
+    "ClientId": "clientId",
+    "ClientName": "clientName",
+    "ClientIpAddress": "clientIpAddress",
+    "ExecutionDuration": "executionDuration",
+    "ExecutionTime": "executionTime",
+    "ImpersonatorTenantId": "impersonatorTenantId",
+    "ImpersonatorUserId": "impersonatorUserId",
+    "TenantName": "tenantName",
+    "TenantId": "tenantId",
+    "UserName": "userName",
+    "UserId": "userId",
+    "ApplicationName": "applicationName"
   }
 }

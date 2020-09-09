@@ -10,6 +10,7 @@ import Layout from '@/layout'
 import identityRouter from './modules/identity'
 import tenantRouter from './modules/tenant'
 import settingRouter from './modules/setting'
+import auditlogRouter from './modules/auditlog'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -132,6 +133,7 @@ export const asyncRoutes = [
   identityRouter,
   tenantRouter,
   settingRouter,
+  auditlogRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

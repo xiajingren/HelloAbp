@@ -24,6 +24,12 @@ namespace Xhznl.HelloAbp
             CreateMap<AuditLog, AuditLogDto>()
                 .MapExtraProperties();
 
+            CreateMap<EntityChange, EntityChangeDto>()
+                .MapExtraProperties();
+
+            CreateMap<EntityPropertyChange, EntityPropertyChangeDto>();
+
+            CreateMap<AuditLogAction, AuditLogActionDto>();
         }
     }
 }

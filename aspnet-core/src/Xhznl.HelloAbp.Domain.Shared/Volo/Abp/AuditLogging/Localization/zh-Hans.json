@@ -5,6 +5,25 @@
     "Permission:AuditLogging": "审计日志",
     "Permission:Delete": "删除",
     "AuditLogging": "审计日志",
-    "Menu:AuditLogging":"审计日志"
+    "Menu:AuditLogging": "审计日志",
+    "HttpStatusCode": "状态码",
+    "Comments": "comments",
+    "Exceptions": "异常信息",
+    "Url": "地址",
+    "HttpMethod": "请求方法",
+    "BrowserInfo": "浏览器信息",
+    "CorrelationId": "correlationId",
+    "ClientId": "客户端ID",
+    "ClientName": "客户端名称",
+    "ClientIpAddress": "客户端IP",
+    "ExecutionDuration": "executionDuration",
+    "ExecutionTime": "请求时间",
+    "ImpersonatorTenantId": "impersonatorTenantId",
+    "ImpersonatorUserId": "impersonatorUserId",
+    "TenantName": "租户名称",
+    "TenantId": "租户ID",
+    "UserName": "用户名称",
+    "UserId": "用户ID",
+    "ApplicationName": "服务名称"
   }
 }

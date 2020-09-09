@@ -59,7 +59,7 @@ namespace Xhznl.HelloAbp
 
                 options.Resources
                     .Get<AuditLoggingResource>()
-                    .AddVirtualJson("/Volo/Abp/Identity/Localization");
+                    .AddVirtualJson("/Volo/Abp/AuditLogging/Localization");
 
                 options.DefaultResourceType = typeof(HelloAbpResource);
             });
