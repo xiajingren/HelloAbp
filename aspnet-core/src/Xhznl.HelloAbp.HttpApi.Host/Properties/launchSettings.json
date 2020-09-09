@@ -3,8 +3,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:44322",
-      "sslPort": 44322
+      "applicationUrl": "http://localhost:44322"
     }
   },
   "profiles": {
@@ -18,7 +17,7 @@
     "Xhznl.HelloAbp.HttpApi.Host": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44322",
+      "applicationUrl": "http://localhost:44322",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

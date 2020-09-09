@@ -99,7 +99,7 @@ namespace Xhznl.HelloAbp
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = configuration["AuthServer:Authority"];
-                    options.RequireHttpsMetadata = true;
+                    options.RequireHttpsMetadata = false;
                     options.ApiName = "HelloAbp";
                 });
         }

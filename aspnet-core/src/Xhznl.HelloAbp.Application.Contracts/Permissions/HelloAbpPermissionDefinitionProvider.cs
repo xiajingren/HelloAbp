@@ -28,7 +28,7 @@ namespace Xhznl.HelloAbp.Permissions
             //AuditLogging
             var auditLogGroup = context.AddGroup(AuditLogPermissions.GroupName);
             var aduditLogPermission = auditLogGroup.AddPermission(AuditLogPermissions.AuditLogs.Default, AuditLoggingL("Permission:AuditLogManagement"));
-            aduditLogPermission.AddChild(AuditLogPermissions.AuditLogs.Default, AuditLoggingL("Permission:Delete"));
+            aduditLogPermission.AddChild(AuditLogPermissions.AuditLogs.Delete, AuditLoggingL("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)
