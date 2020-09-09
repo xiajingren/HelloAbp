@@ -2,7 +2,10 @@
   <div class="app-container">
     <div class="filter-container">
       <el-container>
-        <form ref="logQueryForm" :model="queryForm">
+        <form
+          ref="logQueryForm"
+          :model="queryForm"
+        >
           <el-row>
             <el-col>
               <el-date-picker
@@ -27,29 +30,21 @@
         v-loading="listLoading"
         :data="list"
         border
+        fit
         highlight-current-row
         style="width: 100%;"
       >
+        <!-- 这里考虑合并列
+        :label="$t('AbpAuditLogging[\'HttpMethod\']')
+            -$t('AbpAuditLogging[\'Url\']')
+            -$t('AbpAuditLogging[\'ExecutionDuration\'] " -->
         <el-table-column
           :label="$t('AbpAuditLogging[\'Url\']')"
           prop="url"
-          align="center"
+          align="left"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.url }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          :label="$t('AbpAuditLogging[\'HttpMethod\']')"
-          prop="httpMethod"
-          align="center"
-          width="240"
-        >
-          <template slot-scope="{ row }">
-            <!-- 后面使用自定义标签 -->
-            <el-tag
-              :type="row.httpMethod | requestMethodFilter"
-            >
+            <el-tag :type="row.httpMethod | requestMethodFilter">
               {{ row.httpMethod }}
             </el-tag>
             <el-tag
@@ -58,6 +53,12 @@
             >
               {{ row.executionDuration }}S
             </el-tag>
+            <p
+              class="api-block"
+              :class="row.httpMethod | requestMethodFilter"
+            >
+              {{ row.url }}
+            </p>
           </template>
         </el-table-column>
         <el-table-column
@@ -114,13 +115,13 @@ export default {
       let type = 'success'
       switch (method.toUpperCase()) {
         case 'GET':
-          type = 'success'
+          type = ''
           break
         case 'PUT':
           type = 'warning'
           break
         case 'POST':
-          type = ''
+          type = 'success'
           break
         case 'DELETE':
           type = 'danger'
@@ -171,3 +172,44 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+  .api-block{
+    height: auto;
+    border: none;
+    padding: 4px 0;
+    margin: 4px 0;
+  }
+  .el-tag {
+    color: #ffffff;
+    font-weight: 700;
+    background: #61affe;
+  }
+  .el-tag--warning {
+    background: #fca130;
+  }
+  .el-alert--error {
+    background: #f93e3e;
+  }
+  .el-tag--success {
+    background: #49cc90;
+  }
+  .info{
+    border-color: #61affe;
+    background: rgba(97,175,254,.1);
+  }
+  .success{
+    border-color: #49cc90;
+    background: rgba(73,204,144,.1);
+  }
+  .danger{
+    border-color: #f93e3e;
+    background: rgba(249,62,62,.1);
+  }
+  .warning{
+    border-color: #fca130;
+    background: rgba(252,161,48,.1);
+  }
+}
+</style>
