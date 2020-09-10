@@ -25,3 +25,11 @@ export function logout() {
     method: 'get'
   })
 }
+
+export function register(data) {
+  return request({
+    url: '/api/account/register',
+    method: 'post',
+    data: data
+  })
+}

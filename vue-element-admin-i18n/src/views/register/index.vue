@@ -1,41 +1,62 @@
 <template>
-  <div class="login-container">
+  <div class="register-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
+      class="register-form"
       autocomplete="on"
       label-position="left"
     >
       <div class="title-container">
         <h3 class="title">
-          {{ $t('HelloAbp["Login:Title"]') }}
+          {{ $t('HelloAbp["Register"]') }}
         </h3>
-        <lang-select class="set-language" />
-      </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          :placeholder="$t('AbpAccount[\'UserNameOrEmailAddress\']')"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-tooltip
-        v-model="capsTooltip"
-        content="Caps lock is On"
-        placement="right"
-        manual
-      >
+        <h5>
+          <span>
+            {{ $t('AbpAccount["AlreadyRegistered"]') }}
+          </span>
+          <el-button type="text" @click="navitoLogin()">
+            {{ $t('AbpAccount["Login"]') }}
+          </el-button>
+        </h5>
+        <h5>
+          <span>
+            {{ $t("AbpUiMultiTenancy['Tenant']") }}
+          </span>
+          <el-button type="text" @click="tenantDialogFormVisible = true">
+            {{
+              currentTenant? currentTenant: $t("AbpUiMultiTenancy['NotSelected']")
+            }}
+          </el-button>
+        </h5>
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            ref="username"
+            v-model="registerForm.username"
+            :placeholder="$t('AbpAccount[\'UserName\']')"
+            name="username"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+          />
+        </el-form-item>
+        <el-form-item prop="email">
+          <span class="svg-container">
+            <svg-icon icon-class="email" />
+          </span>
+          <el-input
+            ref="email"
+            v-model="registerForm.email"
+            :placeholder="$t('AbpAccount[\'EmailAddress\']')"
+            name="password"
+            tabindex="2"
+            autocomplete="on"
+          />
+        </el-form-item>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -43,70 +64,27 @@
           <el-input
             :key="passwordType"
             ref="password"
-            v-model="loginForm.password"
+            v-model="registerForm.password"
             :type="passwordType"
             :placeholder="$t('AbpAccount[\'Password\']')"
             name="password"
-            tabindex="2"
+            tabindex="3"
             autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
+            @keyup.enter.native="handleRegiter"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon
-              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-            />
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-      </el-tooltip>
-
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-      >
-        {{ $t("AbpAccount['Login']") }}
-      </el-button>
-
-      <div style="text-align:right;">
-        <span
-          style="color:#fff;font-size:14px;padding-right:15px;"
-        >{{ $t("AbpUiMultiTenancy['Tenant']") }}
-          <el-tooltip
-            :content="$t('AbpUiMultiTenancy[\'Switch\']')"
-            effect="dark"
-            placement="bottom"
-          >
-            <el-link
-              :underline="false"
-              @click="tenantDialogFormVisible = true"
-            ><i>{{
-              currentTenant
-                ? currentTenant
-                : $t("AbpUiMultiTenancy['NotSelected']")
-            }}</i></el-link>
-          </el-tooltip>
-        </span>
         <el-button
-          v-if="features['HelloAbp.SocialLogins'] === 'true'"
-          class="thirdparty-button"
+          :loading="loading"
           type="primary"
-          @click="showDialog = true"
+          style="width:100%;margin-top:30px;"
+          @click.native.prevent="handleRegiter"
         >
-          {{ $t("HelloAbp['Login:ThirdParty']") }}
+          {{ $t('HelloAbp["Register"]') }}
         </el-button>
       </div>
-
-      <p style="font-size:14px;text-align:center;color:#fff;">
-        {{ $t("AbpAccount['AreYouANewUser']") }}
-        <el-link
-          :underline="false"
-          @click="navitoRegister()"
-        ><i>{{ $t("AbpAccount['Register']") }}</i></el-link>
-      </p>
-
     </el-form>
 
     <el-dialog
@@ -133,33 +111,21 @@
       </div>
     </el-dialog>
 
-    <el-dialog
-      :title="$t('HelloAbp[\'Login:ThirdParty\']')"
-      :visible.sync="showDialog"
-    >
-      {{ $t("HelloAbp['Login:ThirdPartyTips']") }}
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import LangSelect from '@/components/LangSelect'
-import SocialSign from './components/SocialSignin'
-
+import { register } from '@/api/user'
 export default {
-  name: 'Login',
-  components: { LangSelect, SocialSign },
+  name: 'Register',
   data() {
     return {
-      loginForm: {
-        username: 'admin',
-        password: '1q2w3E*'
+      registerForm: {
+        username: '',
+        password: '',
+        email: ''
       },
-      loginRules: {
+      registerRules: {
         username: [
           {
             required: true,
@@ -173,14 +139,17 @@ export default {
             message: this.$i18n.t("AbpAccount['ThisFieldIsRequired.']"),
             trigger: ['blur', 'change']
           }
+        ],
+        email: [
+          {
+            required: true,
+            message: this.$i18n.t("AbpAccount['ThisFieldIsRequired.']"),
+            trigger: ['blur', 'change']
+          }
         ]
       },
-      passwordType: 'password',
-      capsTooltip: false,
       loading: false,
-      showDialog: false,
-      redirect: undefined,
-      otherQuery: {},
+      passwordType: 'password',
       tenantDialogFormVisible: false,
       tenant: { name: this.$store.getters.abpConfig.currentTenant.name }
     }
@@ -189,49 +158,20 @@ export default {
     currentTenant() {
       return this.$store.getters.abpConfig.currentTenant.name
     },
-    features() {
-      return this.$store.getters.abpConfig.features.values
-    },
     tenantDisabled() {
-      if (
-        this.tenant.name &&
-        this.tenant.name === this.$store.getters.abpConfig.currentTenant.name
-      ) {
+      if (this.tenant.name && this.tenant.name === this.$store.getters.abpConfig.currentTenant.name) {
         return true
       }
       return false
     }
   },
-  watch: {
-    $route: {
-      handler: function(route) {
-        const query = route.query
-        if (query) {
-          this.redirect = query.redirect
-          this.otherQuery = this.getOtherQuery(query)
-        }
-      },
-      immediate: true
-    }
-  },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
-  },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
-    }
+
   },
   destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
+
   },
   methods: {
-    checkCapslock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
-    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -242,77 +182,49 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+    navitoLogin() {
+      this.$router.push({
+        path: '/login'
+      })
+    },
+    handleRegiter() {
+      this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({
-                path: this.redirect || '/',
-                query: this.otherQuery
-              })
-              this.loading = false
+          const userMsg = {
+            userName: this.registerForm.username,
+            emailAddress: this.registerForm.email,
+            password: this.registerForm.password,
+            appName: 'vue'
+          }
+          register(userMsg).then((res) => {
+            this.$router.push({
+              path: '/login'
             })
+            this.loading = false
+          })
             .catch(() => {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
-    },
-    navitoRegister() {
-      this.$router.push({
-        path: '/register'
-      })
-    },
-    getOtherQuery(query) {
-      return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== 'redirect') {
-          acc[cur] = query[cur]
-        }
-        return acc
-      }, {})
     },
     saveTenant() {
       this.$store.dispatch('app/setTenant', this.tenant.name).then(response => {
         if (response && !response.success) {
           this.$notify({
             title: this.$i18n.t("AbpUi['Error']"),
-            message: this.$i18n.t(
-              "AbpUiMultiTenancy['GivenTenantIsNotAvailable']",
-              [this.tenant.name]
-            ),
+            message: this.$i18n.t("AbpUiMultiTenancy['GivenTenantIsNotAvailable']", [this.tenant.name]),
             type: 'error',
             duration: 2000
           })
           return
         }
-
         this.tenantDialogFormVisible = false
       })
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>
@@ -326,13 +238,13 @@ $light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .login-form .el-input input {
+  .register-container .register-form .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container .login-form {
+.register-container .register-form {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -369,13 +281,13 @@ $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 
-.login-container {
+.register-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
 
-  .login-form {
+  .register-form {
     position: relative;
     width: 520px;
     max-width: 100%;
@@ -414,7 +326,13 @@ $light_gray: #eee;
       text-align: center;
       font-weight: bold;
     }
-
+    h5{
+      color:#fff;
+      font-size: 16px;
+      .el-button{
+        font-size: 16px;
+      }
+    }
     .set-language {
       color: #fff;
       position: absolute;
