@@ -258,3 +258,4 @@ src/Xhznl.HelloAbp.IdentityServer/Logs/*
 src/Xhznl.HelloAbp.HttpApi.Host/Logs/*
 src/Xhznl.HelloAbp.HttpApi.HostWithIds/Logs/*
 src/Xhznl.HelloAbp.DbMigrator/Logs/*
+src/Xhznl.HelloAbp.HttpApi.Host/upload/*

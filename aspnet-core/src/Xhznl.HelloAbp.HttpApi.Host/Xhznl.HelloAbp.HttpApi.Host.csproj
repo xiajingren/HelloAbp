@@ -31,9 +31,13 @@
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
+    <Compile Remove="upload\**" />
     <Content Remove="Logs\**" />
+    <Content Remove="upload\**" />
     <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="upload\**" />
     <None Remove="Logs\**" />
+    <None Remove="upload\**" />
   </ItemGroup>
 
 </Project>
