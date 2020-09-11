@@ -32,4 +32,11 @@
     <ProjectReference Include="..\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIdsDB\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIds.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
 </Project>

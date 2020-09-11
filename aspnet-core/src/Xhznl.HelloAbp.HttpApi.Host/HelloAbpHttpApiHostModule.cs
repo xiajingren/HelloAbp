@@ -54,6 +54,15 @@ namespace Xhznl.HelloAbp
             ConfigureRedis(context, configuration, hostingEnvironment);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context);
+            ConfigureFile(hostingEnvironment);
+        }
+
+        private void ConfigureFile(IWebHostEnvironment hostingEnvironment)
+        {
+            Configure<FileManagement.Files.FileOptions>(options =>
+            {
+                options.FileUploadLocalFolder = Path.Combine(hostingEnvironment.ContentRootPath, "upload");
+            });
         }
 
         private void ConfigureCache(IConfiguration configuration)
@@ -109,7 +118,7 @@ namespace Xhznl.HelloAbp
             context.Services.AddSwaggerGen(
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "HelloAbp API", Version = "v1"});
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "HelloAbp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                     options.CustomSchemaIds(type => type.FullName);
                     options.OrderActionsBy(decs => decs.RelativePath);

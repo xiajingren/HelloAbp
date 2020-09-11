@@ -6,6 +6,7 @@ using Volo.Abp.ObjectExtending;
 using Volo.Abp.ObjectExtending.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.TenantManagement;
+using Xhznl.FileManagement;
 
 namespace Xhznl.HelloAbp
 {
@@ -16,7 +17,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpIdentityApplicationContractsModule),
         typeof(AbpPermissionManagementApplicationContractsModule),
         typeof(AbpTenantManagementApplicationContractsModule),
-        typeof(AbpObjectExtendingModule)
+        typeof(AbpObjectExtendingModule),
+        typeof(FileManagementApplicationContractsModule)
     )]
     public class HelloAbpApplicationContractsModule : AbpModule
     {
