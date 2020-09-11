@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Xhznl.FileManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="3.1.0" />
+    <ProjectReference Include="..\Xhznl.FileManagement.Application.Contracts\Xhznl.FileManagement.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Xhznl.FileManagement.Domain\Xhznl.FileManagement.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

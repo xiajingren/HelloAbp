@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain.Shared\Xhznl.HelloAbp.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.Domain\Xhznl.FileManagement.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

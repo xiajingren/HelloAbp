@@ -14,6 +14,7 @@ using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Identity.Localization;
 using Volo.Abp.AuditLogging.Localization;
+using Xhznl.FileManagement;
 
 namespace Xhznl.HelloAbp
 {
@@ -26,7 +27,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpPermissionManagementDomainSharedModule),
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpTenantManagementDomainSharedModule),
-        typeof(EasyAbp.Abp.SettingUi.SettingUiDomainSharedModule)
+        typeof(EasyAbp.Abp.SettingUi.SettingUiDomainSharedModule),
+        typeof(FileManagementDomainSharedModule)
         )]
     public class HelloAbpDomainSharedModule : AbpModule
     {

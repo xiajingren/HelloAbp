@@ -6,6 +6,7 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.TenantManagement;
+using Xhznl.FileManagement;
 using Xhznl.HelloAbp.Localization;
 
 namespace Xhznl.HelloAbp
@@ -17,7 +18,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpPermissionManagementHttpApiModule),
         typeof(AbpTenantManagementHttpApiModule),
         typeof(AbpFeatureManagementHttpApiModule),
-        typeof(EasyAbp.Abp.SettingUi.SettingUiHttpApiModule)
+        typeof(EasyAbp.Abp.SettingUi.SettingUiHttpApiModule),
+        typeof(FileManagementHttpApiModule)
         )]
     public class HelloAbpHttpApiModule : AbpModule
     {
