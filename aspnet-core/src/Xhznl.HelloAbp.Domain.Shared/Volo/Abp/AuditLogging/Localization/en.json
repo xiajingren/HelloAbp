@@ -6,6 +6,7 @@
     "Permission:Delete": "Delete",
     "AuditLogging": "AuditLogging",
     "Menu:AuditLogging": "AuditLogging",
+    "RequestInfo": "code | method | duration(ms) | url",
     "HttpStatusCode": "×´Ì¬Âë",
     "Comments": "comments",
     "Exceptions": "exceptions",
@@ -16,7 +17,7 @@
     "ClientId": "clientId",
     "ClientName": "clientName",
     "ClientIpAddress": "clientIpAddress",
-    "ExecutionDuration": "executionDuration",
+    "ExecutionDuration": "executionDuration(ms)",
     "ExecutionTime": "executionTime",
     "ImpersonatorTenantId": "impersonatorTenantId",
     "ImpersonatorUserId": "impersonatorUserId",
@@ -24,6 +25,15 @@
     "TenantId": "tenantId",
     "UserName": "userName",
     "UserId": "userId",
-    "ApplicationName": "applicationName"
+    "ApplicationName": "applicationName",
+    "Action": "action",
+    "Detail": "Details",
+    "RangeSeparator": "to",
+    "StartPlaceholder": "startTime",
+    "EndPlaceholder": "endTime",
+    "PlaceholderInput": "Please enter",
+    "PlaceholderSelect": "Please select",
+    "Reset": "reset",
+    "Search": "search"
   }
 }

@@ -6,6 +6,7 @@
     "Permission:Delete": "删除",
     "AuditLogging": "审计日志",
     "Menu:AuditLogging": "审计日志",
+    "RequestInfo": "状态码 | 方法 | 耗时(毫秒) | 地址",
     "HttpStatusCode": "状态码",
     "Comments": "comments",
     "Exceptions": "异常信息",
@@ -16,7 +17,7 @@
     "ClientId": "客户端ID",
     "ClientName": "客户端名称",
     "ClientIpAddress": "客户端IP",
-    "ExecutionDuration": "executionDuration",
+    "ExecutionDuration": "耗时(毫秒)",
     "ExecutionTime": "请求时间",
     "ImpersonatorTenantId": "impersonatorTenantId",
     "ImpersonatorUserId": "impersonatorUserId",
@@ -24,6 +25,15 @@
     "TenantId": "租户ID",
     "UserName": "用户名称",
     "UserId": "用户ID",
-    "ApplicationName": "服务名称"
+    "ApplicationName": "服务名称",
+    "Action": "操作",
+    "Detail": "详情",
+    "RangeSeparator": "至",
+    "StartPlaceholder": "开始日期",
+    "EndPlaceholder": "结束日期",
+    "PlaceholderInput": "请输入",
+    "PlaceholderSelect": "请选择",
+    "Reset": "重置",
+    "Search": "查询"
   }
 }
