@@ -1,7 +1,15 @@
 {
   "culture": "en",
   "texts": {
-    "ManageYourProfile":  "Manage your profile",
-    "SamplePageMessage": "A sample page for the FileManagement module"
+    "ManageYourProfile": "Manage your profile",
+    "SamplePageMessage": "A sample page for the FileManagement module",
+    "File": "File",
+    "Upload": "Upload",
+    "DisplayName:FileManagement.AllowedMaxFileSize": "Allowed Max File Size",
+    "Description:FileManagement.AllowedMaxFileSize": "Allowed Max File Size (kb)",
+    "DisplayName:FileManagement.AllowedUploadFormats": "Allowed Upload Formats",
+    "Description:FileManagement.AllowedUploadFormats": "Allowed Upload Formats (Multiple formats are separated by ',')",
+    "FileManagement.ExceedsTheMaximumSize": "File exceeds the maximum upload size ({0}kb)!",
+    "FileManagement.NotValidFormat": "Not a valid file format!"
   }
 }

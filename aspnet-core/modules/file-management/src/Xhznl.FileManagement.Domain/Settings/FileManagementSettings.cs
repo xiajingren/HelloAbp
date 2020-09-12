@@ -7,5 +7,8 @@
         /* Add constants for setting names. Example:
          * public const string MySettingName = GroupName + ".MySettingName";
          */
+
+        public const string AllowedMaxFileSize = GroupName + ".AllowedMaxFileSize";
+        public const string AllowedUploadFormats = GroupName + ".AllowedUploadFormats";
     }
 }

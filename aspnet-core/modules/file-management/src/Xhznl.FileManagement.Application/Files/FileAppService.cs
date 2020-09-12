@@ -5,19 +5,27 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Volo.Abp;
+using Volo.Abp.Settings;
 using Volo.Abp.Validation;
+using Xhznl.FileManagement.Localization;
+using Xhznl.FileManagement.Settings;
 
 namespace Xhznl.FileManagement.Files
 {
     public class FileAppService : FileManagementAppService, IFileAppService
     {
         private readonly FileOptions _fileOptions;
+        private readonly ISettingProvider _settingProvider;
+        private readonly IStringLocalizer<FileManagementResource> _localizer;
 
-        public FileAppService(IOptions<FileOptions> fileOptions)
+        public FileAppService(IOptions<FileOptions> fileOptions, ISettingProvider settingProvider, IStringLocalizer<FileManagementResource> localizer)
         {
             _fileOptions = fileOptions.Value;
+            _settingProvider = settingProvider;
+            _localizer = localizer;
         }
 
         public Task<byte[]> GetAsync(string name)
@@ -35,7 +43,7 @@ namespace Xhznl.FileManagement.Files
         }
 
         [Authorize]
-        public Task<string> CreateAsync(FileUploadInputDto input)
+        public async Task<string> CreateAsync(FileUploadInputDto input)
         {
             if (input.Bytes.IsNullOrEmpty())
             {
@@ -46,14 +54,18 @@ namespace Xhznl.FileManagement.Files
                     });
             }
 
-            if (input.Bytes.Length > _fileOptions.MaxFileSize)
+            var allowedMaxFileSize = await _settingProvider.GetAsync<int>(FileManagementSettings.AllowedMaxFileSize);//kb
+            var allowedUploadFormats = (await _settingProvider.GetOrNullAsync(FileManagementSettings.AllowedUploadFormats))
+                ?.Split(",", StringSplitOptions.RemoveEmptyEntries);
+
+            if (input.Bytes.Length > allowedMaxFileSize * 1024)
             {
-                throw new UserFriendlyException($"File exceeds the maximum upload size ({_fileOptions.MaxFileSize / 1024 / 1024} MB)!");
+                throw new UserFriendlyException(_localizer["FileManagement.ExceedsTheMaximumSize", allowedMaxFileSize]);
             }
 
-            if (!_fileOptions.AllowedUploadFormats.Contains(Path.GetExtension(input.Name)))
+            if (allowedUploadFormats == null || !allowedUploadFormats.Contains(Path.GetExtension(input.Name)))
             {
-                throw new UserFriendlyException("Not a valid file format!");
+                throw new UserFriendlyException(_localizer["FileManagement.NotValidFormat"]);
             }
 
             var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(input.Name);
@@ -66,7 +78,7 @@ namespace Xhznl.FileManagement.Files
 
             File.WriteAllBytes(filePath, input.Bytes);
 
-            return Task.FromResult("/api/file-management/files/" + fileName);
+            return "/api/file-management/files/" + fileName;
         }
     }
 }

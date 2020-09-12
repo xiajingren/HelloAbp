@@ -1,6 +1,14 @@
 {
   "culture": "zh-Hans",
   "texts": {
-    "ManageYourProfile":  "管理个人资料" 
+    "ManageYourProfile": "管理个人资料",
+    "File": "文件",
+    "Upload": "上传",
+    "DisplayName:FileManagement.AllowedMaxFileSize": "允许最大文件大小",
+    "Description:FileManagement.AllowedMaxFileSize": "允许最大文件大小（kb）",
+    "DisplayName:FileManagement.AllowedUploadFormats": "允许上传格式",
+    "Description:FileManagement.AllowedUploadFormats": "允许上传格式（多种格式使用‘,’隔开）",
+    "FileManagement.ExceedsTheMaximumSize": "文件超过最大上传大小（{0}kb）！",
+    "FileManagement.NotValidFormat": "无效的文件格式！"
   }
 }

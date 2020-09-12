@@ -15,6 +15,7 @@ using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Identity.Localization;
 using Volo.Abp.AuditLogging.Localization;
 using Xhznl.FileManagement;
+using Xhznl.FileManagement.Localization;
 
 namespace Xhznl.HelloAbp
 {
@@ -53,7 +54,8 @@ namespace Xhznl.HelloAbp
 
                 options.Resources
                     .Get<SettingUiResource>()
-                    .AddVirtualJson("/Localization/HelloAbp");
+                    .AddVirtualJson("/Localization/HelloAbp")
+                    .AddBaseTypes(typeof(FileManagementResource));
 
                 options.Resources
                     .Get<IdentityResource>()
