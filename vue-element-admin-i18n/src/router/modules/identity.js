@@ -31,6 +31,12 @@ const identityRouter = {
       component: () => import('@/views/identity/users'),
       name: 'Users',
       meta: { title: 'AbpIdentity["Users"]', policy: 'AbpIdentity.Users' }
+    },
+    {
+      path: 'claim-types',
+      component: () => import('@/views/identity/claim-types'),
+      name: 'ClaimTypes',
+      meta: { title: 'AbpIdentity["ClaimTypes"]', policy: 'AbpIdentity.ClaimTypes' }
     }
   ]
 }

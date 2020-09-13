@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Volo.Abp.AuditLogging;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
 
 namespace Xhznl.HelloAbp
@@ -30,6 +31,15 @@ namespace Xhznl.HelloAbp
             CreateMap<EntityPropertyChange, EntityPropertyChangeDto>();
 
             CreateMap<AuditLogAction, AuditLogActionDto>();
+
+            //Claim
+            CreateMap<IdentityClaimType, ClaimTypeDto>().Ignore(x => x.ValueTypeAsString);
+            CreateMap<IdentityUserClaim, IdentityUserClaimDto>();
+            CreateMap<IdentityUserClaimDto, IdentityUserClaim>().Ignore(x => x.TenantId).Ignore(x => x.Id);
+            CreateMap<IdentityRoleClaim, IdentityRoleClaimDto>();
+            CreateMap<IdentityRoleClaimDto, IdentityRoleClaim>().Ignore(x => x.TenantId).Ignore(x => x.Id);
+            CreateMap<CreateClaimTypeDto, IdentityClaimType>().Ignore(x => x.IsStatic).Ignore(x => x.Id);
+            CreateMap<UpdateClaimTypeDto, IdentityClaimType>().Ignore(x => x.IsStatic).Ignore(x => x.Id);
         }
     }
 }

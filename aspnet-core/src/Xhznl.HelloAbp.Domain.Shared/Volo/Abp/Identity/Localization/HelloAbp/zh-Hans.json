@@ -12,6 +12,16 @@
     "OUParentCode": "上级编码",
     "OUDisplayName": "名称",
     "OUParentDisplayName": "上级名称",
-    "OUDeletionConfirmationMessage": "组织 '{0}' 将被删除. 你确定吗?"
+    "OUDeletionConfirmationMessage": "组织 '{0}' 将被删除. 你确定吗?",
+    "Permission:ClaimManagement": "声明管理",
+    "ClaimTypes": "声明类型",
+    "NewClaimType": "新声明类型",
+    "ClaimName": "名称",
+    "ClaimValueType": "值类型",
+    "ClaimDescription": "描述",
+    "ClaimRegex": "正则",
+    "ClaimRequired": "必要",
+    "ClaimRegexDescription": "正则描述",
+    "ClaimDeletionConfirmationMessage": "声明类型 '{0}' 将被删除. 你确定吗?"
   }
 }

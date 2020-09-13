@@ -25,6 +25,12 @@ namespace Xhznl.HelloAbp.Permissions
             var rolePermission = identityGroup.GetPermissionOrNull(IdentityPermissions.Roles.Default);
             rolePermission?.AddChild(HelloIdentityPermissions.Roles.AddOrganizationUnitRole, IdentityL("Permission:AddOrganizationUnitRole"));
 
+            //Claim
+            var claimPermission = identityGroup.AddPermission(HelloIdentityPermissions.ClaimTypes.Default, IdentityL("Permission:ClaimManagement"));
+            claimPermission.AddChild(HelloIdentityPermissions.ClaimTypes.Create, IdentityL("Permission:Create"));
+            claimPermission.AddChild(HelloIdentityPermissions.ClaimTypes.Update, IdentityL("Permission:Edit"));
+            claimPermission.AddChild(HelloIdentityPermissions.ClaimTypes.Delete, IdentityL("Permission:Delete"));
+
             //AuditLogging
             var auditLogGroup = context.AddGroup(AuditLogPermissions.GroupName);
             var aduditLogPermission = auditLogGroup.AddPermission(AuditLogPermissions.AuditLogs.Default, AuditLoggingL("Permission:AuditLogManagement"));

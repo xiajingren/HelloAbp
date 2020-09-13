@@ -1,7 +1,7 @@
 {
   "culture": "en",
   "texts": {
-    "Permission:OrganitaionUnitManagement": "OrganitaionUnitManagement",
+    "Permission:OrganitaionUnitManagement": "Organitaion Unit Management",
     "Permission:DistributionOrganizationUnit": "AddUnitMember",
     "Permission:AddOrganizationUnitRole": "AddUnitRole",
     "MemberExists": "The member {0} already exists in the current organization {1}",
@@ -12,6 +12,16 @@
     "OUParentCode": "parentCode",
     "OUDisplayName": "name",
     "OUParentDisplayName": "parentName",
-    "OUDeletionConfirmationMessage": "OrganitaionUnit '{0}' will be deleted. Do you confirm that?"
+    "OUDeletionConfirmationMessage": "OrganitaionUnit '{0}' will be deleted. Do you confirm that?",
+    "Permission:ClaimManagement": "Claim management",
+    "ClaimTypes": "Claim Types",
+    "NewClaimType": "New claim type",
+    "ClaimName": "Name",
+    "ClaimValueType": "Value Type",
+    "ClaimDescription": "Description",
+    "ClaimRegex": "Regex",
+    "ClaimRequired": "Required",
+    "ClaimRegexDescription": "Regex description",
+    "ClaimDeletionConfirmationMessage": "Claim type '{0}' will be deleted. Do you confirm that?"
   }
 }
