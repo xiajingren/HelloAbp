@@ -250,6 +250,9 @@
         :limit.sync="queryForm.limit"
         @pagination="getList"
       />
+      <audit-log-details
+        ref="auditLogDetailsDialog"
+      />
     </div>
   </div>
 </template>
@@ -261,9 +264,10 @@ import {
 import { pickerRangeWithHotKey } from '@/utils/picker'
 import Pagination from '@/components/Pagination'
 import baseListQuery from '@/utils/abp'
+import AuditLogDetails from './details'
 export default {
   name: 'AuditLog',
-  components: { Pagination },
+  components: { Pagination, AuditLogDetails },
   filters: {
     requestDurationFilter(duration) {
       let type = 'success'
@@ -361,11 +365,8 @@ export default {
       }, baseListQuery)
     },
     handleDetail(row) {
-      console.log('detail-data:', row)
-      this.$message({
-        message: row,
-        type: 'success'
-      })
+      // console.log('detail-data:', row)
+      this.$refs['auditLogDetailsDialog'].createLogInfo(row)
     }
   }
 }

@@ -9,9 +9,9 @@ using Xhznl.HelloAbp.Controllers;
 namespace Volo.Abp.AuditLogging
 {
     [RemoteService(Name = AuditLogRemoteServiceConsts.RemoteServiceName)]
-    [Controller]
-    [Area("autit")]
-    [Route("/api/autit/logs")]
+    [ControllerName("AuditLogging")]
+    [Area("auditlogging")]
+    [Route("/api/audit-logging/audit-logs")]
     public class AuditLogController : HelloAbpController, IAuditLogAppService
     {
         protected IAuditLogAppService AuditLogAppService { get; }

@@ -28,6 +28,8 @@
     "ApplicationName": "服务名称",
     "Action": "操作",
     "Detail": "详情",
+    "Close": "关闭",
+    "Save": "保存",
     "RangeSeparator": "至",
     "StartPlaceholder": "开始日期",
     "EndPlaceholder": "结束日期",
