@@ -11,6 +11,7 @@
       <div class="title-container">
         <h3 class="title">
           {{ $t('HelloAbp["Register"]') }}
+          <lang-select class="set-language" />
         </h3>
         <h5>
           <span>
@@ -116,14 +117,17 @@
 
 <script>
 import { register } from '@/api/user'
+import LangSelect from '@/components/LangSelect'
 export default {
   name: 'Register',
+  components: { LangSelect },
   data() {
     return {
       registerForm: {
         username: '',
         password: '',
-        email: ''
+        email: '',
+        appName: 'vue'
       },
       registerRules: {
         username: [
@@ -191,13 +195,7 @@ export default {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const userMsg = {
-            userName: this.registerForm.username,
-            emailAddress: this.registerForm.email,
-            password: this.registerForm.password,
-            appName: 'vue'
-          }
-          register(userMsg).then((res) => {
+          register(this.registerForm).then((res) => {
             this.$router.push({
               path: '/login'
             })

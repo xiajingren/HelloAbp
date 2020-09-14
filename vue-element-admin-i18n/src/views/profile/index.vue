@@ -10,14 +10,11 @@
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="Activity" name="activity">
-                <activity />
+              <el-tab-pane :label="$t('AbpAccount[\'ChangePassword\']')" name="ChangePassword">
+                <changePassword />
               </el-tab-pane>
-              <el-tab-pane label="Timeline" name="timeline">
-                <timeline />
-              </el-tab-pane>
-              <el-tab-pane label="Account" name="account">
-                <account :user="user" />
+              <el-tab-pane :label="$t('AbpAccount[\'ManageYourProfile\']')" name="PersonalSettings">
+                <PersonalSettings :user="user" />
               </el-tab-pane>
             </el-tabs>
           </el-card>
@@ -31,17 +28,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserCard from './components/UserCard'
-import Activity from './components/Activity'
-import Timeline from './components/Timeline'
-import Account from './components/Account'
+import ChangePassword from './components/ChangePassword'
+import PersonalSettings from './components/PersonalSettings'
 
 export default {
   name: 'Profile',
-  components: { UserCard, Activity, Timeline, Account },
+  components: { UserCard, ChangePassword, PersonalSettings },
   data() {
     return {
       user: {},
-      activeTab: 'activity'
+      activeTab: 'ChangePassword'
     }
   },
   computed: {
@@ -49,7 +45,10 @@ export default {
       'name',
       'email',
       'avatar',
-      'roles'
+      'roles',
+      'userName',
+      'phoneNumber',
+      'introduction'
     ])
   },
   created() {
@@ -61,7 +60,10 @@ export default {
         name: this.name,
         role: this.roles.join(' | '),
         email: this.email,
-        avatar: this.avatar
+        avatar: this.avatar,
+        userName: this.userName,
+        phoneNumber: this.phoneNumber,
+        introduction: this.introduction
       }
     }
   }

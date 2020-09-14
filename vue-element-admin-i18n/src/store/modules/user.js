@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, setUserInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -18,6 +18,7 @@ const state = {
   avatar: '',
   email: '',
   introduction: '',
+  phoneNumber: '',
   roles: []
 }
 
@@ -33,6 +34,9 @@ const mutations = {
   },
   SET_USERNAME: (state, userName) => {
     state.userName = userName
+  },
+  SET_TEL: (state, phoneNumber) => {
+    state.phoneNumber = phoneNumber
   },
   SET_AVATAR: (state, avatar) => {
     if (!avatar) avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
@@ -51,6 +55,7 @@ const mutations = {
     state.avatar = ''
     state.email = ''
     state.introduction = ''
+    state.phoneNumber = ''
     state.roles = []
   }
 }
@@ -83,11 +88,11 @@ const actions = {
           if (!response) {
             reject('Verification failed, please Login again.')
           }
-
-          const { userName, name, email, extraProperties } = response
+          const { userName, name, phoneNumber, email, extraProperties } = response
 
           commit('SET_NAME', name)
           commit('SET_USERNAME', userName)
+          commit('SET_TEL', phoneNumber)
           commit('SET_AVATAR', extraProperties.Avatar)
           commit('SET_EMAIL', email)
           commit('SET_INTRODUCTION', extraProperties.Introduction)
@@ -98,9 +103,27 @@ const actions = {
         })
     })
   },
-
   setRoles({ commit }, roles) {
     commit('SET_ROLES', roles)
+  },
+
+  setUserInfo({ commit }, userInfo) {
+    return new Promise((resolve, reject) => {
+      setUserInfo(userInfo)
+        .then(response => {
+          const { userName, name, phoneNumber, email, extraProperties } = userInfo
+          commit('SET_NAME', name)
+          commit('SET_USERNAME', userName)
+          commit('SET_TEL', phoneNumber)
+          commit('SET_AVATAR', extraProperties.Avatar)
+          commit('SET_EMAIL', email)
+          commit('SET_INTRODUCTION', extraProperties.Introduction)
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
   },
 
   // user logout

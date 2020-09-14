@@ -11,40 +11,29 @@
           {{ user.role }}
         </pan-thumb>
       </div>
+      <div />
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
         <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>
       </div>
+      <div class="box-center">
+        <el-upload
+          :action="uploadUrl"
+          name="file"
+          :headers="myHeaders"
+          :on-success="handleAvatarSuccess"
+          :show-file-list="false"
+        >
+          <el-button type="primary" icon="el-icon-upload">Change Avatar</el-button>
+        </el-upload>
+      </div>
     </div>
-
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>个人介绍</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
-          </div>
-        </div>
-      </div>
-
-      <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Skills</span></div>
-        <div class="user-bio-section-body">
-          <div class="progress-item">
-            <span>Vue</span>
-            <el-progress :percentage="70" />
-          </div>
-          <div class="progress-item">
-            <span>JavaScript</span>
-            <el-progress :percentage="18" />
-          </div>
-          <div class="progress-item">
-            <span>Css</span>
-            <el-progress :percentage="12" />
-          </div>
-          <div class="progress-item">
-            <span>ESLint</span>
-            <el-progress :percentage="100" status="success" />
+            {{ user.introduction?user.introduction:'空空如也！' }}
           </div>
         </div>
       </div>
@@ -54,7 +43,6 @@
 
 <script>
 import PanThumb from '@/components/PanThumb'
-
 export default {
   components: { PanThumb },
   props: {
@@ -63,11 +51,55 @@ export default {
       default: () => {
         return {
           name: '',
+          userName: '',
           email: '',
           avatar: '',
-          role: ''
+          role: '',
+          phoneNumber: '',
+          introduction: ''
         }
       }
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      myHeaders: { 'authorization': 'Bearer ' + this.$store.getters.token }
+    }
+  },
+  computed: {
+    uploadUrl: function() {
+      return process.env.VUE_APP_BASE_API + '/api/file-management/files/upload'
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    handleAvatarSuccess(resData) {
+      console.log(resData)
+      this.user.avatar = process.env.VUE_APP_BASE_API + resData
+      const userInfo = {
+        userName: this.user.userName,
+        email: this.user.email,
+        name: this.user.name,
+        phoneNumber: this.user.phoneNumber,
+        extraProperties: {
+          Avatar: resData,
+          Introduction: this.user.introduction
+        }
+      }
+      this.loading = true
+      this.$store.dispatch('user/setUserInfo', userInfo)
+        .then((res) => {
+          this.loading = false
+          this.$notify({
+            title: this.$i18n.t("HelloAbp['Success']"),
+            message: this.$i18n.t("HelloAbp['SuccessMessage']"),
+            type: 'success',
+            duration: 2000
+          })
+        }).catch(() => {})
     }
   }
 }

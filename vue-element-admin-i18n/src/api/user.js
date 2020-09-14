@@ -33,3 +33,19 @@ export function register(data) {
     data: data
   })
 }
+
+export function setUserInfo(data) {
+  return request({
+    url: '/api/identity/my-profile',
+    method: 'put',
+    data: data
+  })
+}
+
+export function changePassword(data) {
+  return request({
+    url: '/api/identity/my-profile/change-password',
+    method: 'post',
+    data: data
+  })
+}
