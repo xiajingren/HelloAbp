@@ -1,19 +1,14 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>{{ $t('userCard.aboutMe') }}</span>
     </div>
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb
-          :image="getFilePathByName(user.avatar)"
-          :height="'100px'"
-          :width="'100px'"
-          :hoverable="false"
-        >
-          <div>Hello</div>
-          {{ user.role }}
+        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
+          <div>{{ $t('userCard.greetings') }}</div>
+          {{ user.name }}
         </pan-thumb>
       </div>
       <div />
@@ -25,28 +20,26 @@
       </div>
       <div class="box-center">
         <el-upload
-          action=""
+          action
           name="file"
           :before-upload="beforeUpload"
           :on-success="handleAvatarSuccess"
           :show-file-list="false"
         >
-          <el-button
-            type="primary"
-            icon="el-icon-upload"
-          >Change Avatar</el-button>
+          <el-button type="primary" icon="el-icon-upload">{{ $t('userCard.changeAvatar') }}</el-button>
         </el-upload>
       </div>
     </div>
     <div class="user-bio">
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header">
-          <svg-icon icon-class="education" /><span>个人介绍</span>
+          <svg-icon icon-class="education" />
+          <span>{{ $t('userCard.personalIntroduction') }}</span>
         </div>
         <div class="user-bio-section-body">
-          <div class="text-muted">
-            {{ user.introduction ? user.introduction : "空空如也！" }}
-          </div>
+          <div
+            class="text-muted"
+          >{{ user.introduction?user.introduction: $t('userCard.personalIntroductionContent') }}</div>
         </div>
       </div>
     </div>
@@ -80,7 +73,9 @@ export default {
       loading: false
     }
   },
-  mounted() {},
+  mounted() {
+
+  },
   methods: {
     getFilePathByName,
     beforeUpload(file) {

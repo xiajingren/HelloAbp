@@ -64,6 +64,13 @@ export default {
     externalLink: '外链',
     profile: '个人中心'
   },
+  userCard: {
+    aboutMe: '我的资料',
+    greetings: '你好',
+    changeAvatar: '更换头像',
+    personalIntroduction: '个人介绍',
+    personalIntroductionContent: '空空如也'
+  },
   navbar: {
     dashboard: '首页',
     github: '项目地址',
