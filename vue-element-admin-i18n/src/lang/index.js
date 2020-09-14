@@ -3,15 +3,19 @@ import VueI18n from 'vue-i18n'
 import Cookies from 'js-cookie'
 import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN' // element-ui lang
+import helloAbpEnLocale from './en'
+import helloAbpZhLocale from './zh'
 
 Vue.use(VueI18n)
 
 const messages = {
   en: {
-    ...elementEnLocale
+    ...elementEnLocale,
+    ...helloAbpEnLocale
   },
   'zh-Hans': {
-    ...elementZhLocale
+    ...elementZhLocale,
+    ...helloAbpZhLocale
   }
 }
 

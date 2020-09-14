@@ -1,61 +1,165 @@
 <template>
   <div class="audit-log-container">
     <el-dialog
-      title="日志详情"
+      :title="logData.url+
+        '-'+
+        $t('AbpAuditLogging[\'Detail\']')"
       :visible.sync="dialogVisible"
     >
-      <table class="logInfo">
-        <tbody>
-          <tr>
-            <th>Code</th>
-            <td>{{ logData.httpStatusCode }}</td>
-          </tr>
-          <tr>
-            <th>Method</th>
-            <td>{{ logData.httpMethod }}</td>
-          </tr>
-          <tr>
-            <th>Url</th>
-            <td>{{ logData.url }}</td>
-          </tr>
-          <tr>
-            <th>ClientIP</th>
-            <td>{{ logData.clientIpAddress }}</td>
-          </tr>
-          <tr>
-            <th>ClientName</th>
-            <td>{{ logData.clientName }}</td>
-          </tr>
-          <tr>
-            <th>UserName</th>
-            <td>{{ logData.userName }}</td>
-          </tr>
-          <tr>
-            <th>请求时间</th>
-            <td>{{ logData.executionTime | moment }}</td>
-          </tr>
-          <tr>
-            <th>执行耗时</th>
-            <td>{{ logData.executionDuration }}ms</td>
-          </tr>
-          <tr>
-            <th>浏览器信息</th>
-            <td>{{ logData.browserInfo }}</td>
-          </tr>
-          <tr>
-            <th>异常信息</th>
-            <td>{{ logData.exceptions }}</td>
-          </tr>
-          <tr>
-            <th>Commants</th>
-            <td>{{ logData.comments }}</td>
-          </tr>
-          <tr>
-            <th>扩展信息</th>
-            <td><pre>{{ logData.extraProperties }}</pre> </td>
-          </tr>
-        </tbody>
-      </table>
+      <el-tabs type="border-card">
+        <el-tab-pane
+          :label="$t('AbpAuditLogging[\'RequsetInfo\']')"
+        >
+          <table class="logInfo">
+            <tbody>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['HttpStatusCode']") }}</th>
+                <td>{{ logData.httpStatusCode }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['HttpMethod']") }}</th>
+                <td>{{ logData.httpMethod }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['Url']") }}</th>
+                <td>{{ logData.url }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['ClientIpAddress']") }}</th>
+                <td>{{ logData.clientIpAddress }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['ClientName']") }}</th>
+                <td>{{ logData.clientName }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['UserName']") }}</th>
+                <td>{{ logData.userName }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['ExecutionTime']") }}</th>
+                <td>{{ logData.executionTime | moment }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['ExecutionDuration']") }}</th>
+                <td>{{ logData.executionDuration }}ms</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['BrowserInfo']") }}</th>
+                <td>{{ logData.browserInfo }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['Exceptions']") }}</th>
+                <td>{{ logData.exceptions }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['Comments']") }}</th>
+                <td>{{ logData.comments }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("AbpAuditLogging['ExtraProperties']") }}</th>
+                <td><pre>{{ logData.extraProperties }}</pre> </td>
+              </tr>
+            </tbody>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane
+          :label="$t('AbpAuditLogging[\'Actions\']')"
+        >
+          <el-collapse
+            v-if="logData.actions && logData.actions.length>0"
+          >
+            <el-collapse-item
+              v-for="action in logData.actions"
+              :key="action.id"
+              :title="action.serviceName"
+              :name="action.serviceName"
+            >
+              <table class="logInfo">
+                <tbody>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['MethodName']") }}</th>
+                    <td>{{ action.methodName }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['ExecutionTime']") }}</th>
+                    <td>{{ action.executionTime | moment }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['ExecutionDuration']") }}</th>
+                    <td>{{ action.executionDuration }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['Parameters']") }}</th>
+                    <td>
+                      <span>{{ action.parameters }}</span>
+                      <el-button
+                        type="primary"
+                        round
+                        size="small"
+                        icon="el-icon-document"
+                        @click="handleCopyParameters(action.parameters,$event)"
+                      >
+                        {{ $t("table.copy") }}
+                      </el-button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['ExtraProperties']") }}</th>
+                    <td>{{ action.extraProperties }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </el-collapse-item>
+          </el-collapse>
+          <p v-else>
+            {{ $t('table.empty') }}
+          </p>
+        </el-tab-pane>
+        <el-tab-pane
+          :label="$t('AbpAuditLogging[\'EntityChanges\']')"
+        >
+          <el-collapse
+            v-if="logData.entityChanges && logData.entityChanges.length>0"
+          >
+            <el-collapse-item
+              v-for="entity in logData.entityChanges"
+              :key="entity.id"
+              :title="entity.entityTypeFullName"
+              :name="entity.entityTypeFullName"
+            >
+              <table class="logInfo">
+                <tbody>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['EntityTypeFullName']") }}</th>
+                    <td>{{ action.entityTypeFullName }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['ChangeType']") }}</th>
+                    <td>{{ action.changeType }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['ChangeTime']") }}</th>
+                    <td>{{ action.changeTime | moment }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['EntityId']") }}</th>
+                    <td>{{ action.entityId }}</td>
+                  </tr>
+                  <tr>
+                    <th>{{ $t("AbpAuditLogging['ExtraProperties']") }}</th>
+                    <td>{{ action.extraProperties }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </el-collapse-item>
+          </el-collapse>
+          <p v-else>
+            {{ $t('table.empty') }}
+          </p>
+        </el-tab-pane>
+      </el-tabs>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">
           {{ $t("AbpAuditLogging['Close']") }}
@@ -69,6 +173,7 @@
 import {
   getAuditLog
 } from '@/api/auditlogging/auditlog'
+import clip from '@/utils/clipboard'
 export default {
   name: 'AuditLogDetails',
   data() {
@@ -86,6 +191,10 @@ export default {
     createLogInfo(row) {
       this.dialogVisible = true
       this.logData = row
+      this.getDetails()
+    },
+    handleCopyParameters(text, event) {
+      clip(text, event)
     }
   }
 }
