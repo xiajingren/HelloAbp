@@ -50,7 +50,9 @@ export function transformAbpListQuery(query) {
 function shouldFetchAppConfig(providerKey, providerName) {
   const currentUser = store.getters.abpConfig.currentUser
 
-  if (providerName === 'R') { return currentUser.roles.some(role => role === providerKey) }
+  if (providerName === 'R') {
+    return currentUser.roles.some(role => role === providerKey)
+  }
 
   if (providerName === 'U') return currentUser.id === providerKey
 
@@ -87,6 +89,16 @@ export function checkPermission(policy) {
   } else {
     return false
   }
+}
+
+export function getFilePathByName(name) {
+  const reg = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/
+
+  if (reg.test(name)) {
+    return name
+  }
+
+  return process.env.VUE_APP_BASE_API + '/api/file-management/files/' + name
 }
 
 export default baseListQuery

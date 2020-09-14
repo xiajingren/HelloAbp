@@ -12,25 +12,25 @@ namespace Xhznl.FileManagement.Files
     [Route("api/file-management/files")]
     public class FileController : FileManagementController
     {
-        private readonly IFileAppService _fileAppService;
+        protected IFileAppService FileAppService { get; }
 
         public FileController(IFileAppService fileAppService)
         {
-            _fileAppService = fileAppService;
+            FileAppService = fileAppService;
         }
 
         [HttpGet]
         [Route("{name}")]
-        public async Task<FileResult> GetAsync(string name)
+        public virtual async Task<FileResult> GetAsync(string name)
         {
-            var bytes = await _fileAppService.GetAsync(name);
+            var bytes = await FileAppService.GetAsync(name);
             return File(bytes, MimeTypes.GetByExtension(Path.GetExtension(name)));
         }
 
         [HttpPost]
         [Route("upload")]
         [Authorize]
-        public async Task<JsonResult> CreateAsync(IFormFile file)
+        public virtual async Task<JsonResult> CreateAsync(IFormFile file)
         {
             if (file == null)
             {
@@ -38,7 +38,7 @@ namespace Xhznl.FileManagement.Files
             }
 
             var bytes = await file.GetAllBytesAsync();
-            var result = await _fileAppService.CreateAsync(new FileUploadInputDto()
+            var result = await FileAppService.CreateAsync(new FileUploadInputDto()
             {
                 Bytes = bytes,
                 Name = file.FileName

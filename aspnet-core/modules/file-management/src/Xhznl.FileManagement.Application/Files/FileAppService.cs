@@ -17,22 +17,18 @@ namespace Xhznl.FileManagement.Files
 {
     public class FileAppService : FileManagementAppService, IFileAppService
     {
-        private readonly FileOptions _fileOptions;
-        private readonly ISettingProvider _settingProvider;
-        private readonly IStringLocalizer<FileManagementResource> _localizer;
+        protected FileOptions FileOptions { get; }
 
-        public FileAppService(IOptions<FileOptions> fileOptions, ISettingProvider settingProvider, IStringLocalizer<FileManagementResource> localizer)
+        public FileAppService(IOptions<FileOptions> fileOptions)
         {
-            _fileOptions = fileOptions.Value;
-            _settingProvider = settingProvider;
-            _localizer = localizer;
+            FileOptions = fileOptions.Value;
         }
 
-        public Task<byte[]> GetAsync(string name)
+        public virtual Task<byte[]> GetAsync(string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
-            var filePath = Path.Combine(_fileOptions.FileUploadLocalFolder, name);
+            var filePath = Path.Combine(FileOptions.FileUploadLocalFolder, name);
 
             if (File.Exists(filePath))
             {
@@ -43,7 +39,7 @@ namespace Xhznl.FileManagement.Files
         }
 
         [Authorize]
-        public async Task<string> CreateAsync(FileUploadInputDto input)
+        public virtual async Task<string> CreateAsync(FileUploadInputDto input)
         {
             if (input.Bytes.IsNullOrEmpty())
             {
@@ -54,31 +50,31 @@ namespace Xhznl.FileManagement.Files
                     });
             }
 
-            var allowedMaxFileSize = await _settingProvider.GetAsync<int>(FileManagementSettings.AllowedMaxFileSize);//kb
-            var allowedUploadFormats = (await _settingProvider.GetOrNullAsync(FileManagementSettings.AllowedUploadFormats))
+            var allowedMaxFileSize = await SettingProvider.GetAsync<int>(FileManagementSettings.AllowedMaxFileSize);//kb
+            var allowedUploadFormats = (await SettingProvider.GetOrNullAsync(FileManagementSettings.AllowedUploadFormats))
                 ?.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
             if (input.Bytes.Length > allowedMaxFileSize * 1024)
             {
-                throw new UserFriendlyException(_localizer["FileManagement.ExceedsTheMaximumSize", allowedMaxFileSize]);
+                throw new UserFriendlyException(L["FileManagement.ExceedsTheMaximumSize", allowedMaxFileSize]);
             }
 
             if (allowedUploadFormats == null || !allowedUploadFormats.Contains(Path.GetExtension(input.Name)))
             {
-                throw new UserFriendlyException(_localizer["FileManagement.NotValidFormat"]);
+                throw new UserFriendlyException(L["FileManagement.NotValidFormat"]);
             }
 
             var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(input.Name);
-            var filePath = Path.Combine(_fileOptions.FileUploadLocalFolder, fileName);
+            var filePath = Path.Combine(FileOptions.FileUploadLocalFolder, fileName);
 
-            if (!Directory.Exists(_fileOptions.FileUploadLocalFolder))
+            if (!Directory.Exists(FileOptions.FileUploadLocalFolder))
             {
-                Directory.CreateDirectory(_fileOptions.FileUploadLocalFolder);
+                Directory.CreateDirectory(FileOptions.FileUploadLocalFolder);
             }
 
             File.WriteAllBytes(filePath, input.Bytes);
 
-            return "/api/file-management/files/" + fileName;
+            return fileName;
         }
     }
 }

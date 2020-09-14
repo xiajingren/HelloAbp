@@ -6,7 +6,12 @@
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
+        <pan-thumb
+          :image="getFilePathByName(user.avatar)"
+          :height="'100px'"
+          :width="'100px'"
+          :hoverable="false"
+        >
           <div>Hello</div>
           {{ user.role }}
         </pan-thumb>
@@ -14,27 +19,33 @@
       <div />
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
-        <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>
+        <div class="user-role text-center text-muted">
+          {{ user.role | uppercaseFirst }}
+        </div>
       </div>
       <div class="box-center">
         <el-upload
           action=""
           name="file"
-          :headers="myHeaders"
           :before-upload="beforeUpload"
           :on-success="handleAvatarSuccess"
           :show-file-list="false"
         >
-          <el-button type="primary" icon="el-icon-upload">Change Avatar</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-upload"
+          >Change Avatar</el-button>
         </el-upload>
       </div>
     </div>
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>个人介绍</span></div>
+        <div class="user-bio-section-header">
+          <svg-icon icon-class="education" /><span>个人介绍</span>
+        </div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            {{ user.introduction?user.introduction:'空空如也！' }}
+            {{ user.introduction ? user.introduction : "空空如也！" }}
           </div>
         </div>
       </div>
@@ -44,7 +55,8 @@
 
 <script>
 import PanThumb from '@/components/PanThumb'
-import { uploadImage } from '@/api/user'
+import { createFile } from '@/api/file-management/file'
+import { getFilePathByName } from '@/utils/abp'
 export default {
   components: { PanThumb },
   props: {
@@ -65,24 +77,17 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      myHeaders: { 'authorization': 'Bearer ' + this.$store.getters.token }
+      loading: false
     }
   },
-  computed: {
-    uploadUrl: function() {
-      return process.env.VUE_APP_BASE_API + '/api/file-management/files/upload'
-    }
-  },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
+    getFilePathByName,
     beforeUpload(file) {
       const fd = new FormData()
       fd.append('file', file)
-      uploadImage(fd).then((resData) => {
-        this.user.avatar = process.env.VUE_APP_BASE_API + resData
+      createFile(fd).then(resData => {
+        this.user.avatar = resData
         const userInfo = {
           userName: this.user.userName,
           email: this.user.email,
@@ -94,25 +99,16 @@ export default {
           }
         }
         this.loading = true
-        this.$store.dispatch('user/setUserInfo', userInfo)
-          .then((res) => {
-            this.loading = false
-            this.$notify({
-              title: this.$i18n.t("HelloAbp['Success']"),
-              message: this.$i18n.t("HelloAbp['SuccessMessage']"),
-              type: 'success',
-              duration: 2000
-            })
-          }).catch(() => {})
-      })
-        .catch(() => {
+        this.$store.dispatch('user/setUserInfo', userInfo).then(res => {
+          this.loading = false
           this.$notify({
-            title: this.$i18n.t("HelloAbp['Error']"),
-            message: this.$i18n.t("HelloAbp['ErrorMessage']"),
-            type: 'error',
+            title: this.$i18n.t("HelloAbp['Success']"),
+            message: this.$i18n.t("HelloAbp['SuccessMessage']"),
+            type: 'success',
             duration: 2000
           })
         })
+      })
     },
     handleAvatarSuccess(resData) {
       console.log(resData)
