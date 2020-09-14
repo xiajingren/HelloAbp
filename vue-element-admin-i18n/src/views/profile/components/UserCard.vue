@@ -18,9 +18,10 @@
       </div>
       <div class="box-center">
         <el-upload
-          :action="uploadUrl"
+          action=""
           name="file"
           :headers="myHeaders"
+          :before-upload="beforeUpload"
           :on-success="handleAvatarSuccess"
           :show-file-list="false"
         >
@@ -43,6 +44,7 @@
 
 <script>
 import PanThumb from '@/components/PanThumb'
+import { uploadImage } from '@/api/user'
 export default {
   components: { PanThumb },
   props: {
@@ -76,30 +78,44 @@ export default {
 
   },
   methods: {
-    handleAvatarSuccess(resData) {
-      console.log(resData)
-      this.user.avatar = process.env.VUE_APP_BASE_API + resData
-      const userInfo = {
-        userName: this.user.userName,
-        email: this.user.email,
-        name: this.user.name,
-        phoneNumber: this.user.phoneNumber,
-        extraProperties: {
-          Avatar: resData,
-          Introduction: this.user.introduction
+    beforeUpload(file) {
+      const fd = new FormData()
+      fd.append('file', file)
+      uploadImage(fd).then((resData) => {
+        this.user.avatar = process.env.VUE_APP_BASE_API + resData
+        const userInfo = {
+          userName: this.user.userName,
+          email: this.user.email,
+          name: this.user.name,
+          phoneNumber: this.user.phoneNumber,
+          extraProperties: {
+            Avatar: resData,
+            Introduction: this.user.introduction
+          }
         }
-      }
-      this.loading = true
-      this.$store.dispatch('user/setUserInfo', userInfo)
-        .then((res) => {
-          this.loading = false
+        this.loading = true
+        this.$store.dispatch('user/setUserInfo', userInfo)
+          .then((res) => {
+            this.loading = false
+            this.$notify({
+              title: this.$i18n.t("HelloAbp['Success']"),
+              message: this.$i18n.t("HelloAbp['SuccessMessage']"),
+              type: 'success',
+              duration: 2000
+            })
+          }).catch(() => {})
+      })
+        .catch(() => {
           this.$notify({
-            title: this.$i18n.t("HelloAbp['Success']"),
-            message: this.$i18n.t("HelloAbp['SuccessMessage']"),
-            type: 'success',
+            title: this.$i18n.t("HelloAbp['Error']"),
+            message: this.$i18n.t("HelloAbp['ErrorMessage']"),
+            type: 'error',
             duration: 2000
           })
-        }).catch(() => {})
+        })
+    },
+    handleAvatarSuccess(resData) {
+      console.log(resData)
     }
   }
 }

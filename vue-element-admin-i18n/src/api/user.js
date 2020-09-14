@@ -49,3 +49,11 @@ export function changePassword(data) {
     data: data
   })
 }
+
+export function uploadImage(data) {
+  return request({
+    url: process.env.VUE_APP_BASE_API + '/api/file-management/files/upload',
+    method: 'post',
+    data: data
+  })
+}
