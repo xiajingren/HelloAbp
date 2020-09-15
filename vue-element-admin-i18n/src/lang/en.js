@@ -64,6 +64,13 @@ export default {
     externalLink: 'External Link',
     profile: 'Profile'
   },
+  userCard: {
+    aboutMe: 'About Me',
+    greetings: 'Hello',
+    changeAvatar: 'Change Avatar',
+    personalIntroduction: 'Personal Introduction',
+    personalIntroductionContent: 'There\'s nothing.'
+  },
   navbar: {
     dashboard: 'Dashboard',
     github: 'Github',
