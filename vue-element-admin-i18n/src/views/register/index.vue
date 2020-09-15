@@ -13,24 +13,30 @@
           {{ $t('HelloAbp["Register"]') }}
           <lang-select class="set-language" />
         </h3>
-        <div style="color:#fff;">
-          <span>
-            {{ $t('AbpAccount["AlreadyRegistered"]') }}
-          </span>
-          <el-button type="text" @click="navitoLogin()">
-            {{ $t('AbpAccount["Login"]') }}
-          </el-button>
-        </div>
-        <div style="color:#fff;">
-          <span>
-            {{ $t("AbpUiMultiTenancy['Tenant']") }}
-          </span>
-          <el-button type="text" @click="tenantDialogFormVisible = true">
-            {{
-              currentTenant? currentTenant: $t("AbpUiMultiTenancy['NotSelected']")
-            }}
-          </el-button>
-        </div>
+        <p class="explain">
+          {{ $t("AbpUiMultiTenancy['Tenant']") }}
+          <el-tooltip
+            :content="$t('AbpUiMultiTenancy[\'Switch\']')"
+            effect="dark"
+            placement="bottom"
+          >
+            <el-link
+              :underline="false"
+              @click="tenantDialogFormVisible = true"
+            ><i>{{
+              currentTenant
+                ? currentTenant
+                : $t("AbpUiMultiTenancy['NotSelected']")
+            }}</i></el-link>
+          </el-tooltip>
+        </p>
+        <p class="explain">
+          {{ $t("AbpAccount['AlreadyRegistered']") }}
+          <el-link
+            :underline="false"
+            @click="navitoLogin()"
+          ><i>{{ $t("AbpAccount['Login']") }}</i></el-link>
+        </p>
         <el-form-item prop="username">
           <span class="svg-container">
             <svg-icon icon-class="user" />
@@ -74,7 +80,9 @@
             @keyup.enter.native="handleRegiter"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            <svg-icon
+              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+            />
           </span>
         </el-form-item>
         <el-button
@@ -111,7 +119,6 @@
         </el-button>
       </div>
     </el-dialog>
-
   </div>
 </template>
 
@@ -163,18 +170,17 @@ export default {
       return this.$store.getters.abpConfig.currentTenant.name
     },
     tenantDisabled() {
-      if (this.tenant.name && this.tenant.name === this.$store.getters.abpConfig.currentTenant.name) {
+      if (
+        this.tenant.name &&
+        this.tenant.name === this.$store.getters.abpConfig.currentTenant.name
+      ) {
         return true
       }
       return false
     }
   },
-  mounted() {
-
-  },
-  destroyed() {
-
-  },
+  mounted() {},
+  destroyed() {},
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
@@ -195,12 +201,13 @@ export default {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
-          register(this.registerForm).then((res) => {
-            this.$router.push({
-              path: '/login'
+          register(this.registerForm)
+            .then(res => {
+              this.$router.push({
+                path: '/login'
+              })
+              this.loading = false
             })
-            this.loading = false
-          })
             .catch(() => {
               this.loading = false
             })
@@ -214,7 +221,10 @@ export default {
         if (response && !response.success) {
           this.$notify({
             title: this.$i18n.t("AbpUi['Error']"),
-            message: this.$i18n.t("AbpUiMultiTenancy['GivenTenantIsNotAvailable']", [this.tenant.name]),
+            message: this.$i18n.t(
+              "AbpUiMultiTenancy['GivenTenantIsNotAvailable']",
+              [this.tenant.name]
+            ),
             type: 'error',
             duration: 2000
           })
@@ -292,9 +302,15 @@ $light_gray: #eee;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+
+    .explain {
+      color: #fff;
+      font-size: 14px;
+      padding-right: 15px;
+    }
   }
-  .el-button--text{
-    color:#606266
+  .el-button--text {
+    color: #606266;
   }
   .tips {
     font-size: 14px;
@@ -307,8 +323,8 @@ $light_gray: #eee;
       }
     }
   }
-  .title-container .el-button--text:hover{
-    color:#1890ff;
+  .title-container .el-button--text:hover {
+    color: #1890ff;
   }
   .svg-container {
     padding: 6px 5px 6px 15px;
@@ -328,10 +344,10 @@ $light_gray: #eee;
       text-align: center;
       font-weight: bold;
     }
-    h5{
-      color:#fff;
+    h5 {
+      color: #fff;
       font-size: 16px;
-      .el-button{
+      .el-button {
         font-size: 16px;
       }
     }

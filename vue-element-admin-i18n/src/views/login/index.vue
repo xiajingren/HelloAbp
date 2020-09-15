@@ -13,28 +13,25 @@
           {{ $t('HelloAbp["Login:Title"]') }}
         </h3>
         <lang-select class="set-language" />
-        <div style="text-align:left;">
-          <span
-            style="color:#fff;font-size:14px;padding-right:15px;"
-          >{{ $t("AbpUiMultiTenancy['Tenant']") }}
-            <el-tooltip
-              :content="$t('AbpUiMultiTenancy[\'Switch\']')"
-              effect="dark"
-              placement="bottom"
-            >
-              <el-link
-                :underline="false"
-                @click="tenantDialogFormVisible = true"
-              ><i>{{
-                currentTenant
-                  ? currentTenant
-                  : $t("AbpUiMultiTenancy['NotSelected']")
-              }}</i></el-link>
-            </el-tooltip>
-          </span>
-        </div>
 
-        <p style="font-size:14px;text-align:left;color:#fff;">
+        <p class="explain">
+          {{ $t("AbpUiMultiTenancy['Tenant']") }}
+          <el-tooltip
+            :content="$t('AbpUiMultiTenancy[\'Switch\']')"
+            effect="dark"
+            placement="bottom"
+          >
+            <el-link
+              :underline="false"
+              @click="tenantDialogFormVisible = true"
+            ><i>{{
+              currentTenant
+                ? currentTenant
+                : $t("AbpUiMultiTenancy['NotSelected']")
+            }}</i></el-link>
+          </el-tooltip>
+        </p>
+        <p class="explain">
           {{ $t("AbpAccount['AreYouANewUser']") }}
           <el-link
             :underline="false"
@@ -382,6 +379,12 @@ $light_gray: #eee;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+
+    .explain {
+      color: #fff;
+      font-size: 14px;
+      padding-right: 15px;
+    }
   }
 
   .tips {
