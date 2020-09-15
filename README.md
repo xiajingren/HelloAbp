@@ -19,6 +19,12 @@ ABP vNext + vue-element-admin入门级项目实战
 
 ![](https://img2020.cnblogs.com/blog/610959/202009/610959-20200908130854419-1350587737.png)
 
+![](https://img2020.cnblogs.com/blog/610959/202009/610959-20200915115030501-533846903.png)
+
+![](https://img2020.cnblogs.com/blog/610959/202009/610959-20200915115133845-1938144172.png)
+
+![](https://img2020.cnblogs.com/blog/610959/202009/610959-20200915115229379-610140747.png)
+
 # 运行
 
 环境：.netcore 3.1、sqlserver、redis、nodejs、npm
