@@ -1,13 +1,18 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>{{ $t('userCard.aboutMe') }}</span>
+      <span>{{ $t("userCard.aboutMe") }}</span>
     </div>
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
-          <div>{{ $t('userCard.greetings') }}</div>
+        <pan-thumb
+          :image="getFilePathByName(user.avatar)"
+          :height="'100px'"
+          :width="'100px'"
+          :hoverable="false"
+        >
+          <div>{{ $t("userCard.greetings") }}</div>
           {{ user.name }}
         </pan-thumb>
       </div>
@@ -23,10 +28,12 @@
           action
           name="file"
           :before-upload="beforeUpload"
-          :on-success="handleAvatarSuccess"
+          :http-request="uploadAvatar"
           :show-file-list="false"
         >
-          <el-button type="primary" icon="el-icon-upload">{{ $t('userCard.changeAvatar') }}</el-button>
+          <el-button type="primary" icon="el-icon-upload">{{
+            $t("userCard.changeAvatar")
+          }}</el-button>
         </el-upload>
       </div>
     </div>
@@ -34,12 +41,16 @@
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header">
           <svg-icon icon-class="education" />
-          <span>{{ $t('userCard.personalIntroduction') }}</span>
+          <span>{{ $t("userCard.personalIntroduction") }}</span>
         </div>
         <div class="user-bio-section-body">
-          <div
-            class="text-muted"
-          >{{ user.introduction?user.introduction: $t('userCard.personalIntroductionContent') }}</div>
+          <div class="text-muted">
+            {{
+              user.introduction
+                ? user.introduction
+                : $t("userCard.personalIntroductionContent")
+            }}
+          </div>
         </div>
       </div>
     </div>
@@ -73,14 +84,16 @@ export default {
       loading: false
     }
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     getFilePathByName,
     beforeUpload(file) {
+      // TODO: Image format verification
+
+    },
+    uploadAvatar(data) {
       const fd = new FormData()
-      fd.append('file', file)
+      fd.append('file', data.file)
       createFile(fd).then(resData => {
         this.user.avatar = resData
         const userInfo = {
@@ -104,9 +117,6 @@ export default {
           })
         })
       })
-    },
-    handleAvatarSuccess(resData) {
-      console.log(resData)
     }
   }
 }

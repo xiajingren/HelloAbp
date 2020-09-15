@@ -13,15 +13,15 @@
           {{ $t('HelloAbp["Register"]') }}
           <lang-select class="set-language" />
         </h3>
-        <h5>
+        <div style="color:#fff;">
           <span>
             {{ $t('AbpAccount["AlreadyRegistered"]') }}
           </span>
           <el-button type="text" @click="navitoLogin()">
             {{ $t('AbpAccount["Login"]') }}
           </el-button>
-        </h5>
-        <h5>
+        </div>
+        <div style="color:#fff;">
           <span>
             {{ $t("AbpUiMultiTenancy['Tenant']") }}
           </span>
@@ -30,7 +30,7 @@
               currentTenant? currentTenant: $t("AbpUiMultiTenancy['NotSelected']")
             }}
           </el-button>
-        </h5>
+        </div>
         <el-form-item prop="username">
           <span class="svg-container">
             <svg-icon icon-class="user" />
@@ -80,7 +80,7 @@
         <el-button
           :loading="loading"
           type="primary"
-          style="width:100%;margin-top:30px;"
+          style="width:100%;"
           @click.native.prevent="handleRegiter"
         >
           {{ $t('HelloAbp["Register"]') }}
@@ -293,7 +293,9 @@ $light_gray: #eee;
     margin: 0 auto;
     overflow: hidden;
   }
-
+  .el-button--text{
+    color:#606266
+  }
   .tips {
     font-size: 14px;
     color: #fff;
@@ -305,7 +307,9 @@ $light_gray: #eee;
       }
     }
   }
-
+  .title-container .el-button--text:hover{
+    color:#1890ff;
+  }
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;

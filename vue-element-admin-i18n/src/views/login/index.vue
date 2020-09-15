@@ -13,6 +13,34 @@
           {{ $t('HelloAbp["Login:Title"]') }}
         </h3>
         <lang-select class="set-language" />
+        <div style="text-align:left;">
+          <span
+            style="color:#fff;font-size:14px;padding-right:15px;"
+          >{{ $t("AbpUiMultiTenancy['Tenant']") }}
+            <el-tooltip
+              :content="$t('AbpUiMultiTenancy[\'Switch\']')"
+              effect="dark"
+              placement="bottom"
+            >
+              <el-link
+                :underline="false"
+                @click="tenantDialogFormVisible = true"
+              ><i>{{
+                currentTenant
+                  ? currentTenant
+                  : $t("AbpUiMultiTenancy['NotSelected']")
+              }}</i></el-link>
+            </el-tooltip>
+          </span>
+        </div>
+
+        <p style="font-size:14px;text-align:left;color:#fff;">
+          {{ $t("AbpAccount['AreYouANewUser']") }}
+          <el-link
+            :underline="false"
+            @click="navitoRegister()"
+          ><i>{{ $t("AbpAccount['Register']") }}</i></el-link>
+        </p>
       </div>
 
       <el-form-item prop="username">
@@ -69,46 +97,18 @@
       >
         {{ $t("AbpAccount['Login']") }}
       </el-button>
-
-      <div style="text-align:right;">
-        <span
-          style="color:#fff;font-size:14px;padding-right:15px;"
-        >{{ $t("AbpUiMultiTenancy['Tenant']") }}
-          <el-tooltip
-            :content="$t('AbpUiMultiTenancy[\'Switch\']')"
-            effect="dark"
-            placement="bottom"
-          >
-            <el-link
-              :underline="false"
-              @click="tenantDialogFormVisible = true"
-            ><i>{{
-              currentTenant
-                ? currentTenant
-                : $t("AbpUiMultiTenancy['NotSelected']")
-            }}</i></el-link>
-          </el-tooltip>
-        </span>
+      <div style="text-align: right;">
         <el-button
           v-if="features['HelloAbp.SocialLogins'] === 'true'"
           class="thirdparty-button"
           type="primary"
+          size="small"
           @click="showDialog = true"
         >
           {{ $t("HelloAbp['Login:ThirdParty']") }}
         </el-button>
       </div>
-
-      <p style="font-size:14px;text-align:center;color:#fff;">
-        {{ $t("AbpAccount['AreYouANewUser']") }}
-        <el-link
-          :underline="false"
-          @click="navitoRegister()"
-        ><i>{{ $t("AbpAccount['Register']") }}</i></el-link>
-      </p>
-
     </el-form>
-
     <el-dialog
       :title="$t('AbpUiMultiTenancy[\'SwitchTenant\']')"
       :visible.sync="tenantDialogFormVisible"
