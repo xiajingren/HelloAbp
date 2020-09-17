@@ -9,7 +9,7 @@ namespace Xhznl.HelloAbp
     [DependsOn(
         typeof(AbpAutofacModule),
         typeof(AbpAspNetCoreModule),
-        typeof(HelloAbpBackgroundJobsModule))]
+        typeof(HelloAbpApplicationModule))]
     public class HelloAbpBackgroundJobsHostModule : AbpModule
     {
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

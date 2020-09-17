@@ -9,7 +9,7 @@ using Xhznl.HelloAbp.Jobs;
 
 namespace Xhznl.HelloAbp.Jobs
 {
-    [DependsOn(typeof(AbpBackgroundJobsHangfireModule))]
+    [DependsOn(typeof(HelloAbpApplicationContractsModule))]
     public class HelloAbpBackgroundJobsModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -42,7 +42,7 @@ namespace Xhznl.HelloAbp.Jobs
                 config.UseSqlServerStorage(configuration["AbpBackgroundJobs"] ??
                     configuration["Default"], new Hangfire.SqlServer.SqlServerStorageOptions
                     {
-                        SchemaName = tablePrefix
+
                     });
             });
         }

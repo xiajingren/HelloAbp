@@ -12,7 +12,8 @@ namespace Xhznl.HelloAbp.Jobs
     {
         public static IServiceProvider UseTrafficJob(this IServiceProvider services)
         {
-            var job = services.GetRequiredService<IHelloAbpBackgroungJob>();
+            var job = services.GetService<TrafficBackgroungJob>();
+            var job2 = services.GetService<IHelloAbpBackgroungJob>();
             RecurringJob.AddOrUpdate("每日异常日志统计", () => job.ExecuteAsync(), CronType.Minute());
             return services;
         }
