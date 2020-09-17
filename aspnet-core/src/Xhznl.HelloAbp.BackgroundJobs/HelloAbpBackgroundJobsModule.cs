@@ -9,7 +9,7 @@ using Xhznl.HelloAbp.Jobs;
 
 namespace Xhznl.HelloAbp.Jobs
 {
-    [DependsOn(typeof(HelloAbpApplicationContractsModule))]
+    [DependsOn(typeof(AbpBackgroundJobsHangfireModule))]
     public class HelloAbpBackgroundJobsModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Xhznl.HelloAbp.Application\Xhznl.HelloAbp.Application.csproj" />
     <ProjectReference Include="..\..\src\Xhznl.HelloAbp.BackgroundJobs\Xhznl.HelloAbp.BackgroundJobs.csproj" />
+    <ProjectReference Include="..\..\src\Xhznl.HelloAbp.EntityFrameworkCore\Xhznl.HelloAbp.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
