@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Xhznl.HelloAbp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Xhznl.HelloAbp.Application\Xhznl.HelloAbp.Application.csproj" />
+    <ProjectReference Include="..\..\src\Xhznl.HelloAbp.BackgroundJobs\Xhznl.HelloAbp.BackgroundJobs.csproj" />
+  </ItemGroup>
+
+</Project>

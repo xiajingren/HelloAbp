@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Autofac" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="3.1.2" />
     <ProjectReference Include="..\Xhznl.HelloAbp.Application.Contracts\Xhznl.HelloAbp.Application.Contracts.csproj" />
     <ProjectReference Include="..\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrations\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrations.csproj" />
     <ProjectReference Include="..\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIdsDB\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIds.csproj" />
