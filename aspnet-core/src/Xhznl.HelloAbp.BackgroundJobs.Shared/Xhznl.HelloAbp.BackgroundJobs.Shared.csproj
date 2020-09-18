@@ -8,14 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.Dashboard.Authorization" Version="3.0.0" />
-    <PackageReference Include="Hangfire.SqlServer" Version="1.7.11" />
     <PackageReference Include="Volo.Abp.AspNetCore" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Emailing" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Threading" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xhznl.HelloAbp.Application.Contracts\Xhznl.HelloAbp.Application.Contracts.csproj" />
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain\Xhznl.HelloAbp.Domain.csproj" />
   </ItemGroup>
 

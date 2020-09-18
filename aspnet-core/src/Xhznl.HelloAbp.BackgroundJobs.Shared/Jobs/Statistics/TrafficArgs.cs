@@ -1,4 +1,4 @@
-﻿namespace Xhznl.HelloAbp.BackgroundJobs.Jobs.Statistics
+﻿namespace Xhznl.HelloAbp.Jobs.Statistics
 {
     public class TrafficArgs
     {

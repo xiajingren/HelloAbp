@@ -1,14 +1,14 @@
-﻿using Hangfire;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Hangfire;
 
-namespace Xhznl.HelloAbp.Jobs
+namespace Xhznl.HelloAbp
 {
     /// <summary>
     /// Cron类型
     /// </summary>
-    public static class CronType
+    public static class HelloAbpCronType
     {
         /// <summary>
         /// 周期性为分钟的任务
