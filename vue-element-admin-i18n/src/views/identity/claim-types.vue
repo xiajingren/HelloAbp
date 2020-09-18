@@ -203,7 +203,26 @@ export default {
         valueType: 0
       },
       dialogFormVisible: false,
-      dialogStatus: ''
+      dialogStatus: '',
+      rules: {
+        name: [
+          {
+            required: true,
+            message: this.$i18n.t("AbpIdentity['The {0} field is required.']", [
+              this.$i18n.t("AbpIdentity['ClaimName']")
+            ]),
+            trigger: 'blur'
+          },
+          {
+            max: 256,
+            message: this.$i18n.t(
+              "AbpIdentity['The field {0} must be a string with a maximum length of {1}.']",
+              [this.$i18n.t("AbpIdentity['ClaimName']"), '256']
+            ),
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   created() {
