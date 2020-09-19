@@ -8,6 +8,7 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Emailing;
 using Volo.Abp.Emailing.Smtp;
+using Volo.Abp.Security.Encryption;
 using Volo.Abp.Settings;
 using Volo.Abp.Threading;
 
@@ -18,14 +19,16 @@ namespace Xhznl.HelloAbp.Jobs.Statistics
         private readonly IAuditLogRepository _auditLogRepository;
         private readonly ISmtpEmailSender _smtpEmailSender;
         private readonly ISmtpEmailSenderConfiguration  _smtpEmailSenderConfiguration;
-
+        private readonly IStringEncryptionService _encryptionService;
         public TrafficBackgroungJob(IAuditLogRepository auditLogRepository,
             ISmtpEmailSender smtpEmailSender,
-            ISmtpEmailSenderConfiguration smtpEmailSenderConfiguration)
+            ISmtpEmailSenderConfiguration smtpEmailSenderConfiguration,
+            IStringEncryptionService encryptionService)
         {
             _auditLogRepository = auditLogRepository;
             _smtpEmailSender = smtpEmailSender;
             _smtpEmailSenderConfiguration = smtpEmailSenderConfiguration;
+            _encryptionService = encryptionService;
         }
 
         public override void Execute(TrafficArgs args)
