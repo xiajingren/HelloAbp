@@ -38,8 +38,14 @@ namespace Xhznl.HelloAbp
 
         public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
         {
-            var manager = context.ServiceProvider.GetRequiredService<IBackgroundJobManager>();
-            manager.EnqueueAsync(new TrafficArgs(100));
+            //后台作业
+            // var manager = context.ServiceProvider.GetRequiredService<IBackgroundJobManager>();
+            // manager.EnqueueAsync(new TrafficArgs(100));
+            //周期性作业
+            var trafficBackgroungJob = context.ServiceProvider.GetRequiredService<TrafficBackgroungJob>();
+            RecurringJob.AddOrUpdate("每天服务异常量统计",
+                () => trafficBackgroungJob.ExecuteAsync(null),
+                HelloAbpCronType.Minute());
         }
 
         private void ConfigureHangfire(ServiceConfigurationContext context)

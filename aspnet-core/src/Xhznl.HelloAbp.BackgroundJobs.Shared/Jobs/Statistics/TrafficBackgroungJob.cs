@@ -14,7 +14,7 @@ using Volo.Abp.Threading;
 
 namespace Xhznl.HelloAbp.Jobs.Statistics
 {
-    public class TrafficBackgroungJob : BackgroundJob<TrafficArgs>, ITransientDependency
+    public class TrafficBackgroungJob : AsyncBackgroundJob<TrafficArgs>, ITransientDependency
     {
         private readonly IAuditLogRepository _auditLogRepository;
         private readonly ISmtpEmailSender _smtpEmailSender;
@@ -31,12 +31,7 @@ namespace Xhznl.HelloAbp.Jobs.Statistics
             _encryptionService = encryptionService;
         }
 
-        public override void Execute(TrafficArgs args)
-        {
-            AsyncHelper.RunSync(ExecuteAsync);
-        }
-
-        private async Task ExecuteAsync()
+        public override async Task ExecuteAsync(TrafficArgs args)
         {
             var errorsCount = await _auditLogRepository.GetCountAsync(
                 startTime: DateTime.Now.Date,
