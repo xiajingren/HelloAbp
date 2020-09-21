@@ -15,7 +15,9 @@ using Xhznl.DataDictionary.Permissions;
 namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
 {
     [Authorize(DataDictionaryPermissions.DataDictionary.Default)]
-    public class DictionaryDetailAppService : CrudAppService<DataDictionaryDetail, DictionaryDetailDto, Guid, GetDictionaryDetailInputDto, CreateDataDictionaryDetailDto, UpdateDataDictionaryDetailDto>, IDictionaryDetailAppService
+    public class DictionaryDetailAppService :
+        CrudAppService<DataDictionaryDetail, DictionaryDetailDto, Guid, GetDictionaryDetailInputDto,
+            CreateDataDictionaryDetailDto, UpdateDataDictionaryDetailDto>, IDictionaryDetailAppService
     {
         protected IRepository<DataDictionary, Guid> MasterRepository { get; }
 
@@ -27,6 +29,7 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
             ObjectMapperContext = typeof(DataDictionaryApplicationModule);
         }
 
+        [Authorize(DataDictionaryPermissions.DataDictionaryDetail.Create)]
         public override async Task<DictionaryDetailDto> CreateAsync(CreateDataDictionaryDetailDto input)
         {
             var master = await MasterRepository.FindAsync(d => d.Id == input.Pid);
@@ -41,9 +44,28 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
                 throw new BusinessException(L["HasCreatedMessage", input.Label]);
             }
 
-            return await base.CreateAsync(input);
+            var result = await Repository.InsertAsync(new DataDictionaryDetail(
+                GuidGenerator.Create(),
+                input.Pid,
+                CurrentTenant.Id,
+                input.Label,
+                input.Value,
+                input.Sort)
+            );
+            return MapDataDictionaryDetailToDto(result);
         }
 
+        [Authorize(DataDictionaryPermissions.DataDictionaryDetail.Update)]
+        public override async Task<DictionaryDetailDto> UpdateAsync(Guid id, UpdateDataDictionaryDetailDto input)
+        {
+            var detail = await Repository.GetAsync(id);
+            detail.SetValue(input.Label, input.Value);
+            detail.SetSort(input.Sort);
+            var result = await Repository.UpdateAsync(detail, true);
+            return MapDataDictionaryDetailToDto(result);
+        }
+
+        [Authorize(DataDictionaryPermissions.DataDictionaryDetail.Delete)]
         public async Task DeleteAsync(List<Guid> ids)
         {
             foreach (var id in ids)
@@ -52,16 +74,22 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
             }
         }
 
+        protected virtual DictionaryDetailDto MapDataDictionaryDetailToDto(DataDictionaryDetail detail)
+        {
+            var detailDto = base.ObjectMapper.Map<DataDictionaryDetail, DictionaryDetailDto>(detail);
+            return detailDto;
+        }
+
+        protected virtual List<DictionaryDetailDto> MapListDataDictionaryDetailToListDto(
+            List<DataDictionaryDetail> details)
+        {
+            var list = base.ObjectMapper.Map<List<DataDictionaryDetail>, List<DictionaryDetailDto>>(details);
+            return list;
+        }
+
         protected override IQueryable<DataDictionaryDetail> CreateFilteredQuery(GetDictionaryDetailInputDto input)
         {
             return Repository.Where(p => p.Pid == input.Pid);
-
         }
-
-        #region override Policy
-        protected override string UpdatePolicyName => DataDictionaryPermissions.DataDictionaryDetail.Update;
-        protected override string CreatePolicyName => DataDictionaryPermissions.DataDictionaryDetail.Create;
-        protected override string DeletePolicyName => DataDictionaryPermissions.DataDictionaryDetail.Delete;
-        #endregion
     }
 }

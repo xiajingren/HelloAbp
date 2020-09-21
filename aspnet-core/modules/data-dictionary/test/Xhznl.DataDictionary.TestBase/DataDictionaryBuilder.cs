@@ -40,22 +40,26 @@ namespace Xhznl.DataDictionary
                  new DataDictionary(
                     GenderId,
                     "性别",
-                    "F-女，M-男，U-未知"),
+                    "F-女，M-男，U-未知",
+                    2),
 
                  new DataDictionary(
                     DrugTypeId,
                     "药物类别",
-                    "K-颗粒，F-粉状，Y-液体"),
+                    "K-颗粒，F-粉状，Y-液体",
+                    1),
 
                  new DataDictionary(
                     CountryId,
                     "国籍",
-                    "C-国内，O-国外"),
+                    "C-国内，O-国外",
+                    0),
 
                  new DataDictionary(
                     ExamTypeId,
                     "体检类型",
-                    "H-健康体检，C-从业体检，Z-职业病体检")
+                    "H-健康体检，C-从业体检，Z-职业病体检",
+                    4)
             };
             foreach (var item in list)
             {

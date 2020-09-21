@@ -30,7 +30,7 @@ namespace Xhznl.DataDictionary.EntityFrameworkCore
 
                 b.Property(x => x.Name).IsRequired().HasMaxLength(DataDictionaryConsts.MaxNameLength);
                 b.Property(x => x.Description).HasMaxLength(DataDictionaryConsts.MaxNotesLength);
-                b.Property(x => x.Short).HasDefaultValue(0);
+                b.Property(x => x.Sort).HasDefaultValue(0);
                 b.Property(x => x.IsDeleted).HasDefaultValue(false);
 
                 b.HasIndex(q => q.Name);

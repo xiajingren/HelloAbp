@@ -67,7 +67,8 @@ namespace Xhznl.DataDictionary.BaseData
             var input = new CreateDataDictionaryDto
             {
                 Name = DataDictionaryBuilder.TenantId1 + "-外贸",
-                Description = "I-进口,E-出口,C-国产"
+                Description = "I-进口,E-出口,C-国产",
+                Sort = 100
             };
             var create = await _dictionaryAppService.CreateAsync(input);
             create.ShouldNotBeNull();

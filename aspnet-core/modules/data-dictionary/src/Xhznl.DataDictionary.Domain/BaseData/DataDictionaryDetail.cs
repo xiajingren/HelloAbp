@@ -20,6 +20,20 @@ namespace Xhznl.DataDictionary
 
         public Guid? TenantId { get; private set; }
 
+        public void SetValue([NotNull] string label,
+            [NotNull] string value)
+        {
+            Check.NotNullOrEmpty(label, nameof(label), DataDictionaryConsts.MaxNameLength);
+            Check.NotNullOrEmpty(value, nameof(value), DataDictionaryConsts.MaxNotesLength);
+            Label = label;
+            Value = value;
+        }
+        
+        public void SetSort(short sort)
+        {
+            Sort = sort;
+        }
+
         protected DataDictionaryDetail()
         {
 

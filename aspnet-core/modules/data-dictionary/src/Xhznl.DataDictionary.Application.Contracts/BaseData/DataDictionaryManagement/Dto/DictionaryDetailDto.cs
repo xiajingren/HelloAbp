@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement.Dto
 {
-    public class DictionaryDetailDto: EntityDto<Guid>
+    public class DictionaryDetailDto:  ExtensibleAuditedEntityDto<Guid>
     {
         public Guid Pid { get; set; }
 

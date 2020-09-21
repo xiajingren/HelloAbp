@@ -6,7 +6,7 @@ using Volo.Abp.Validation;
 
 namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement.Dto
 {
-    public abstract class BaseCreateOrUpdateDictionaryDto : ExtensibleAuditedEntityDto<Guid>
+    public abstract class BaseCreateOrUpdateDictionaryDto
     {
         [Required]
         [DynamicStringLength(typeof(DataDictionaryConsts), nameof(DataDictionaryConsts.MaxNameLength))]
@@ -14,6 +14,6 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement.Dto
 
         public virtual string Description { get; set; }
 
-        public virtual short Short { get; set; }
+        public virtual short Sort { get; set; }
     }
 }

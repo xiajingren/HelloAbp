@@ -5,7 +5,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement.Dto
 {
-    public abstract class BaseCreateOrUpdateDataDictionaryDetailDto : ExtensibleAuditedEntityDto<Guid>
+    public abstract class BaseCreateOrUpdateDataDictionaryDetailDto
     {
         public virtual Guid Pid { get; set; }
 

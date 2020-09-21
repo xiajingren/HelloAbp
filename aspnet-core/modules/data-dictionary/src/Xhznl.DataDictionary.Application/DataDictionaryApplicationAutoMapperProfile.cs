@@ -11,25 +11,11 @@ namespace Xhznl.DataDictionary
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<DataDictionary, DictionaryDto>();
-            CreateMap<CreateDataDictionaryDto, DataDictionary>()
-                .Ignore(d => d.TenantId)
-                .Ignore(d => d.ConcurrencyStamp)
-                .IgnoreSoftDeleteProperties();
-            CreateMap<UpdateDataDictionaryDto, DataDictionary>()
-                .Ignore(d => d.TenantId)
-                .Ignore(d => d.ConcurrencyStamp)
-                .IgnoreSoftDeleteProperties();
+            CreateMap<DataDictionary, DictionaryDto>()
+                .MapExtraProperties();
 
-            CreateMap<DataDictionaryDetail, DictionaryDetailDto>();
-            CreateMap<CreateDataDictionaryDetailDto, DataDictionaryDetail>()
-                .Ignore(d => d.TenantId)
-                .Ignore(d => d.ConcurrencyStamp)
-                .IgnoreSoftDeleteProperties();
-            CreateMap<UpdateDataDictionaryDetailDto, DataDictionaryDetail>()
-                .Ignore(d => d.TenantId)
-                .Ignore(d => d.ConcurrencyStamp)
-                .IgnoreSoftDeleteProperties();
+            CreateMap<DataDictionaryDetail, DictionaryDetailDto>()
+                .MapExtraProperties();
         }
     }
 }
