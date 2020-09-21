@@ -27,7 +27,7 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
             ObjectMapperContext = typeof(DataDictionaryApplicationModule);
         }
 
-        public async override Task<DictionaryDetailDto> CreateAsync(CreateDataDictionaryDetailDto input)
+        public override async Task<DictionaryDetailDto> CreateAsync(CreateDataDictionaryDetailDto input)
         {
             var master = await MasterRepository.FindAsync(d => d.Id == input.Pid);
             if (master == null)

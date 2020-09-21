@@ -10,10 +10,10 @@ namespace Xhznl.DataDictionary
 
         public const int MaxCodeLength = 32;
 
-        public const int MaxNameLength = 50;
+        public static int MaxNameLength { get; } = 50;
 
         public const int MaxFullNameLength = 128;
 
-        public const int MaxNotesLength = 256;
+        public static int MaxNotesLength { get; } = 256;
     }
 }

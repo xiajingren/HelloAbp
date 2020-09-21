@@ -25,6 +25,8 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
+using Xhznl.DataDictionary;
+using Xhznl.FileManagement;
 
 namespace Xhznl.HelloAbp
 {
@@ -78,18 +80,22 @@ namespace Xhznl.HelloAbp
             {
                 Configure<AbpVirtualFileSystemOptions>(options =>
                 {
-                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpDomainSharedModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Domain.Shared"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpDomainModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Domain"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpApplicationContractsModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Application.Contracts"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpApplicationModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Application"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Domain.Shared"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Domain"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Application.Contracts"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<HelloAbpApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Xhznl.HelloAbp.Application"));
+                    
+                    options.FileSets.ReplaceEmbeddedByPhysical<FileManagementDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}file-management{0}src{0}Xhznl.FileManagement.Domain.Shared",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<FileManagementDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}file-management{0}src{0}Xhznl.FileManagement.Domain",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<FileManagementApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}file-management{0}src{0}Xhznl.FileManagement.Application.Contracts",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<FileManagementApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}file-management{0}src{0}Xhznl.FileManagement.Application",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<FileManagementHttpApiModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}file-management{0}src{0}Xhznl.FileManagement.HttpApi",Path.DirectorySeparatorChar)));
+                    
+                    options.FileSets.ReplaceEmbeddedByPhysical<DataDictionaryDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}data-dictionary{0}src{0}Xhznl.DataDictionary.Domain.Shared",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<DataDictionaryDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}data-dictionary{0}src{0}Xhznl.DataDictionary.Domain",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<DataDictionaryApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}data-dictionary{0}src{0}Xhznl.DataDictionary.Application.Contracts",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<DataDictionaryApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}data-dictionary{0}src{0}Xhznl.DataDictionary.Application",Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<DataDictionaryHttpApiModule>(Path.Combine(hostingEnvironment.ContentRootPath,string.Format("..{0}..{0}modules{0}data-dictionary{0}src{0}Xhznl.DataDictionary.HttpApi",Path.DirectorySeparatorChar)));
                 });
             }
         }
@@ -99,6 +105,23 @@ namespace Xhznl.HelloAbp
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options.ConventionalControllers.Create(typeof(HelloAbpApplicationModule).Assembly);
+            });
+            
+            //TODO:Automatic registration is reproduced later.Temporary use of manual registration
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(DataDictionaryApplicationModule).Assembly, opt =>
+                {
+                    opt.RemoteServiceName = "AbpDataDictionary";
+                    opt.UrlControllerNameNormalizer = (context) =>
+                    {
+                        if (context.ControllerName == "DictionaryDetail")
+                        {
+                            return "dictionary-detail";
+                        }
+                        return context.ControllerName;
+                    };
+                });
             });
         }
 

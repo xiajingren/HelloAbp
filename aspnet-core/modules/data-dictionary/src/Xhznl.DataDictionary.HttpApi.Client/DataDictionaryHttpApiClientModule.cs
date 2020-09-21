@@ -9,13 +9,11 @@ namespace Xhznl.DataDictionary
         typeof(AbpHttpClientModule))]
     public class DataDictionaryHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "DataDictionary";
-
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddHttpClientProxies(
                 typeof(DataDictionaryApplicationContractsModule).Assembly,
-                RemoteServiceName
+                DataDictionaryRemoteServiceConsts.RemoteServiceName
             );
         }
     }
