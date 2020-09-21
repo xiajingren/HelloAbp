@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain.Shared\Xhznl.HelloAbp.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.Application.Contracts\Xhznl.FileManagement.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\modules\data-dictionary\src\Xhznl.DataDictionary.Application.Contracts\Xhznl.DataDictionary.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

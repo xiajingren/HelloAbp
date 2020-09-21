@@ -5,6 +5,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.TenantManagement;
+using Xhznl.DataDictionary;
 using Xhznl.FileManagement;
 
 namespace Xhznl.HelloAbp
@@ -18,7 +19,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
         typeof(EasyAbp.Abp.SettingUi.SettingUiApplicationModule),
-        typeof(FileManagementApplicationModule)
+        typeof(FileManagementApplicationModule),
+        typeof(DataDictionaryApplicationModule)
         )]
     public class HelloAbpApplicationModule : AbpModule
     {

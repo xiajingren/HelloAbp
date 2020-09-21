@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Xhznl.HelloAbp.Application.Contracts\Xhznl.HelloAbp.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.HttpApi.Client\Xhznl.FileManagement.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\modules\data-dictionary\src\Xhznl.DataDictionary.HttpApi.Client\Xhznl.DataDictionary.HttpApi.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>

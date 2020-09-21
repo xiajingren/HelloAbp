@@ -11,6 +11,7 @@
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain\Xhznl.HelloAbp.Domain.csproj" />
     <ProjectReference Include="..\Xhznl.HelloAbp.Application.Contracts\Xhznl.HelloAbp.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.Application\Xhznl.FileManagement.Application.csproj" />
+    <ProjectReference Include="..\..\modules\data-dictionary\src\Xhznl.DataDictionary.Application\Xhznl.DataDictionary.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
