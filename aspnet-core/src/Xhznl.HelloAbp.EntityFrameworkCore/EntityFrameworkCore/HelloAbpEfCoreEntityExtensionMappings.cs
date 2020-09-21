@@ -38,11 +38,17 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
                 ObjectExtensionManager.Instance
                     .MapEfCoreProperty<IdentityUser, string>(
                         nameof(AppUser.Avatar),
-                        b => { b.HasMaxLength(AppUserConsts.MaxAvatarLength); }
+                        (entityBuilder, propertyBuilder) =>
+                        {
+                            propertyBuilder.HasMaxLength(AppUserConsts.MaxAvatarLength);
+                        }
                     )
                     .MapEfCoreProperty<IdentityUser, string>(
                         nameof(AppUser.Introduction),
-                        b => { b.HasMaxLength(AppUserConsts.MaxIntroductionLength); }
+                        (entityBuilder, propertyBuilder) =>
+                        {
+                            propertyBuilder.HasMaxLength(AppUserConsts.MaxIntroductionLength);
+                        }
                     );
             });
         }
