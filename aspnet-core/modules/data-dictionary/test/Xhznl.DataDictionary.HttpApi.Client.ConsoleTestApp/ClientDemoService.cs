@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
-using Xhznl.DataDictionary.Samples;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.IdentityModel;
 
@@ -11,16 +10,13 @@ namespace Xhznl.DataDictionary
 {
     public class ClientDemoService : ITransientDependency
     {
-        private readonly ISampleAppService _sampleAppService;
         private readonly IIdentityModelAuthenticationService _authenticationService;
         private readonly IConfiguration _configuration;
 
         public ClientDemoService(
-            ISampleAppService sampleAppService, 
             IIdentityModelAuthenticationService authenticationService, 
             IConfiguration configuration)
         {
-            _sampleAppService = sampleAppService;
             _authenticationService = authenticationService;
             _configuration = configuration;
         }
@@ -40,12 +36,7 @@ namespace Xhznl.DataDictionary
         {
             Console.WriteLine();
             Console.WriteLine($"***** {nameof(TestWithDynamicProxiesAsync)} *****");
-
-            var result = await _sampleAppService.GetAsync();
-            Console.WriteLine("Result: " + result.Value);
-
-            result = await _sampleAppService.GetAuthorizedAsync();
-            Console.WriteLine("Result (authorized): " + result.Value);
+            await Task.CompletedTask;
         }
 
         /* Shows how to use HttpClient to perform a request to the HTTP API.
