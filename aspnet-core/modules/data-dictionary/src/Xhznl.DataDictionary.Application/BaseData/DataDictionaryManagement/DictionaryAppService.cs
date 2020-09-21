@@ -20,8 +20,12 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
         CrudAppService<DataDictionary, DictionaryDto, Guid, GetDictionaryInputDto, CreateDataDictionaryDto,
             UpdateDataDictionaryDto>, IDictionaryAppService
     {
-        public DictionaryAppService(IRepository<DataDictionary, Guid> repository) : base(repository)
+        private readonly IRepository<DataDictionaryDetail, Guid> _dictionaryDetail;
+
+        public DictionaryAppService(IRepository<DataDictionary, Guid> repository,
+            IRepository<DataDictionaryDetail, Guid> dictionaryDetail) : base(repository)
         {
+            _dictionaryDetail = dictionaryDetail;
             LocalizationResource = typeof(DataDictionaryResource);
             ObjectMapperContext = typeof(DataDictionaryApplicationModule);
         }
@@ -61,8 +65,28 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
         {
             foreach (var id in ids)
             {
-                await Repository.DeleteAsync(id);
+                await DeleteAsync(id);
             }
+        }
+
+        [Authorize(DataDictionaryPermissions.DataDictionary.Delete)]
+        public override async Task DeleteAsync(Guid id)
+        {
+            var detail = await Repository.GetAsync(id);
+            if (detail == null)
+            {
+                return;
+            }
+
+            var details = (await _dictionaryDetail.GetListAsync())
+                .Where(d => d.Pid == id)
+                .ToList();
+            foreach (var d in details)
+            {
+                await _dictionaryDetail.DeleteAsync(d.Id);
+            }
+
+            await Repository.DeleteAsync(id);
         }
 
         protected virtual DictionaryDto MapDataDictionaryToDto(DataDictionary dictionary)

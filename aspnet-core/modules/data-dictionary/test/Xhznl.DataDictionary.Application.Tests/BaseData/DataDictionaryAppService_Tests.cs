@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Uow;
 using Xhznl.DataDictionary.BaseData.DataDictionaryManagement;
 using Xhznl.DataDictionary.BaseData.DataDictionaryManagement.Dto;
 using Xunit;
@@ -16,11 +17,14 @@ namespace Xhznl.DataDictionary.BaseData
     {
         private readonly IDictionaryAppService _dictionaryAppService;
         private readonly IDictionaryDetailAppService _dictionaryDetailAppService;
+        private readonly IUnitOfWorkManager _uowMgr;
         private ICurrentTenant _fakeCurrentTenant;
+
         public DataDictionaryAppService_Tests()
         {
             _dictionaryAppService = GetRequiredService<IDictionaryAppService>();
             _dictionaryDetailAppService = GetRequiredService<IDictionaryDetailAppService>();
+            _uowMgr = GetRequiredService<IUnitOfWorkManager>();
         }
 
         protected override void AfterAddApplication(IServiceCollection services)
@@ -144,6 +148,25 @@ namespace Xhznl.DataDictionary.BaseData
             items.FirstOrDefault().ShouldNotBeNull();
             items.Count.ShouldBeGreaterThan(0);
             items.FirstOrDefault().Label.ShouldBe("出口");
+        }
+
+        [Fact]
+        public async Task Delete_Single_DataDictionary()
+        {
+            using (var uw=_uowMgr.Begin())
+            {
+                await _dictionaryAppService.DeleteAsync(DataDictionaryBuilder.ExamTypeId);
+                
+                var reponstory = GetRequiredService<IRepository<DataDictionary,Guid>>();
+                var dataDictionary= await reponstory.GetAsync(DataDictionaryBuilder.ExamTypeId);
+                dataDictionary.ShouldBeNull();
+
+                var result = await _dictionaryDetailAppService.GetListAsync(new GetDictionaryDetailInputDto()
+                {
+                    Pid = DataDictionaryBuilder.ExamTypeId
+                });
+                result.TotalCount.ShouldBe(0);
+            }
         }
     }
 }
