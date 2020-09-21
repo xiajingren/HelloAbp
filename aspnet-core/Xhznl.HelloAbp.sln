@@ -41,6 +41,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xhznl.HelloAbp.DbMigrator",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIds", "src\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIdsDB\Xhznl.HelloAbp.EntityFrameworkCore.DbMigrationsForIds.csproj", "{D81A169B-0585-451A-B32F-E8E09BE9ACE0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xhznl.HelloAbp.BackgroundJobs.Shared", "src\Xhznl.HelloAbp.BackgroundJobs.Shared\Xhznl.HelloAbp.BackgroundJobs.Shared.csproj", "{354B1249-CB06-4FF1-B782-F5ECA65E3DD9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{44A69D8A-0376-417B-9EAE-F96C6E76B930}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xhznl.HelloAbp.BackgroundJobs.Hangfire.Host", "host\Xhznl.HelloAbp.BackgroundJobs.Hangfire.Host\Xhznl.HelloAbp.BackgroundJobs.Hangfire.Host.csproj", "{C7B928F6-2B84-49D9-8C81-C6D99BD90977}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{8C602840-6C1A-4B23-A747-85DB010CFDAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +123,14 @@ Global
 		{D81A169B-0585-451A-B32F-E8E09BE9ACE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D81A169B-0585-451A-B32F-E8E09BE9ACE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D81A169B-0585-451A-B32F-E8E09BE9ACE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{354B1249-CB06-4FF1-B782-F5ECA65E3DD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{354B1249-CB06-4FF1-B782-F5ECA65E3DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{354B1249-CB06-4FF1-B782-F5ECA65E3DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{354B1249-CB06-4FF1-B782-F5ECA65E3DD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B928F6-2B84-49D9-8C81-C6D99BD90977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B928F6-2B84-49D9-8C81-C6D99BD90977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B928F6-2B84-49D9-8C81-C6D99BD90977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B928F6-2B84-49D9-8C81-C6D99BD90977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +153,9 @@ Global
 		{EF480016-9127-4916-8735-D2466BDBC582} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{D81A169B-0585-451A-B32F-E8E09BE9ACE0} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{C7B928F6-2B84-49D9-8C81-C6D99BD90977} = {44A69D8A-0376-417B-9EAE-F96C6E76B930}
+		{8C602840-6C1A-4B23-A747-85DB010CFDAF} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{354B1249-CB06-4FF1-B782-F5ECA65E3DD9} = {8C602840-6C1A-4B23-A747-85DB010CFDAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
