@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Xhznl.DataDictionary</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="3.1.2" />
+    <ProjectReference Include="..\Xhznl.DataDictionary.Domain.Shared\Xhznl.DataDictionary.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

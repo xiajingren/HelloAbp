@@ -1,0 +1,21 @@
+{
+  "culture": "zh-Hans",
+  "texts": {
+    "DataDictionary": "数据字典",
+    "DataDictionaryDetail": "数据字典详情",
+    "Edit": "修改",
+    "Delete": "删除",
+    "Create": "新增",
+    "Permission:DataDictionary": "数据字典管理",
+    "Permission:DataDictionaryDetail": "值管理",
+    "DetailLabel": "显示名称",
+    "DetailValue": "值",
+    "DetailSort": "排序大小",
+    "NewDataDic": "添加字典",
+    "NewDataDicDetail": "添加详情",
+    "Actions": "操作",
+    "DeletionDetailConfirmationMessage": "确认删除{0}?",
+    "DetailCreateMasterNullMessage": "未找到字典！",
+    "HasCreatedMessage": "名称：{0}字典已存在"
+  }
+}

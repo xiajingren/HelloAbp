@@ -1,0 +1,19 @@
+{
+  "culture": "en",
+  "texts": {
+    "DataDictionary": "DataDictionary",
+    "DataDictionaryDetail": "DataDictionaryDetail",
+    "Edit": "edit",
+    "Delete": "delete",
+    "Create": "create",
+    "Permission:DataDictionary": "DataDictionaryManagement",
+    "Permission:DataDictionaryDetail": "DataDictionaryDetailManagement",
+    "DetailLabel": "displayName",
+    "DetailValue": "value",
+    "DetailSort": "sort",
+    "New": "New",
+    "NewDetail": "NewDetail",
+    "Actions": "actions",
+    "DeletionDetailConfirmationMessage": "х╥хои╬ЁЩ{0}?"
+  }
+}
