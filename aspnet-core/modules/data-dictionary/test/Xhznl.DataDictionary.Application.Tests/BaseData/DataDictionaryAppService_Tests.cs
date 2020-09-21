@@ -153,20 +153,16 @@ namespace Xhznl.DataDictionary.BaseData
         [Fact]
         public async Task Delete_Single_DataDictionary()
         {
-            using (var uw=_uowMgr.Begin())
-            {
-                await _dictionaryAppService.DeleteAsync(DataDictionaryBuilder.ExamTypeId);
-                
-                var reponstory = GetRequiredService<IRepository<DataDictionary,Guid>>();
-                var dataDictionary= await reponstory.GetAsync(DataDictionaryBuilder.ExamTypeId);
-                dataDictionary.ShouldBeNull();
+            await _dictionaryAppService.DeleteAsync(DataDictionaryBuilder.ExamTypeId);
 
-                var result = await _dictionaryDetailAppService.GetListAsync(new GetDictionaryDetailInputDto()
-                {
-                    Pid = DataDictionaryBuilder.ExamTypeId
-                });
-                result.TotalCount.ShouldBe(0);
-            }
+            var reponstory = GetRequiredService<IRepository<DataDictionary, Guid>>();
+            (await reponstory.FindAsync(DataDictionaryBuilder.ExamTypeId)).ShouldBeNull();
+
+            var result = await _dictionaryDetailAppService.GetListAsync(new GetDictionaryDetailInputDto()
+            {
+                Pid = DataDictionaryBuilder.ExamTypeId
+            });
+            result.TotalCount.ShouldBe(0);
         }
     }
 }
