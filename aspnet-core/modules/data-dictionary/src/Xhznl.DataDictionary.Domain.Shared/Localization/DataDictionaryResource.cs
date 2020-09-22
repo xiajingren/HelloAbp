@@ -2,7 +2,7 @@
 
 namespace Xhznl.DataDictionary.Localization
 {
-    [LocalizationResourceName("DataDictionary")]
+    [LocalizationResourceName("AbpDataDictionary")]
     public class DataDictionaryResource
     {
         

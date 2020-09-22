@@ -9,6 +9,7 @@ using Volo.Abp.IdentityServer.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Xhznl.DataDictionary.EntityFrameworkCore;
 
 namespace Xhznl.HelloAbp.EntityFrameworkCore
 {
@@ -39,6 +40,7 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
             //builder.ConfigureIdentityServer();
             builder.ConfigureFeatureManagement();
             builder.ConfigureTenantManagement();
+            builder.ConfigureDataDictionary();
 
             /* Configure your own tables/entities inside the ConfigureHelloAbp method */
 

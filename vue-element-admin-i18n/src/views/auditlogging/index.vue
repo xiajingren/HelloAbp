@@ -24,7 +24,12 @@
               prop="httpMethod"
               :label="$t('AbpAuditLogging[\'HttpMethod\']')"
             >
-              <el-select v-model="queryForm.httpMethod" style="width:100%">
+              <el-select
+                v-model="queryForm.httpMethod"
+                clearable
+                style="width:100%"
+                @clear="queryForm.httpMethod=undefined"
+              >
                 <el-option label="获取(GET)" value="GET" />
                 <el-option label="修改(PUT)" value="PUT" />
                 <el-option label="提交(POST)" value="POST" />
@@ -72,7 +77,12 @@
               prop="ttpStatusCode"
               :label="$t('AbpAuditLogging[\'HttpStatusCode\']')"
             >
-              <el-select v-model="queryForm.httpStatusCode" style="width:100%">
+              <el-select
+                v-model="queryForm.httpStatusCode"
+                clearable
+                style="width:100%"
+                @clear="queryForm.httpStatusCode=undefined"
+              >
                 <el-option label="成功(200)" value="200" />
                 <el-option label="未登录(401)" value="401" />
                 <el-option label="未授权(403)" value="403" />

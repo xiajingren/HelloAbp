@@ -8,12 +8,15 @@
     "Create": "create",
     "Permission:DataDictionary": "DataDictionaryManagement",
     "Permission:DataDictionaryDetail": "DataDictionaryDetailManagement",
-    "DetailLabel": "displayName",
-    "DetailValue": "value",
-    "DetailSort": "sort",
-    "New": "New",
-    "NewDetail": "NewDetail",
-    "Actions": "actions",
-    "DeletionDetailConfirmationMessage": "х╥хои╬ЁЩ{0}?"
+    "NewDataDic": "NewDataDic",
+    "NewDataDicDetail": "NewDataDicDetail",
+    "Actions": "Actions",
+    "Label":"Label",
+    "Value":"Value",
+    "Sort":"Sort",
+    "Name":"Name",
+    "Filter":"Filter",
+    "Description":"Description",
+    "DeletionDetailConfirmationMessage": "х╥О©╫О©╫и╬О©╫О©╫{0}?"
   }
 }

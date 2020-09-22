@@ -112,6 +112,7 @@ namespace Xhznl.HelloAbp
             {
                 options.ConventionalControllers.Create(typeof(DataDictionaryApplicationModule).Assembly, opt =>
                 {
+                    opt.RootPath = "data-dictionary";
                     opt.RemoteServiceName = "AbpDataDictionary";
                     opt.UrlControllerNameNormalizer = (context) =>
                     {
