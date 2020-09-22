@@ -8,7 +8,6 @@ namespace Xhznl.HelloAbp.DbMigrator
     [DependsOn(
         typeof(AbpAutofacModule),
         typeof(HelloAbpEntityFrameworkCoreDbMigrationsModule),
-        typeof(HelloAbpEntityFrameworkCoreDbMigrationsIdsModule),
         typeof(HelloAbpApplicationContractsModule)
         )]
     public class HelloAbpDbMigratorModule : AbpModule
