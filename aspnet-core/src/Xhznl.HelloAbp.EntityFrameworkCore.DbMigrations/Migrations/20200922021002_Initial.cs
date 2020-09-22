@@ -160,6 +160,31 @@ namespace Xhznl.HelloAbp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AbpSecurityLogs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExtraProperties = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(maxLength: 40, nullable: true),
+                    TenantId = table.Column<Guid>(nullable: true),
+                    ApplicationName = table.Column<string>(maxLength: 96, nullable: true),
+                    Identity = table.Column<string>(maxLength: 96, nullable: true),
+                    Action = table.Column<string>(maxLength: 96, nullable: true),
+                    UserId = table.Column<Guid>(nullable: true),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    TenantName = table.Column<string>(maxLength: 64, nullable: true),
+                    ClientId = table.Column<string>(maxLength: 64, nullable: true),
+                    CorrelationId = table.Column<string>(maxLength: 64, nullable: true),
+                    ClientIpAddress = table.Column<string>(maxLength: 64, nullable: true),
+                    BrowserInfo = table.Column<string>(maxLength: 512, nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AbpSecurityLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AbpSettings",
                 columns: table => new
                 {
@@ -219,12 +244,15 @@ namespace Xhznl.HelloAbp.Migrations
                     EmailConfirmed = table.Column<bool>(nullable: false, defaultValue: false),
                     PasswordHash = table.Column<string>(maxLength: 256, nullable: true),
                     SecurityStamp = table.Column<string>(maxLength: 256, nullable: false),
+                    IsExternal = table.Column<bool>(nullable: false, defaultValue: false),
                     PhoneNumber = table.Column<string>(maxLength: 16, nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false, defaultValue: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false, defaultValue: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false, defaultValue: false),
-                    AccessFailedCount = table.Column<int>(nullable: false, defaultValue: 0)
+                    AccessFailedCount = table.Column<int>(nullable: false, defaultValue: 0),
+                    Avatar = table.Column<string>(maxLength: 256, nullable: true),
+                    Introduction = table.Column<string>(maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -979,6 +1007,26 @@ namespace Xhznl.HelloAbp.Migrations
                 column: "NormalizedName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AbpSecurityLogs_TenantId_Action",
+                table: "AbpSecurityLogs",
+                columns: new[] { "TenantId", "Action" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AbpSecurityLogs_TenantId_ApplicationName",
+                table: "AbpSecurityLogs",
+                columns: new[] { "TenantId", "ApplicationName" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AbpSecurityLogs_TenantId_Identity",
+                table: "AbpSecurityLogs",
+                columns: new[] { "TenantId", "Identity" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AbpSecurityLogs_TenantId_UserId",
+                table: "AbpSecurityLogs",
+                columns: new[] { "TenantId", "UserId" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AbpSettings_Name_ProviderName_ProviderKey",
                 table: "AbpSettings",
                 columns: new[] { "Name", "ProviderName", "ProviderKey" });
@@ -1086,6 +1134,9 @@ namespace Xhznl.HelloAbp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AbpSecurityLogs");
 
             migrationBuilder.DropTable(
                 name: "AbpSettings");
