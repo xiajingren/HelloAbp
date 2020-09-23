@@ -42,6 +42,8 @@
     "Identity.OrganizationUnit.MemberExists": "该成员{0}在当前组织{1}已存在",
     "Feature:SocialLogins": "社交登录",
     "Feature:UserCount": "用户数量",
-    "Feature:UserCount.Maximum": "允许的最大用户数量为{0}"
+    "Feature:UserCount.Maximum": "允许的最大用户数量为{0}",
+    "HelloAbp.QA:H0001":"H0001-错误1",
+    "HelloAbp.QA:H0002":"H0002-错误2"
   }
 }

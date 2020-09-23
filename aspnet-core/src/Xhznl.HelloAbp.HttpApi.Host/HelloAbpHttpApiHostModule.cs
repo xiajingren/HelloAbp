@@ -9,10 +9,12 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using Volo.Abp.AspNetCore.ExceptionHandling;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
@@ -20,12 +22,14 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Localization;
+using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Xhznl.DataDictionary;
 using Xhznl.FileManagement;
 using Xhznl.HelloAbp.EntityFrameworkCore;
+using Xhznl.HelloAbp.Localization;
 using Xhznl.HelloAbp.MultiTenancy;
 
 namespace Xhznl.HelloAbp
@@ -50,6 +54,7 @@ namespace Xhznl.HelloAbp
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
+            ConfigureExceptions();
             ConfigureUrls(configuration);
             ConfigureConventionalControllers();
             ConfigureAuthentication(context, configuration);
@@ -60,6 +65,26 @@ namespace Xhznl.HelloAbp
             ConfigureFile(hostingEnvironment);
         }
 
+        private void ConfigureExceptions()
+        {
+            //docs:https://docs.abp.io/en/abp/latest/Exception-Handling#using-error-codes
+            Configure<AbpExceptionLocalizationOptions>(options =>
+            {
+                options.MapCodeNamespace("HelloAbp.QA",typeof(HelloAbpResource));
+            });
+            //customer map httpstatuscode,docs:https://docs.abp.io/en/abp/latest/Exception-Handling#custom-mappings
+            Configure<AbpExceptionHttpStatusCodeOptions>(options =>
+            {
+                //for example,AbpDataDictionaryErrorCodes.DictionaryDetailsIsExist is 403 instead of 404
+                options.Map(AbpDataDictionaryErrorCodes.DictionaryDetailsIsExist,HttpStatusCode.NotFound);
+            });
+            //docs:https://docs.abp.io/en/abp/latest/Exception-Handling#send-exception-details-to-the-client
+            Configure<AbpExceptionHandlingOptions>(options =>
+            {
+                //if set true will return details to client
+                options.SendExceptionsDetailsToClients = false;
+            });
+        }
         private void ConfigureUrls(IConfiguration configuration)
         {
             Configure<AppUrlOptions>(options =>
