@@ -67,11 +67,6 @@ namespace Xhznl.FileManagement
                 options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
 
-            Configure<Files.FileOptions>(options =>
-            {
-                options.FileUploadLocalFolder = "D:\\my-files";
-            });
-
             if (hostingEnvironment.IsDevelopment())
             {
                 Configure<AbpVirtualFileSystemOptions>(options =>

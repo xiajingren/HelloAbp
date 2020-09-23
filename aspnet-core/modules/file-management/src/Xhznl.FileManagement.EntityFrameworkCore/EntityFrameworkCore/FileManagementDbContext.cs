@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Xhznl.FileManagement.Files;
 
 namespace Xhznl.FileManagement.EntityFrameworkCore
 {
@@ -11,7 +12,9 @@ namespace Xhznl.FileManagement.EntityFrameworkCore
          * public DbSet<Question> Questions { get; set; }
          */
 
-        public FileManagementDbContext(DbContextOptions<FileManagementDbContext> options) 
+        public DbSet<File> Files { get; set; }
+
+        public FileManagementDbContext(DbContextOptions<FileManagementDbContext> options)
             : base(options)
         {
 

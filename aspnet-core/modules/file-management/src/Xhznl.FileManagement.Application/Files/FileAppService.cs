@@ -17,29 +17,38 @@ namespace Xhznl.FileManagement.Files
 {
     public class FileAppService : FileManagementAppService, IFileAppService
     {
-        protected FileOptions FileOptions { get; }
+        protected IFileManager FileManager { get; }
 
-        public FileAppService(IOptions<FileOptions> fileOptions)
+        public FileAppService(IFileManager fileManager)
         {
-            FileOptions = fileOptions.Value;
+            FileManager = fileManager;
         }
 
-        public virtual Task<byte[]> GetAsync(string name)
+        public virtual async Task<FileDto> FindByBlobNameAsync(string blobName)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(blobName, nameof(blobName));
 
-            var filePath = Path.Combine(FileOptions.FileUploadLocalFolder, name);
+            var file = await FileManager.FindByBlobNameAsync(blobName);
+            var bytes = await FileManager.GetBlobAsync(blobName);
 
-            if (File.Exists(filePath))
+            return new FileDto
             {
-                return Task.FromResult(File.ReadAllBytes(filePath));
-            }
-
-            return Task.FromResult(new byte[0]);
+                Bytes = bytes,
+                FileName = file.FileName
+            };
         }
 
         [Authorize]
-        public virtual async Task<string> CreateAsync(FileUploadInputDto input)
+        public virtual async Task<string> CreateAsync(FileDto input)
+        {
+            await CheckFile(input);
+
+            var file = await FileManager.CreateAsync(input.FileName, input.Bytes);
+
+            return file.BlobName;
+        }
+
+        protected virtual async Task CheckFile(FileDto input)
         {
             if (input.Bytes.IsNullOrEmpty())
             {
@@ -59,22 +68,11 @@ namespace Xhznl.FileManagement.Files
                 throw new UserFriendlyException(L["FileManagement.ExceedsTheMaximumSize", allowedMaxFileSize]);
             }
 
-            if (allowedUploadFormats == null || !allowedUploadFormats.Contains(Path.GetExtension(input.Name)))
+            if (allowedUploadFormats == null || !allowedUploadFormats.Contains(Path.GetExtension(input.FileName)))
             {
                 throw new UserFriendlyException(L["FileManagement.NotValidFormat"]);
             }
-
-            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(input.Name);
-            var filePath = Path.Combine(FileOptions.FileUploadLocalFolder, fileName);
-
-            if (!Directory.Exists(FileOptions.FileUploadLocalFolder))
-            {
-                Directory.CreateDirectory(FileOptions.FileUploadLocalFolder);
-            }
-
-            File.WriteAllBytes(filePath, input.Bytes);
-
-            return fileName;
         }
+
     }
 }

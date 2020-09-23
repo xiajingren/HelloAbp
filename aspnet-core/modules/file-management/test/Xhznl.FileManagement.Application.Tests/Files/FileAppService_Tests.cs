@@ -15,22 +15,20 @@ namespace Xhznl.FileManagement.Files
             _fileAppService = GetRequiredService<IFileAppService>();
         }
 
-        [Fact]
-        public async Task GetAsync()
-        {
-            var result = await _fileAppService.GetAsync("de68532388754ffc84fcbd817397461c.jpg");
-            result.ShouldNotBeEmpty();
-        }
 
         [Fact]
-        public async Task CreateAsync()
+        public async Task Create_FindByBlobName_Test()
         {
-            var result = await _fileAppService.CreateAsync(new FileUploadInputDto()
+            var blobName = await _fileAppService.CreateAsync(new FileDto()
             {
-                Name = "微信图片_20200813165555.jpg",
-                Bytes = await File.ReadAllBytesAsync(@"D:\WorkSpace\WorkFiles\杂项\图片\微信图片_20200813165555.jpg")
+                FileName = "微信图片_20200813165555.jpg",
+                Bytes = await System.IO.File.ReadAllBytesAsync(@"D:\WorkSpace\WorkFiles\杂项\图片\微信图片_20200813165555.jpg")
             });
-            result.ShouldNotBeEmpty();
+            blobName.ShouldNotBeEmpty();
+
+            var fileDto = await _fileAppService.FindByBlobNameAsync(blobName);
+            fileDto.ShouldNotBeNull();
+            fileDto.FileName.ShouldBe("微信图片_20200813165555.jpg");
         }
     }
 }

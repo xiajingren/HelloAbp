@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Xhznl.FileManagement.Files
 {
-    public class FileUploadInputDto
+    public class FileDto
     {
         [Required]
         public byte[] Bytes { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string FileName { get; set; }
     }
 }
