@@ -35,7 +35,8 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
         {
             if ((await Repository.FindAsync(d => d.Name == input.Name)) != null)
             {
-                throw new BusinessException(L["HasCreatedMessage", input.Name]);
+                throw new UserFriendlyException(L["HasCreatedMessage", input.Name],
+                    AbpDataDictionaryErrorCodes.DictionaryIsExist);
             }
 
             var dic = new DataDictionary(

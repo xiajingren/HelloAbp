@@ -35,13 +35,15 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
             var master = await MasterRepository.FindAsync(d => d.Id == input.Pid);
             if (master == null)
             {
-                throw new BusinessException(L["DetailCreateMasterNullMessage"]);
+                throw new UserFriendlyException(message: L["DetailCreateMasterNullMessage"],
+                    AbpDataDictionaryErrorCodes.DictionaryIsNotExist);
             }
 
             var exist = await Repository.FindAsync(d => d.Label == input.Label);
             if (exist != null)
             {
-                throw new BusinessException(L["HasCreatedMessage", input.Label]);
+                throw new UserFriendlyException(message: L["HasCreatedMessage", input.Label],
+                    AbpDataDictionaryErrorCodes.DictionaryDetailsIsExist);
             }
 
             var result = await Repository.InsertAsync(new DataDictionaryDetail(
