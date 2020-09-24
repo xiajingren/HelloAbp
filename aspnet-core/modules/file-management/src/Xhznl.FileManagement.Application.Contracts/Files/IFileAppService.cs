@@ -5,8 +5,8 @@ namespace Xhznl.FileManagement.Files
 {
     public interface IFileAppService : IApplicationService
     {
-        Task<byte[]> GetAsync(string name);
+        Task<FileDto> FindByBlobNameAsync(string blobName);
 
-        Task<string> CreateAsync(FileUploadInputDto input);
+        Task<string> CreateAsync(FileDto input);
     }
 }

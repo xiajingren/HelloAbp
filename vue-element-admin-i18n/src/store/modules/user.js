@@ -39,7 +39,7 @@ const mutations = {
     state.phoneNumber = phoneNumber
   },
   SET_AVATAR: (state, avatar) => {
-    if (!avatar) avatar = 'https://pic.cnblogs.com/avatar/610959/20200520085330.png'
+    if (!avatar) avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     state.avatar = avatar
   },
   SET_ROLES: (state, roles) => {

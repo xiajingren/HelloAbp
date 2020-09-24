@@ -11,6 +11,7 @@ import identityRouter from './modules/identity'
 import tenantRouter from './modules/tenant'
 import settingRouter from './modules/setting'
 import auditlogRouter from './modules/auditlog'
+import dictionaryRouter from './modules/data-dictionary'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -137,6 +138,7 @@ export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   identityRouter,
   tenantRouter,
+  dictionaryRouter,
   auditlogRouter,
   settingRouter,
   // 404 page must be placed at the end !!!

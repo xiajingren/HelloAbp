@@ -10,15 +10,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain.Shared\Xhznl.HelloAbp.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.Application.Contracts\Xhznl.FileManagement.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\modules\data-dictionary\src\Xhznl.DataDictionary.Application.Contracts\Xhznl.DataDictionary.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.ObjectExtending" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.ObjectExtending" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="3.1.2" />
   </ItemGroup>
 
 </Project>

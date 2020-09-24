@@ -20,11 +20,11 @@ namespace Xhznl.FileManagement.Files
         }
 
         [HttpGet]
-        [Route("{name}")]
-        public virtual async Task<FileResult> GetAsync(string name)
+        [Route("{blobName}")]
+        public virtual async Task<FileResult> GetAsync(string blobName)
         {
-            var bytes = await FileAppService.GetAsync(name);
-            return File(bytes, MimeTypes.GetByExtension(Path.GetExtension(name)));
+            var fileDto = await FileAppService.FindByBlobNameAsync(blobName);
+            return File(fileDto.Bytes, MimeTypes.GetByExtension(Path.GetExtension(fileDto.FileName)));
         }
 
         [HttpPost]
@@ -38,10 +38,10 @@ namespace Xhznl.FileManagement.Files
             }
 
             var bytes = await file.GetAllBytesAsync();
-            var result = await FileAppService.CreateAsync(new FileUploadInputDto()
+            var result = await FileAppService.CreateAsync(new FileDto()
             {
                 Bytes = bytes,
-                Name = file.FileName
+                FileName = file.FileName
             });
             return Json(result);
         }

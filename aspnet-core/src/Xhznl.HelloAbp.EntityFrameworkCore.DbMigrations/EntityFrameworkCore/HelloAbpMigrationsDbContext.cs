@@ -9,6 +9,8 @@ using Volo.Abp.IdentityServer.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Xhznl.DataDictionary.EntityFrameworkCore;
+using Xhznl.FileManagement.EntityFrameworkCore;
 
 namespace Xhznl.HelloAbp.EntityFrameworkCore
 {
@@ -36,9 +38,11 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
             builder.ConfigureBackgroundJobs();
             builder.ConfigureAuditLogging();
             builder.ConfigureIdentity();
-            //builder.ConfigureIdentityServer();
+            builder.ConfigureIdentityServer();
             builder.ConfigureFeatureManagement();
             builder.ConfigureTenantManagement();
+            builder.ConfigureDataDictionary();
+            builder.ConfigureFileManagement();
 
             /* Configure your own tables/entities inside the ConfigureHelloAbp method */
 

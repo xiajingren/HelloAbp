@@ -181,5 +181,11 @@ export default {
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
+  },
+  dataDictionary: {
+    warning: '注意',
+    deleteSuccess: '删除成功!',
+    unSelectDictionaryMessage: '请选择字典目录!',
+    unCheckedDictionaryMessage: '请勾选字典目录!'
   }
 }

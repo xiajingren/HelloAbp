@@ -16,18 +16,19 @@
   <ItemGroup>
     <ProjectReference Include="..\Xhznl.HelloAbp.Domain.Shared\Xhznl.HelloAbp.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.Domain\Xhznl.FileManagement.Domain.csproj" />
+    <ProjectReference Include="..\..\modules\data-dictionary\src\Xhznl.DataDictionary.Domain\Xhznl.DataDictionary.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Identity.Domain" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="3.1.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="3.1.0" />
+    <PackageReference Include="Volo.Abp.Identity.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="3.1.2" />
   </ItemGroup>
 
 </Project>

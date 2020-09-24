@@ -1,13 +1,13 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
 const name = defaultSettings.title || 'vue Element Admin' // page title
-
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
@@ -50,6 +50,9 @@ module.exports = {
   },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('loadshReplace').use(new LodashModuleReplacementPlugin())
+    }
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {

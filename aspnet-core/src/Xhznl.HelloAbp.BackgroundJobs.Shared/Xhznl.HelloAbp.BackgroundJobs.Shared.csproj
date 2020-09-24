@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Xhznl.HelloAbp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Emailing" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.Threading" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xhznl.HelloAbp.Domain\Xhznl.HelloAbp.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

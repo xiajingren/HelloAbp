@@ -181,5 +181,11 @@ export default {
     tagsView: 'Open Tags-View',
     fixedHeader: 'Fixed Header',
     sidebarLogo: 'Sidebar Logo'
+  },
+  dataDictionary: {
+    warning: 'warning',
+    deleteSuccess: 'delete success',
+    unSelectDictionaryMessage: 'Please select the dictionary directory.',
+    unCheckedDictionaryMessage: 'Please check the dictionary directory.'
   }
 }

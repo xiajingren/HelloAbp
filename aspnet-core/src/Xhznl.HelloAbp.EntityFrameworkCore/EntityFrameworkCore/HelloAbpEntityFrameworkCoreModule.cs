@@ -11,6 +11,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Xhznl.DataDictionary.EntityFrameworkCore;
 using Xhznl.FileManagement.EntityFrameworkCore;
 
 namespace Xhznl.HelloAbp.EntityFrameworkCore
@@ -26,7 +27,8 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpTenantManagementEntityFrameworkCoreModule),
         typeof(AbpFeatureManagementEntityFrameworkCoreModule),
-        typeof(FileManagementEntityFrameworkCoreModule)
+        typeof(FileManagementEntityFrameworkCoreModule),
+        typeof(DataDictionaryEntityFrameworkCoreModule)
         )]
     public class HelloAbpEntityFrameworkCoreModule : AbpModule
     {
