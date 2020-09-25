@@ -187,5 +187,14 @@ export default {
     deleteSuccess: 'delete success',
     unSelectDictionaryMessage: 'Please select the dictionary directory.',
     unCheckedDictionaryMessage: 'Please check the dictionary directory.'
-  }
+
+  },
+  switchSize: {
+    default: 'Default',
+    medium: 'Medium',
+    small: 'Small',
+    mini: 'Mini',
+    switchSizeSuccess: 'Switch Size Success'
+  },
+  switchLanguage: 'Switch Language Success'
 }

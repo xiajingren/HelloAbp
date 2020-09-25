@@ -38,7 +38,7 @@ export default {
       this.$store.dispatch('app/setLanguage', lang)
       this.$store.dispatch('app/applicationConfiguration').then(() => {
         this.$message({
-          message: 'Switch Language Success',
+          message: this.$t('switchLanguage'),
           type: 'success'
         })
       })
