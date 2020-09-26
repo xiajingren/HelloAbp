@@ -182,6 +182,14 @@ export default {
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
   },
+  switchSize: {
+    default: '默认',
+    medium: '中',
+    small: '小',
+    mini: '迷你',
+    switchSizeSuccess: '布局切换成功'
+  },
+  switchLanguage: '语言切换成功',
   dataDictionary: {
     warning: '注意',
     deleteSuccess: '删除成功!',
