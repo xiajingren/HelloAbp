@@ -9,6 +9,7 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Modularity;
 using Xhznl.HelloAbp.EntityFrameworkCore;
 using Xhznl.HelloAbp.Jobs;
+using Xhznl.HelloAbp.Jobs.ChinaRegion;
 using Xhznl.HelloAbp.Jobs.Statistics;
 
 namespace Xhznl.HelloAbp
@@ -41,11 +42,7 @@ namespace Xhznl.HelloAbp
             //后台作业
             // var manager = context.ServiceProvider.GetRequiredService<IBackgroundJobManager>();
             // manager.EnqueueAsync(new TrafficArgs(100));
-            //周期性作业
-            var trafficBackgroungJob = context.ServiceProvider.GetRequiredService<TrafficBackgroungJob>();
-            RecurringJob.AddOrUpdate("每天服务异常量统计",
-                () => trafficBackgroungJob.ExecuteAsync(null),
-                HelloAbpCronType.Minute());
+            AddChinaRegionJob(context);
         }
 
         private void ConfigureHangfire(ServiceConfigurationContext context)
@@ -60,6 +57,26 @@ namespace Xhznl.HelloAbp
                         SchemaName = dbSchema
                     });
             });
+        }
+
+        private void AddTrafficJob(ApplicationInitializationContext context)
+        {
+            //周期性作业
+            var trafficBackgroungJob = context.ServiceProvider.GetRequiredService<TrafficBackgroungJob>();
+            RecurringJob.AddOrUpdate("每天服务异常量统计",
+                () => trafficBackgroungJob.ExecuteAsync(null),
+                HelloAbpCronType.Minute());
+        }
+
+        private void AddChinaRegionJob(ApplicationInitializationContext context)
+        {
+            var regionJob = context.ServiceProvider.GetRequiredService<CrawlingChinaRegionJob>();
+            RecurringJob.AddOrUpdate("每个月同步行政区域代码",
+                () => regionJob.ExecuteAsync(new ChinaRegionArgs()
+                {
+                    Year = 2019
+                }),
+                HelloAbpCronType.Month());
         }
     }
 }
