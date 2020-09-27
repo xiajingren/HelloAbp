@@ -17,16 +17,30 @@ export default {
   data() {
     return {
       sizeOptions: [
-        { label: 'Default', value: 'default' },
-        { label: 'Medium', value: 'medium' },
-        { label: 'Small', value: 'small' },
-        { label: 'Mini', value: 'mini' }
+        { label: this.$t('switchSize.default'), value: 'default' },
+        { label: this.$t('switchSize.medium'), value: 'medium' },
+        { label: this.$t('switchSize.small'), value: 'small' },
+        { label: this.$t('switchSize.mini'), value: 'mini' }
       ]
     }
   },
   computed: {
     size() {
       return this.$store.getters.size
+    },
+    language() {
+      return this.$store.getters.abpConfig.localization.languages
+    }
+  },
+  watch: {
+    language(val) {
+      console.log(val)
+      this.sizeOptions = [
+        { label: this.$t('switchSize.default'), value: 'default' },
+        { label: this.$t('switchSize.medium'), value: 'medium' },
+        { label: this.$t('switchSize.small'), value: 'small' },
+        { label: this.$t('switchSize.mini'), value: 'mini' }
+      ]
     }
   },
   methods: {
@@ -35,7 +49,7 @@ export default {
       this.$store.dispatch('app/setSize', size)
       this.refreshView()
       this.$message({
-        message: 'Switch Size Success',
+        message: this.$t('switchSize.switchSizeSuccess'),
         type: 'success'
       })
     },

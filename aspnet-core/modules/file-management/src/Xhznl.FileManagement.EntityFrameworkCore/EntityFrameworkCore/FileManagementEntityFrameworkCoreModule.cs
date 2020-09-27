@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
+using Xhznl.FileManagement.Files;
 
 namespace Xhznl.FileManagement.EntityFrameworkCore
 {
@@ -17,6 +18,7 @@ namespace Xhznl.FileManagement.EntityFrameworkCore
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, EfCoreQuestionRepository>();
                  */
+                options.AddRepository<File, EfCoreFileRepository>();
             });
         }
     }

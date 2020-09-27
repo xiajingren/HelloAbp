@@ -1,5 +1,7 @@
-﻿using Volo.Abp.Modularity;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.Modularity;
 using Xhznl.FileManagement.Files;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Xhznl.FileManagement
 {
@@ -7,14 +9,23 @@ namespace Xhznl.FileManagement
         typeof(FileManagementApplicationModule),
         typeof(FileManagementDomainTestModule)
         )]
+    [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class FileManagementApplicationTestModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            Configure<FileOptions>(options =>
+
+            Configure<AbpBlobStoringOptions>(options =>
             {
-                options.FileUploadLocalFolder = "D:\\my-files";
+                options.Containers.ConfigureDefault(container =>
+                {
+                    container.UseFileSystem(fileSystem =>
+                    {
+                        fileSystem.BasePath = "D:\\my-files";
+                    });
+                });
             });
+
             base.ConfigureServices(context);
         }
     }
