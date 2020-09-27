@@ -1,6 +1,8 @@
-﻿using Hangfire;
+﻿using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.AspNetCore;
 using Volo.Abp.AspNetCore.Serilog;
@@ -68,15 +70,20 @@ namespace Xhznl.HelloAbp
                 HelloAbpCronType.Minute());
         }
 
-        private void AddChinaRegionJob(ApplicationInitializationContext context)
+        private async Task AddChinaRegionJob(ApplicationInitializationContext context)
         {
             var regionJob = context.ServiceProvider.GetRequiredService<CrawlingChinaRegionJob>();
-            RecurringJob.AddOrUpdate("每个月同步行政区域代码",
-                () => regionJob.ExecuteAsync(new ChinaRegionArgs()
-                {
-                    Year = 2019
-                }),
-                HelloAbpCronType.Month());
+            var provinces = await regionJob.GetProvincesAsync();
+            foreach (var dic in provinces)
+            {
+                RecurringJob.AddOrUpdate($"{dic.Key}--每个月同步",
+                    () => regionJob.ExecuteAsync(new ChinaRegionArgs()
+                    {
+                        Province = dic.Key,
+                        Href = dic.Value
+                    }),
+                    HelloAbpCronType.Month());
+            }
         }
     }
 }

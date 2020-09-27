@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using Microsoft.Extensions.Options;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 
@@ -15,137 +19,126 @@ namespace Xhznl.HelloAbp.Jobs.ChinaRegion
     public class CrawlingChinaRegionJob : AsyncBackgroundJob<ChinaRegionArgs>, ITransientDependency
     {
         private readonly HttpClient _httpClient;
+        private readonly SortedDictionary<string, string> _sheng = new SortedDictionary<string, string>();
+        private readonly ChinaRegionOption _regionOption;
 
-        public CrawlingChinaRegionJob(IHttpClientFactory factory)
+        public CrawlingChinaRegionJob(IHttpClientFactory factory,
+            IOptionsSnapshot<ChinaRegionOption> regionOption)
         {
             _httpClient = factory.CreateClient();
+            _regionOption = regionOption.Value;
         }
 
         public override async Task ExecuteAsync(ChinaRegionArgs args)
         {
-            _httpClient.BaseAddress = args.BaseGovUri;
-            await ReadSheng("index.html", args);
-        }
+            if (string.IsNullOrEmpty(args.Province))
+            {
+                return;
+            }
 
-        private async Task ReadSheng(string url, ChinaRegionArgs args)
-        {
-            var indexHtml = await GetPageString(url, args);
-            var path = Path.Combine(AppContext.BaseDirectory, $"{args.Year}-html");
+            var path = Path.Combine(AppContext.BaseDirectory, $"{_regionOption.Year}--html");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            var arrs = indexHtml.Split("<A");
-            foreach (var s in arrs)
+            _httpClient.BaseAddress = _regionOption.BaseGovUri;
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(
+                "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><table border='1' bordercolor='#000000' style='border-collapse:collapse'><tr><td>代码</td><td>省</td><td>市</td><td>县</td><td>镇</td><td>城乡分类</td><td>村/街道</td></tr>"
+            );
+            sb.AppendLine($"<tr><td></td><td>{args.Province}</td><td></td><td></td><td></td><td></td><td></td></tr>");
+            var filePath = Path.Combine(path, $"{args.Province}.html");
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
+                FileShare.None))
             {
-                StringBuilder sb = new StringBuilder();
-                if (s.IndexOf("HREF") != -1 &&
-                    s.IndexOf(".HTML") != -1)
-                {
-                    var a = s.Substring(7, s.IndexOf("'>") - 7);
-                    var start = s.IndexOf("'>") + 2;
-                    var end = s.IndexOf("<BR/>") - start;
-                    var name = s.Substring(start,
-                        end);
-                    Console.WriteLine(name);
-                    sb.AppendLine(
-                        "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><table border='1' bordercolor='#000000' style='border-collapse:collapse'><tr><td>代码</td><td>省</td><td>市</td><td>县</td><td>镇</td><td>城乡分类</td><td>村/街道</td></tr>"
-                    );
-                    sb.AppendLine($"<tr><td></td><td>{name}</td><td></td><td></td><td></td><td></td><td></td></tr>");
-                    var filePath = Path.Combine(path, $"{name}.html");
-                    using (var fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
-                        FileShare.None))
-                    {
-                        Console.WriteLine("爬取:" + name);
-                        var shi = await ReadShi(a, args);
-                        sb.Append(shi);
-                        sb.AppendLine("</table></body></html>");
-                        var bytes = Encoding.Default.GetBytes(sb.ToString());
-                        await fs.WriteAsync(bytes, 0, bytes.Length);
-                    }
-                }
+                Console.WriteLine("爬取:" + args.Province);
+                var city = await ReadCity(args.Href);
+                sb.Append(city);
+                sb.AppendLine("</table></body></html>");
+                var bytes = Encoding.Default.GetBytes(sb.ToString());
+                await fs.WriteAsync(bytes, 0, bytes.Length);
             }
         }
 
-        private async Task<StringBuilder> ReadShi(string url, ChinaRegionArgs args)
+        /// <summary>
+        /// 省/直辖市/自治区
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SortedDictionary<string, string>> GetProvincesAsync()
+        {
+            var indexHtml = await GetPageString(_regionOption.BaseGovUri.AbsoluteUri + "index.html");
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(indexHtml); // load
+            var arrs = htmlDoc.DocumentNode.SelectNodes("//tr[@class='provincetr']//td//a");
+            foreach (var s in arrs)
+            {
+                StringBuilder sb = new StringBuilder();
+                var a = s.Attributes["href"].Value;
+                var name = s.InnerText;
+                //添加在内存中
+                _sheng.TryAdd(name, a);
+                Console.WriteLine(name);
+            }
+
+            return _sheng;
+        }
+
+        /// <summary>
+        /// 市辖区/县(或者分区)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private async Task<StringBuilder> ReadCity(string url)
         {
             StringBuilder sb = new StringBuilder();
-            var content = await GetPageString(url, args);
-            var citys = content.Split("CITYTR");
-            for (int c = 1, len = citys.Length; c < len; c++)
+            var content = await GetPageString(url);
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(content);
+            var cityTr = htmlDoc.DocumentNode.SelectNodes("//tr[@class='citytr']");
+            foreach (var tr in cityTr)
             {
-                var strs = citys[c].Split("<A HREF='");
-                string cityUrl = string.Empty;
-                for (int si = 1; si < 3; si++)
-                {
-                    var start = strs[si].IndexOf("'>") + 2;
-                    var end = strs[si].IndexOf("</A>") - start;
-                    var cityCode = strs[si].Substring(start,
-                        end);
-                    if (si == 1)
-                    {
-                        //取链接和编码
-                        cityUrl = strs[si].Substring(0, strs[si].IndexOf("'>"));
+                var citys = tr.ChildNodes;
+                var code = citys[0].LastChild.InnerText;
+                var name = citys[1].LastChild.InnerText;
+                var herf = citys[1].LastChild.Attributes["href"].Value;
+                sb.Append(
+                    $"<tr><td>{code}</td><td></td><td>{name}</td><td></td><td></td><td></td><td></td></tr>");
+                Console.WriteLine($"爬取:{name}");
 
-                        sb.Append($"<tr><td>{cityCode}</td>");
-                    }
-                    else
-                    {
-                        sb.Append(
-                            $"<td></td><td>${cityCode}</td><td></td><td></td><td></td><td></td></tr>");
-                        Console.WriteLine($"爬取:{cityCode}");
-                    }
-                }
-
-                var xian = await ReadXian(cityUrl.Substring(0, cityUrl.IndexOf("/") + 1), cityUrl, args);
-                sb.Append(xian);
+                var county = await ReadCounty(herf);
+                sb.Append(county);
             }
 
             return sb;
         }
 
-        private async Task<StringBuilder> ReadXian(string prix, string url, ChinaRegionArgs args)
+        /// <summary>
+        /// 具体的县
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private async Task<StringBuilder> ReadCounty(string url)
         {
             StringBuilder sb = new StringBuilder();
-            var content = await GetPageString(url, args);
-            ;
-            var citys = content.Split("COUNTYTR");
-            for (int i = 1; i < citys.Length; i++)
+            var content = await GetPageString(url);
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(content);
+            var countyTr = htmlDoc.DocumentNode.SelectNodes("//tr[@class='countytr']");
+            foreach (var tr in countyTr)
             {
-                string cityUrl = string.Empty;
+                var citys = tr.ChildNodes;
+                var code = citys[0].LastChild.InnerText;
+                var name = citys[1].LastChild.InnerText;
+                var herf = citys[1].LastChild.Attributes["href"].Value;
+                sb.Append(
+                    $"<tr><td>{code}</td><td></td><td></td><td>{name}</td><td></td><td></td><td></td></tr>");
+                Console.WriteLine($"爬取:{name}");
 
-                //发现石家庄有一个县居然没超链接，特殊处理
-                if (citys[i].IndexOf("<A HREF='") == -1)
+                if (!string.IsNullOrWhiteSpace(herf))
                 {
-                    sb.AppendLine(
-                        $"<tr><td>{citys[i].Substring(6, 18 - 6)}</td><td></td><td></td><td>{citys[i].Substring(citys[i].IndexOf("</TD><TD>") + 9, citys[i].LastIndexOf("</TD>") - citys[i].IndexOf("</TD><TD>") - 9)}</td><td></td><td></td><td></td></tr>");
-                }
-                else
-                {
-                    String[] strs = citys[i].Split("<A HREF='");
-                    for (int si = 1; si < 3; si++)
-                    {
-                        var start = strs[si].IndexOf("'>") + 2;
-                        var end = strs[si].IndexOf("</A>") - start;
-                        var cityCode = strs[si].Substring(start,
-                            end);
-                        if (si == 1)
-                        {
-                            //取链接和编码
-                            cityUrl = strs[si].Substring(0, strs[si].IndexOf("'>"));
-                            sb.Append($"<tr><td>{cityCode}</td>");
-                        }
-                        else
-                        {
-                            sb.Append($"<td></td><td></td><td>{cityCode}</td><td></td><td></td><td></td></tr>");
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrWhiteSpace(cityUrl))
-                {
-                    var zhen = await ReadZhen(prix, cityUrl, args);
+                    //加载镇的时候url进行了分组,组装url
+                    var zhen = await ReadTown(url.Substring(0, url.IndexOf('/') + 1) + herf);
                     sb.Append(zhen);
                 }
             }
@@ -153,52 +146,54 @@ namespace Xhznl.HelloAbp.Jobs.ChinaRegion
             return sb;
         }
 
-        private async Task<StringBuilder> ReadZhen(string prix, string url, ChinaRegionArgs args)
+        /// <summary>
+        /// 乡镇,街道
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private async Task<StringBuilder> ReadTown(string url)
         {
             StringBuilder sb = new StringBuilder();
-            var content = await GetPageString(prix + url, args);
-            ;
-            var myPrix = (prix + url).Substring(0, (prix + url).LastIndexOf("/") + 1);
-            var citys = content.Split("TOWNTR");
-            for (int i = 1; i < citys.Length; i++)
+            var htmlDoc = new HtmlDocument();
+            var content = await GetPageString(url);
+            htmlDoc.LoadHtml(content);
+            var townTr = htmlDoc.DocumentNode.SelectNodes("//tr[@class='towntr']");
+            foreach (var tr in townTr)
             {
-                String[] strs = citys[i].Split("<A HREF='");
-                String cityUrl = null;
-                for (int si = 1; si < 3; si++)
-                {
-                    var start = strs[si].IndexOf("'>") + 2;
-                    var end = strs[si].IndexOf("</A>") - start;
-                    var cityCode = strs[si].Substring(start,
-                        end);
-                    if (si == 1)
-                    {
-                        //取链接和编码
-                        cityUrl = strs[si].Substring(0, strs[si].IndexOf("'>"));
-                        sb.Append($"<tr><td>{cityCode}</td>");
-                    }
-                    else
-                    {
-                        sb.Append($"<td></td><td></td><td></td><td>{cityCode}</td><td></td><td></td></tr>");
-                    }
-                }
+                var citys = tr.ChildNodes;
+                var code = citys[0].LastChild.InnerText;
+                var name = citys[1].LastChild.InnerText;
+                var herf = citys[1].LastChild.Attributes["href"].Value;
+                sb.Append(
+                    $"<tr><td>{code}</td><td></td><td></td><td></td><td>{name}</td><td></td><td></td></tr>");
+                Console.WriteLine($"爬取:{name}");
 
-                var cun = await ReadCun(myPrix, cityUrl, args);
-                sb.Append(cun);
+                if (!string.IsNullOrWhiteSpace(herf))
+                {
+                    var village = await ReadVillage(url.Substring(0, url.LastIndexOf('/') + 1) + herf);
+                    sb.Append(village);
+                }
             }
 
             return sb;
         }
 
-        private async Task<StringBuilder> ReadCun(string prix, string url, ChinaRegionArgs args)
+        /// <summary>
+        /// 村委会/社区
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private async Task<StringBuilder> ReadVillage(string url)
         {
             StringBuilder sb = new StringBuilder();
-            var content = await GetPageString(prix + url, args);
-            var citys = content.Split("VILLAGETR");
-            for (int i = 1; i < citys.Length; i++)
+            var htmlDoc = new HtmlDocument();
+            var content = await GetPageString(url);
+            htmlDoc.LoadHtml(content);
+            var townTr = htmlDoc.DocumentNode.SelectNodes("//tr[@class='villagetr']");
+            foreach (var tr in townTr)
             {
-                var strs = citys[i].Split("<TD>");
                 sb.Append(
-                    $"<tr><td>{strs[1].Substring(0, strs[1].IndexOf("</TD>"))}</td><td></td><td></td><td></td><td></td><td>{strs[2].Substring(0, strs[2].IndexOf("</TD>"))}</td><td>{strs[3].Substring(0, strs[3].IndexOf("</TD>"))}</td></tr>");
+                    $"<tr><td>{tr.ChildNodes[0].InnerText}</td><td></td><td></td><td></td><td></td><td>{GetVillageType(tr.ChildNodes[1].InnerText)}({tr.ChildNodes[1].InnerText})</td><td>{tr.ChildNodes[2].InnerText}</td></tr>");
             }
 
             return sb;
@@ -207,7 +202,7 @@ namespace Xhznl.HelloAbp.Jobs.ChinaRegion
 
         public int RetryTimes { get; set; } = 3;
 
-        private async Task<string> GetPageString(string url, ChinaRegionArgs args)
+        private async Task<string> GetPageString(string url)
         {
             var httpResponseMessage = await _httpClient.GetAsync(url);
             try
@@ -216,18 +211,47 @@ namespace Xhznl.HelloAbp.Jobs.ChinaRegion
                 RoleBackTimes();
                 using StreamReader reader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(),
                     Encoding.GetEncoding("GBK"));
-                return (await reader.ReadToEndAsync()).ToUpper();
+                return await reader.ReadToEndAsync();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 if (RetryTimes-- <= 0)
                 {
-                    return (await GetPageString(url, args)).ToUpper();
+                    return await GetPageString(url);
                 }
             }
 
             return string.Empty;
+        }
+
+
+        private string GetVillageType(string code)
+        {
+            var str = "主城区";
+            switch (code)
+            {
+                case "112":
+                    str = "城乡结合区";
+                    break;
+                case "121":
+                    str = "镇中心区";
+                    break;;
+                case "122":
+                    str = "镇乡结合区";
+                    break;
+                case "123":
+                    str = "特殊区域";
+                    break;
+                case "210":
+                    str = "乡中心区";
+                    break;
+                case "220":
+                    str = "村庄";
+                    break;
+            }
+
+            return str;
         }
 
         private void RoleBackTimes()

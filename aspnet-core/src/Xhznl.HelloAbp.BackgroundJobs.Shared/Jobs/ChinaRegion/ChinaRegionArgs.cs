@@ -4,8 +4,14 @@ namespace Xhznl.HelloAbp.Jobs.ChinaRegion
 {
     public class ChinaRegionArgs
     {
-        public Uri BaseGovUri => new Uri($"http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/{Year}/");
+        /// <summary>
+        /// 省份名称(第一级)
+        /// </summary>
+        public string Province { get; set; }
 
-        public int Year { get; set; } = 2019;
+        /// <summary>
+        /// 对应的地址
+        /// </summary>
+        public string Href { get; set; }
     }
 }
