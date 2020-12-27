@@ -1,0 +1,20 @@
+{
+  "culture": "en",
+  "texts": {
+    "Menu:IdentityServerManagement":"IdentityServer",
+    "Menu:ClientManagement":"Client",
+    "Actions":"Actions",
+    "Add":"Add",
+    "Edit":"Edit",
+    "Delete":"Delete",
+    "Refresh":"Refresh",
+    "Permission:Add": "Add",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "ClientId": "ClientId",
+    "ClientName": "ClientName",
+    "Description": "Description",
+    "Enabled":"Enabled",
+    "ClientDeletionConfirmationMessage": "Client '{0}' will be deleted. Are you sure?"
+  }
+}

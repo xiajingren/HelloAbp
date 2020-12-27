@@ -3,6 +3,7 @@ using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
+using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Data;
 using Volo.Abp.IdentityServer;
 using Volo.Abp.Modularity;
@@ -15,7 +16,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpTestBaseModule),
         typeof(AbpAuthorizationModule),
         typeof(HelloAbpDomainModule)
-        )]
+    )]
     public class HelloAbpTestBaseModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -33,10 +34,9 @@ namespace Xhznl.HelloAbp
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            Configure<AbpBackgroundJobOptions>(options =>
-            {
-                options.IsJobExecutionEnabled = false;
-            });
+            Configure<AbpBackgroundWorkerOptions>(options => { options.IsEnabled = false; });
+            
+            Configure<AbpBackgroundJobOptions>(options => { options.IsJobExecutionEnabled = false; });
 
             context.Services.AddAlwaysAllowAuthorization();
         }
@@ -48,17 +48,17 @@ namespace Xhznl.HelloAbp
 
         private static void SeedTestData(ApplicationInitializationContext context)
         {
-            using (var scope = context.ServiceProvider.CreateScope())
+            AsyncHelper.RunSync(async () =>
             {
-                var dataSender = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
-                AsyncHelper.RunSync(async () =>
+                using (var scope = context.ServiceProvider.CreateScope())
                 {
+                    var dataSender = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
                     await dataSender.SeedAsync();
-                    //await scope.ServiceProvider
-                    //    .GetRequiredService<AbpIdentityTestDataBuilder>()
-                    //    .Build();
-                });
-            }
+                    await scope.ServiceProvider
+                        .GetRequiredService<AbpIdentityServerTestDataBuilder>()
+                        .BuildAsync();
+                }
+            });
         }
     }
 }

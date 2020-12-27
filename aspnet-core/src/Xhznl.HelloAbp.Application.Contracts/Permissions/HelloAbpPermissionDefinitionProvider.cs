@@ -32,7 +32,7 @@ namespace Xhznl.HelloAbp.Permissions
             claimPermission.AddChild(HelloIdentityPermissions.ClaimTypes.Delete, IdentityL("Permission:Delete"));
 
             //AuditLogging
-            var auditLogGroup = context.AddGroup(AuditLogPermissions.GroupName);
+            var auditLogGroup = context.AddGroup(AuditLogPermissions.GroupName,AuditLoggingL("GroupAbpAuditLogging"));
             var aduditLogPermission = auditLogGroup.AddPermission(AuditLogPermissions.AuditLogs.Default, AuditLoggingL("Permission:AuditLogManagement"));
             aduditLogPermission.AddChild(AuditLogPermissions.AuditLogs.Delete, AuditLoggingL("Permission:Delete"));
         }

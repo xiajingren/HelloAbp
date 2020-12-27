@@ -14,6 +14,7 @@ using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Identity.Localization;
 using Volo.Abp.AuditLogging.Localization;
+using Volo.Abp.IdentityServer.Localization;
 using Xhznl.DataDictionary;
 using Xhznl.FileManagement;
 using Xhznl.FileManagement.Localization;
@@ -66,6 +67,10 @@ namespace Xhznl.HelloAbp
                 options.Resources
                     .Get<AuditLoggingResource>()
                     .AddVirtualJson("/Volo/Abp/AuditLogging/Localization");
+                
+                options.Resources
+                    .Get<AbpIdentityServerResource>()
+                    .AddVirtualJson("/Volo/Abp/IdentityServer/Localization");
 
                 options.DefaultResourceType = typeof(HelloAbpResource);
             });

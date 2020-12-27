@@ -1,6 +1,7 @@
 {
   "culture": "zh-Hans",
   "texts": {
+    "GroupAbpAuditLogging":"审计日志",
     "Permission:AuditLogManagement": "审计日志管理",
     "Permission:AuditLogging": "审计日志",
     "Permission:Delete": "删除",

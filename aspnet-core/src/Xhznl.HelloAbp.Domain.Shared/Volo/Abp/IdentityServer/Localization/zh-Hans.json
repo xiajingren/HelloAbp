@@ -1,0 +1,22 @@
+{
+  "culture": "zh-Hans",
+  "texts": {
+    "GroupIdentityServer":"IdentityServer",
+    "Menu:IdentityServerManagement":"IdentityServer",
+    "Menu:ClientManagement":"Client",
+    "Permission:ClientManagement": "客户端管理",
+    "Actions":"操作",
+    "Add":"新增",
+    "Edit":"修改",
+    "Delete":"删除",
+    "Refresh":"刷新",
+    "Permission:Add": "添加",
+    "Permission:Update": "修改",
+    "Permission:Delete": "删除",
+    "ClientId": "标识",
+    "ClientName": "名称",
+    "Description": "描述",
+    "Enabled":"状态",
+    "ClientDeletionConfirmationMessage": "客户端 '{0}' 将被删除. 你确定吗?"
+  }
+}

@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import identityRouter from './modules/identity'
+import identityServerRouter from './modules/identityserver'
 import tenantRouter from './modules/tenant'
 import settingRouter from './modules/setting'
 import auditlogRouter from './modules/auditlog'
@@ -137,6 +138,7 @@ export const constantRoutes = [
 export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   identityRouter,
+  identityServerRouter,
   tenantRouter,
   dictionaryRouter,
   auditlogRouter,

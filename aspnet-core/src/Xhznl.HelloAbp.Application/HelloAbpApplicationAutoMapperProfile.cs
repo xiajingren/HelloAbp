@@ -2,6 +2,8 @@
 using Volo.Abp.AuditLogging;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
+using Volo.Abp.IdentityServer;
+using Volo.Abp.IdentityServer.Clients;
 
 namespace Xhznl.HelloAbp
 {
@@ -40,6 +42,19 @@ namespace Xhznl.HelloAbp
             CreateMap<IdentityRoleClaimDto, IdentityRoleClaim>().Ignore(x => x.TenantId).Ignore(x => x.Id);
             CreateMap<CreateClaimTypeDto, IdentityClaimType>().Ignore(x => x.IsStatic).Ignore(x => x.Id);
             CreateMap<UpdateClaimTypeDto, IdentityClaimType>().Ignore(x => x.IsStatic).Ignore(x => x.Id);
+            
+            //Client
+            CreateMap<Client, ClientDto>();
+            CreateMap<ClientClaim, ClientClaimDto>();
+            CreateMap<ClientCorsOrigin, ClientCorsOriginDto>();
+            CreateMap<Client, ClientDetailsDto>();
+            CreateMap<ClientGrantType, ClientGrantTypeDto>();
+            CreateMap<ClientIdPRestriction, ClientIdPRestrictionDto>();
+            CreateMap<ClientPostLogoutRedirectUri, ClientPostLogoutRedirectUriDto>();
+            CreateMap<ClientProperty, ClientPropertyDto>();
+            CreateMap<ClientRedirectUri, ClientRedirectUriDto>();
+            CreateMap<ClientScope, ClientScopeDto>();
+            CreateMap<ClientSecret, ClientSecretDto>();
         }
     }
 }
