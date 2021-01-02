@@ -38,27 +38,27 @@
       @sort-change="sortChange"
     >
       <el-table-column
-        :label="$t('AbpIdentityServer[\'Client:ClientId\']')"
-        prop="clientId"
+        :label="$t('AbpIdentityServer[\'ApiResource:Name\']')"
+        prop="name"
         sortable
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.clientId }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('AbpIdentityServer[\'Client:ClientName\']')"
-        prop="clientName"
+        :label="$t('AbpIdentityServer[\'ApiResource:DisplayName\']')"
+        prop="displayName"
         sortable
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.clientName }}</span>
+          <span>{{ row.displayName }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('AbpIdentityServer[\'Client:Description\']')"
+        :label="$t('AbpIdentityServer[\'ApiResource:Description\']')"
         prop="description"
         sortable
         align="center"
@@ -68,7 +68,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('AbpIdentityServer[\'Client:Enabled\']')"
+        :label="$t('AbpIdentityServer[\'ApiResource:Enabled\']')"
         prop="enabled"
         sortable
         align="center"
@@ -118,12 +118,12 @@
 
 <script>
 import {
-  getClients,
-  getClientById,
-  createClient,
-  updateClient,
-  deleteClient
-} from '@/api/identityserver/client'
+  getApiResources,
+  getApiResourceById,
+  createApiResource,
+  updateApiResource,
+  deleteApiResource
+} from '@/api/identityserver/api-ressource'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import baseListQuery, { checkPermission } from '@/utils/abp'
 
@@ -157,7 +157,7 @@ export default {
     checkPermission,
     getList() {
       this.listLoading = true
-      getClients(this.listQuery).then(response => {
+      getApiResources(this.listQuery).then(response => {
         this.list = response.items
         this.total = response.totalCount
         this.listLoading = false
@@ -194,7 +194,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          createClient(this.temp).then(() => {
+          createApiResource(this.temp).then(() => {
             this.handleFilter()
             this.dialogFormVisible = false
             this.$notify({
@@ -214,7 +214,7 @@ export default {
       // update can check many
       this.singleChecked = false
 
-      getClientById(row.id).then(response => {
+      getApiResourceById(row.id).then(response => {
         this.temp = Object.assign(response)
       })
 
@@ -225,7 +225,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          updateClient(this.temp).then(() => {
+          updateApiResource(this.temp).then(() => {
             this.handleFilter(false)
             this.dialogFormVisible = false
             this.$notify({
@@ -250,7 +250,7 @@ export default {
           type: 'warning'
         }
       ).then(async() => {
-        deleteClient(row.id).then(() => {
+        deleteApiResource(row.id).then(() => {
           this.handleFilter()
           this.$notify({
             title: this.$i18n.t("HelloAbp['Success']"),
