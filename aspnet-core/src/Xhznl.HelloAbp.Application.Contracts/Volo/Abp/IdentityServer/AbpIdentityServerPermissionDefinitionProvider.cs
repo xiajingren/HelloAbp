@@ -10,12 +10,31 @@ namespace Volo.Abp.IdentityServer
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var identityServerGroup = context.AddGroup(IdentityServerPermissions.GroupName,L("GroupIdentityServer"));
-            var identityServerPermissions = identityServerGroup.AddPermission(IdentityServerPermissions.Clients.Default,
+            var identityServerGroup = context.AddGroup(IdentityServerPermissions.GroupName, L("GroupIdentityServer"));
+            var clientPermissions = identityServerGroup.AddPermission(IdentityServerPermissions.Clients.Default,
                 L("Permission:ClientManagement"));
-            identityServerPermissions.AddChild(IdentityServerPermissions.Clients.Create, L("Permission:Add"));
-            identityServerPermissions.AddChild(IdentityServerPermissions.Clients.Update, L("Permission:Update"));
-            identityServerPermissions.AddChild(IdentityServerPermissions.Clients.Delete, L("Permission:Delete"));
+            clientPermissions.AddChild(IdentityServerPermissions.Clients.Create, L("Permission:Add"));
+            clientPermissions.AddChild(IdentityServerPermissions.Clients.Update, L("Permission:Update"));
+            clientPermissions.AddChild(IdentityServerPermissions.Clients.Delete, L("Permission:Delete"));
+
+            //IdentityResource
+            var identityResourcePermissions = identityServerGroup.AddPermission(
+                IdentityServerPermissions.IdentityResources.Default,
+                L("Permission:ClientManagement"));
+            identityResourcePermissions.AddChild(IdentityServerPermissions.IdentityResources.Create,
+                L("Permission:Add"));
+            identityResourcePermissions.AddChild(IdentityServerPermissions.IdentityResources.Update,
+                L("Permission:Update"));
+            identityResourcePermissions.AddChild(IdentityServerPermissions.IdentityResources.Delete,
+                L("Permission:Delete"));
+
+            //ApiResource
+            var apiResourcePermissions = identityServerGroup.AddPermission(
+                IdentityServerPermissions.ApiResources.Default,
+                L("Permission:ClientManagement"));
+            apiResourcePermissions.AddChild(IdentityServerPermissions.ApiResources.Create, L("Permission:Add"));
+            apiResourcePermissions.AddChild(IdentityServerPermissions.ApiResources.Update, L("Permission:Update"));
+            apiResourcePermissions.AddChild(IdentityServerPermissions.ApiResources.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)

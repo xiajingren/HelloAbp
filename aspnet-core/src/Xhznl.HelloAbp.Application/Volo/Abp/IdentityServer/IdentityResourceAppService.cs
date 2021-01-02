@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.IdentityServer.IdentityResources;
 
 namespace Volo.Abp.IdentityServer
 {
+    [Authorize(IdentityServerPermissions.IdentityResources.Default)]
     [RemoteService(false)]
     public class IdentityResourceAppService : IdentityServerAppServiceBase, IIdentityResourceAppService
     {
@@ -30,16 +32,19 @@ namespace Volo.Abp.IdentityServer
             return new PagedResultDto<IdentityResourceDto>(cnt, MapListIdentityResourceToListDto(list));
         }
 
+        [Authorize(IdentityServerPermissions.ApiResources.Create)]
         public Task<IdentityResourceDto> CreateAsync(CreateIdentityResourceDto input)
         {
             throw new NotImplementedException();
         }
 
+        [Authorize(IdentityServerPermissions.ApiResources.Update)]
         public Task<IdentityResourceDto> UpdateAsync(Guid id, UpdateIdentityResourceDto input)
         {
             throw new NotImplementedException();
         }
 
+        [Authorize(IdentityServerPermissions.ApiResources.Delete)]
         public Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
