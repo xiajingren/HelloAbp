@@ -3,10 +3,11 @@ using Volo.Abp.AuditLogging;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
 using Volo.Abp.IdentityServer;
+using Volo.Abp.IdentityServer.ApiResources;
 using Volo.Abp.IdentityServer.Clients;
 using Client = Volo.Abp.IdentityServer.Clients.Client;
-using IdentityResource=Volo.Abp.IdentityServer.IdentityResources.IdentityResource;
-using IdentityClaim=Volo.Abp.IdentityServer.IdentityResources.IdentityClaim;
+using IdentityResource = Volo.Abp.IdentityServer.IdentityResources.IdentityResource;
+using IdentityClaim = Volo.Abp.IdentityServer.IdentityResources.IdentityClaim;
 
 namespace Xhznl.HelloAbp
 {
@@ -48,9 +49,9 @@ namespace Xhznl.HelloAbp
 
             //Client
             CreateMap<Client, ClientDto>();
+            CreateMap<Client, ClientDetailsDto>();
             CreateMap<ClientClaim, ClientClaimDto>();
             CreateMap<ClientCorsOrigin, ClientCorsOriginDto>();
-            CreateMap<Client, ClientDetailsDto>();
             CreateMap<ClientGrantType, ClientGrantTypeDto>();
             CreateMap<ClientIdPRestriction, ClientIdPRestrictionDto>();
             CreateMap<ClientPostLogoutRedirectUri, ClientPostLogoutRedirectUriDto>();
@@ -62,6 +63,15 @@ namespace Xhznl.HelloAbp
             //IdentityResource
             CreateMap<IdentityResource, IdentityResourceDto>();
             CreateMap<IdentityClaim, IdentityClaimDto>();
+
+            //ApiResource
+            CreateMap<ApiResource, ApiResourceDto>();
+            CreateMap<ApiResource, ApiResourceDetailsDto>();
+            CreateMap<ApiResourceClaim, ApiResourceClaimDto>();
+            CreateMap<ApiScopeClaim, ApiScopeClaimDto>();
+            CreateMap<ApiScope, ApiScopeDto>();
+            CreateMap<ApiSecret, ApiSecretDto>();
+            CreateMap<ApiResourceClaim, ApiResourceClaimDto>();
         }
     }
 }

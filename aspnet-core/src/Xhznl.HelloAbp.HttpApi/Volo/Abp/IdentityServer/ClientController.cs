@@ -23,7 +23,7 @@ namespace Volo.Abp.IdentityServer
 
         [Route("{id}")]
         [HttpGet]
-        public Task<ClientDto> GetAsync(Guid id)
+        public Task<ClientDetailsDto> GetAsync(Guid id)
         {
             return ClientAppService.GetAsync(id);
         }
@@ -35,18 +35,18 @@ namespace Volo.Abp.IdentityServer
         }
 
         [HttpPost]
-        public Task<ClientDto> CreateAsync(CreateClientDto input)
+        public Task<ClientDetailsDto> CreateAsync(CreateClientDto input)
         {
             return ClientAppService.CreateAsync(input);
         }
 
-        [HttpPut]
-        public Task<ClientDto> UpdateAsync(Guid id, UpdateClientDto input)
+        [HttpPut("{id}")]
+        public Task<ClientDetailsDto> UpdateAsync(Guid id, UpdateClientDto input)
         {
             return ClientAppService.UpdateAsync(id, input);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public Task DeleteAsync(Guid id)
         {
             return ClientAppService.DeleteAsync(id);

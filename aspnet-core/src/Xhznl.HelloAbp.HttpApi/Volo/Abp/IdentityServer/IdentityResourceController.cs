@@ -36,13 +36,13 @@ namespace Volo.Abp.IdentityServer
             return IdentityResourceAppService.CreateAsync(input);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public Task<IdentityResourceDto> UpdateAsync(Guid id, UpdateIdentityResourceDto input)
         {
             return IdentityResourceAppService.UpdateAsync(id, input);
         }
 
-        [HttpDelete]
+        [HttpDelete("id")]
         public Task DeleteAsync(Guid id)
         {
             return IdentityResourceAppService.DeleteAsync(id);

@@ -19,7 +19,7 @@ namespace Volo.Abp.IdentityServer
             ClientRepository = clientRepository;
         }
 
-        public async Task<ClientDto> GetAsync(Guid id)
+        public async Task<ClientDetailsDto> GetAsync(Guid id)
         {
             return MapClientToDto(await ClientRepository.GetAsync(id));
         }
@@ -33,13 +33,13 @@ namespace Volo.Abp.IdentityServer
         }
 
         [Authorize(IdentityServerPermissions.Clients.Create)]
-        public Task<ClientDto> CreateAsync(CreateClientDto input)
+        public Task<ClientDetailsDto> CreateAsync(CreateClientDto input)
         {
             throw new NotImplementedException();
         }
 
         [Authorize(IdentityServerPermissions.Clients.Update)]
-        public Task<ClientDto> UpdateAsync(Guid id, UpdateClientDto input)
+        public Task<ClientDetailsDto> UpdateAsync(Guid id, UpdateClientDto input)
         {
             throw new NotImplementedException();
         }
@@ -50,9 +50,9 @@ namespace Volo.Abp.IdentityServer
             return ClientRepository.DeleteAsync(id);
         }
 
-        protected virtual ClientDto MapClientToDto(Client client)
+        protected virtual ClientDetailsDto MapClientToDto(Client client)
         {
-            var clientDto = base.ObjectMapper.Map<Client, ClientDto>(client);
+            var clientDto = ObjectMapper.Map<Client, ClientDetailsDto>(client);
             return clientDto;
         }
 
