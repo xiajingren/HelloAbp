@@ -4,6 +4,9 @@ using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
 using Volo.Abp.IdentityServer;
 using Volo.Abp.IdentityServer.Clients;
+using Client = Volo.Abp.IdentityServer.Clients.Client;
+using IdentityResource=Volo.Abp.IdentityServer.IdentityResources.IdentityResource;
+using IdentityClaim=Volo.Abp.IdentityServer.IdentityResources.IdentityClaim;
 
 namespace Xhznl.HelloAbp
 {
@@ -42,7 +45,7 @@ namespace Xhznl.HelloAbp
             CreateMap<IdentityRoleClaimDto, IdentityRoleClaim>().Ignore(x => x.TenantId).Ignore(x => x.Id);
             CreateMap<CreateClaimTypeDto, IdentityClaimType>().Ignore(x => x.IsStatic).Ignore(x => x.Id);
             CreateMap<UpdateClaimTypeDto, IdentityClaimType>().Ignore(x => x.IsStatic).Ignore(x => x.Id);
-            
+
             //Client
             CreateMap<Client, ClientDto>();
             CreateMap<ClientClaim, ClientClaimDto>();
@@ -55,6 +58,10 @@ namespace Xhznl.HelloAbp
             CreateMap<ClientRedirectUri, ClientRedirectUriDto>();
             CreateMap<ClientScope, ClientScopeDto>();
             CreateMap<ClientSecret, ClientSecretDto>();
+
+            //IdentityResource
+            CreateMap<IdentityResource, IdentityResourceDto>();
+            CreateMap<IdentityClaim, IdentityClaimDto>();
         }
     }
 }

@@ -12,9 +12,9 @@ namespace Volo.Abp.IdentityServer
     [Authorize(IdentityServerPermissions.Clients.Default)]
     public class ClientAppService : IdentityServerAppServiceBase, IClientAppService
     {
-        protected IClientRepository ClientRepository { get; }
+        protected IIds4ClientRepository ClientRepository { get; }
 
-        public ClientAppService(IClientRepository clientRepository)
+        public ClientAppService(IIds4ClientRepository clientRepository)
         {
             ClientRepository = clientRepository;
         }
@@ -26,9 +26,10 @@ namespace Volo.Abp.IdentityServer
 
         public async Task<PagedResultDto<ClientDto>> GetListAsync(GetClientListInput input)
         {
-            var count = await ClientRepository.GetCountAsync();
-            var list = await ClientRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting);
-            return new PagedResultDto<ClientDto>(count, MapListClientToListDto(list)); 
+            var count = await ClientRepository.GetCountAsync(input.Filter);
+            var list = await ClientRepository.GetListAsync(input.Sorting, input.SkipCount, input.MaxResultCount,
+                input.Filter);
+            return new PagedResultDto<ClientDto>(count, MapListClientToListDto(list));
         }
 
         [Authorize(IdentityServerPermissions.Clients.Create)]

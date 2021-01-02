@@ -6,7 +6,9 @@ using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.IdentityServer.Clients;
 using Volo.Abp.IdentityServer.EntityFrameworkCore;
+using Volo.Abp.IdentityServer.IdentityResources;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
@@ -29,7 +31,7 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
         typeof(AbpFeatureManagementEntityFrameworkCoreModule),
         typeof(FileManagementEntityFrameworkCoreModule),
         typeof(DataDictionaryEntityFrameworkCoreModule)
-        )]
+    )]
     public class HelloAbpEntityFrameworkCoreModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -43,8 +45,10 @@ namespace Xhznl.HelloAbp.EntityFrameworkCore
             {
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
-                options.AddDefaultRepositories(includeAllEntities: true);                
+                options.AddDefaultRepositories(includeAllEntities: true);
                 //options.AddRepository<OrganizationUnit, HelloEfCoreOrganizationUnitRepository>();
+                options.AddRepository<Client, Ids4ClientRepository>();
+                options.AddRepository<IdentityResource, Ids4IdentityResourceRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>
