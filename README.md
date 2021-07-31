@@ -29,10 +29,11 @@ ABP vNext + vue-element-admin入门级项目实战
 
 环境：.netcore 3.1、sqlserver、nodejs、npm
 
-1. 修改Xhznl.HelloAbp.HttpApi.Host、Xhznl.HelloAbp.DbMigrator项目的数据库连接字符串
-2. 运行/run/db-migrator.bat（初始化数据库、种子数据）
-3. 运行/run/npm-install.bat（安装npm依赖）
-4. 运行/run/run.bat
+1. 运行/run/build.bat (编译模块、启动项目)
+2. 修改Xhznl.HelloAbp.HttpApi.Host、Xhznl.HelloAbp.DbMigrator项目的数据库连接字符串
+3. 运行/run/db-migrator.bat（初始化数据库、种子数据）
+4. 运行/run/npm-install.bat（安装npm依赖）
+5. 运行/run/run.bat
 
 前3步只需执行一次。你也可以直接使用vs/vscode来运行
 
