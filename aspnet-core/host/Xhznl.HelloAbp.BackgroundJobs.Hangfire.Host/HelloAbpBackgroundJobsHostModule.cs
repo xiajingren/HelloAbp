@@ -39,12 +39,12 @@ namespace Xhznl.HelloAbp
             app.UseHangfireDashboard();
         }
 
-        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+        public override async void OnPostApplicationInitialization(ApplicationInitializationContext context)
         {
             //后台作业
             // var manager = context.ServiceProvider.GetRequiredService<IBackgroundJobManager>();
             // manager.EnqueueAsync(new TrafficArgs(100));
-            AddChinaRegionJob(context);
+            await AddChinaRegionJobAsync(context);
         }
 
         private void ConfigureHangfire(ServiceConfigurationContext context)
@@ -70,7 +70,7 @@ namespace Xhznl.HelloAbp
                 HelloAbpCronType.Minute());
         }
 
-        private async Task AddChinaRegionJob(ApplicationInitializationContext context)
+        private async Task AddChinaRegionJobAsync(ApplicationInitializationContext context)
         {
             var regionJob = context.ServiceProvider.GetRequiredService<CrawlingChinaRegionJob>();
             var provinces = await regionJob.GetProvincesAsync();

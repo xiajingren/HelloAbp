@@ -6,6 +6,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
+using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Xhznl.DataDictionary;
 using Xhznl.FileManagement;
@@ -21,6 +22,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpTenantManagementHttpApiModule),
         typeof(AbpFeatureManagementHttpApiModule),
         typeof(AbpSettingUiHttpApiModule),
+        typeof(AbpSettingManagementHttpApiModule),
         typeof(FileManagementHttpApiModule),
         typeof(DataDictionaryHttpApiModule)
         )]

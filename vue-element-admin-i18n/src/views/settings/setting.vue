@@ -11,7 +11,7 @@
           <el-tab-pane
             v-for="card in group.settingInfos"
             :key="card[0].properties.Group2"
-            :label="$t(`SettingUi.${card[0].properties.Group2}`)"
+            :label="$t(`EasyAbpAbpSettingUi.${card[0].properties.Group2}`)"
           >
             <el-card
               class="box-card"
@@ -20,7 +20,7 @@
                 slot="header"
                 class="clearfix"
               >
-                <span>{{ $t(`SettingUi.${card[0].properties.Group2}`) }}</span>
+                <span>{{ $t(`EasyAbpAbpSettingUi.${card[0].properties.Group2}`) }}</span>
               </div>
               <div class="text item">
                 <el-form
@@ -68,7 +68,7 @@
                   <el-button
                     type="primary"
                     @click="updateSettingValues(card[0].properties.Group2,sIndex)"
-                  >{{ $t('SettingUi.Save') }}</el-button>
+                  >{{ $t('EasyAbpAbpSettingUi.Save') }}</el-button>
                 </el-form>
               </div>
             </el-card>
@@ -108,6 +108,7 @@ export default {
               this.formRefs.push(formRefsKey)
             }
           }
+          console.log('=======settingInfo=========')
           console.log(...settingInfo)
           this.settingData.push({
             groupName: s.groupName,
@@ -126,7 +127,7 @@ export default {
       setSettingValues(obj).then(() => {
         this.$notify({
           title: this.$i18n.t("HelloAbp['Success']"),
-          message: this.$i18n.t("SettingUi['SuccessfullySaved']"),
+          message: this.$i18n.t("EasyAbpAbpSettingUi['SuccessfullySaved']"),
           type: 'success',
           duration: 2000
         })

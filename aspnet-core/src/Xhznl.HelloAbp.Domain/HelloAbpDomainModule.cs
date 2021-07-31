@@ -13,6 +13,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Xhznl.DataDictionary;
 using Xhznl.FileManagement;
+using Volo.Abp.Emailing;
 
 namespace Xhznl.HelloAbp
 {
@@ -28,6 +29,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpSettingManagementDomainModule),
         typeof(AbpTenantManagementDomainModule),
         typeof(FileManagementDomainModule),
+        typeof(AbpEmailingModule),
         typeof(DataDictionaryDomainModule)
         )]
     public class HelloAbpDomainModule : AbpModule

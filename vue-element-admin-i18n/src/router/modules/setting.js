@@ -18,7 +18,7 @@ const settingRouter = {
       name: 'Setting',
       meta: {
         title: 'AbpSettingManagement["Settings"]',
-        policy: 'SettingUi.Tenant',
+        policy: 'EasyAbp.Abp.SettingUi.ShowSettingPage',
         icon: 'el-icon-setting'
       }
     }

@@ -102,9 +102,9 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
             return list;
         }
 
-        protected override IQueryable<DataDictionary> CreateFilteredQuery(GetDictionaryInputDto input)
-        {
-            return Repository.WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+        protected override async Task<IQueryable<DataDictionary>> CreateFilteredQueryAsync(GetDictionaryInputDto input)
+        {            
+            return (await Repository.GetQueryableAsync()).WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
                 d => d.Name.Contains(input.Filter) ||
                      d.Description.Contains(input.Filter)
             );

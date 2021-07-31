@@ -34,6 +34,7 @@ using Xhznl.HelloAbp.Localization;
 using Xhznl.HelloAbp.MultiTenancy;
 using Volo.Abp.BlobStoring.FileSystem;
 using System.Collections.Generic;
+using Volo.Abp.Swashbuckle;
 
 namespace Xhznl.HelloAbp
 {
@@ -47,7 +48,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAccountWebIdentityServerModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpBlobStoringFileSystemModule)
+        typeof(AbpBlobStoringFileSystemModule),
+        typeof(AbpSwashbuckleModule)
     )]
     public class HelloAbpHttpApiHostModule : AbpModule
     {
@@ -94,6 +96,7 @@ namespace Xhznl.HelloAbp
             Configure<AppUrlOptions>(options =>
             {
                 options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+                options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
             });
         }
 
@@ -168,12 +171,12 @@ namespace Xhznl.HelloAbp
         private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddAuthentication()
-                .AddIdentityServerAuthentication(options =>
+                .AddJwtBearer(options =>
                 {
                     options.Authority = configuration["AuthServer:Authority"];
-                    options.RequireHttpsMetadata = false;
-                    options.ApiName = "HelloAbp";
-                    options.JwtBackChannelHandler = new HttpClientHandler()
+                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                    options.Audience = "HelloAbp";
+                    options.BackchannelHttpHandler = new HttpClientHandler()
                     {
                         ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
                     };

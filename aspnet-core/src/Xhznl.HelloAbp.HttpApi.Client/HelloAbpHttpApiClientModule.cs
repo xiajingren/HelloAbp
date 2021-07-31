@@ -4,6 +4,7 @@ using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Xhznl.FileManagement;
 
@@ -16,7 +17,8 @@ namespace Xhznl.HelloAbp
         typeof(AbpPermissionManagementHttpApiClientModule),
         typeof(AbpTenantManagementHttpApiClientModule),
         typeof(AbpFeatureManagementHttpApiClientModule),
-        typeof(FileManagementHttpApiClientModule)
+        typeof(FileManagementHttpApiClientModule),
+        typeof(AbpSettingManagementHttpApiClientModule)
     )]
     public class HelloAbpHttpApiClientModule : AbpModule
     {

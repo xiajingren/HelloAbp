@@ -89,9 +89,9 @@ namespace Xhznl.DataDictionary.BaseData.DataDictionaryManagement
             return list;
         }
 
-        protected override IQueryable<DataDictionaryDetail> CreateFilteredQuery(GetDictionaryDetailInputDto input)
+        protected override async Task<IQueryable<DataDictionaryDetail>> CreateFilteredQueryAsync(GetDictionaryDetailInputDto input)
         {
-            return Repository.Where(p => p.Pid == input.Pid);
+            return (await Repository.GetQueryableAsync()).Where(p => p.Pid == input.Pid);
         }
     }
 }
