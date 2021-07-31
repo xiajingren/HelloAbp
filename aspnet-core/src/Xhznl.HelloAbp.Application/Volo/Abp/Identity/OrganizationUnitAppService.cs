@@ -241,7 +241,7 @@ namespace Volo.Abp.Identity
         }
 
         [Authorize(IdentityPermissions.Roles.Default)]
-        public virtual async Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId, PagedAndSortedResultRequestDto roleInput)
+        public virtual async Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId,GetIdentityRolesInput roleInput)
         {
             if (!ouId.HasValue)
             {

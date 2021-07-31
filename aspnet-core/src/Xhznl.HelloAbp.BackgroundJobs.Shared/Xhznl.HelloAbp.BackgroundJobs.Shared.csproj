@@ -1,17 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <RootNamespace>Xhznl.HelloAbp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
-    <PackageReference Include="Volo.Abp.AspNetCore" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.Emailing" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.Threading" Version="3.1.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.Emailing" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.Threading" Version="4.3.3" />
   </ItemGroup>
 
   <ItemGroup>

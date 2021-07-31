@@ -15,6 +15,6 @@ namespace Volo.Abp.AuditLogging
         public string EntityId { get;  set; }
         public string EntityTypeFullName { get;  set; }
         public List<EntityPropertyChangeDto> PropertyChanges { get;  set; }
-        public Dictionary<string, object> ExtraProperties { get;  set; }
+        public ExtraPropertyDictionary ExtraProperties { get;  set; }
     }
 }

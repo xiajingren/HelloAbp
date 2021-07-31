@@ -33,6 +33,7 @@ using Xhznl.HelloAbp.EntityFrameworkCore;
 using Xhznl.HelloAbp.Localization;
 using Xhznl.HelloAbp.MultiTenancy;
 using Volo.Abp.BlobStoring.FileSystem;
+using System.Collections.Generic;
 
 namespace Xhznl.HelloAbp
 {
@@ -64,7 +65,7 @@ namespace Xhznl.HelloAbp
             ConfigureLocalization();
             ConfigureVirtualFileSystem(context);
             ConfigureCors(context, configuration);
-            ConfigureSwaggerServices(context);
+            ConfigureSwaggerServices(context, configuration);
             ConfigureFile(hostingEnvironment);
         }
 
@@ -179,35 +180,19 @@ namespace Xhznl.HelloAbp
                 });
         }
 
-        private static void ConfigureSwaggerServices(ServiceConfigurationContext context)
+        private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
         {
-            context.Services.AddSwaggerGen(
+            context.Services.AddAbpSwaggerGenWithOAuth(
+                configuration["AuthServer:Authority"],
+                new Dictionary<string, string>
+                {
+                    {"HelloAbp", "HelloAbp API"}
+                },
                 options =>
                 {
                     options.SwaggerDoc("v1", new OpenApiInfo { Title = "HelloAbp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                     options.CustomSchemaIds(type => type.FullName);
-                    options.OrderActionsBy(decs => decs.RelativePath);
-                    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                    {
-                        {
-                            new OpenApiSecurityScheme()
-                            {
-                                Reference = new OpenApiReference()
-                                {
-                                    Id = JwtBearerDefaults.AuthenticationScheme,
-                                    Type = ReferenceType.SecurityScheme
-                                }
-                            },
-                            Array.Empty<string>()
-                        }
-                    });
-                    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
-                    {
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey
-                    });
                 });
         }
 
@@ -256,13 +241,16 @@ namespace Xhznl.HelloAbp
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+
+            app.UseAbpRequestLocalization();
+
+            if (!env.IsDevelopment())
             {
                 app.UseErrorPage();
             }
 
             app.UseCorrelationId();
-            app.UseVirtualFiles();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthentication();
@@ -273,12 +261,20 @@ namespace Xhznl.HelloAbp
                 app.UseMultiTenancy();
             }
 
-            app.UseAbpRequestLocalization();
+            app.UseUnitOfWork();
             app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "HelloAbp API"); });
+            app.UseAbpSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HelloAbp API");
+
+                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+                c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                c.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                c.OAuthScopes("HelloAbp");
+            });
 
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();

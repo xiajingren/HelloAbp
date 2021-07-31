@@ -174,7 +174,7 @@ export default {
       listQuery: baseListQuery,
       orgData: null,
       temp: {
-        orgId: '',
+        orgId: null,
         name: '',
         isDefault: false,
         isPublic: false
@@ -241,7 +241,7 @@ export default {
     },
     resetTemp() {
       this.temp = {
-        orgId: '',
+        orgId: null,
         name: '',
         isDefault: false,
         isPublic: false

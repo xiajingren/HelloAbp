@@ -1,4 +1,5 @@
-﻿using Localization.Resources.AbpUi;
+﻿using EasyAbp.Abp.SettingUi;
+using Localization.Resources.AbpUi;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -19,7 +20,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpPermissionManagementHttpApiModule),
         typeof(AbpTenantManagementHttpApiModule),
         typeof(AbpFeatureManagementHttpApiModule),
-        typeof(EasyAbp.Abp.SettingUi.SettingUiHttpApiModule),
+        typeof(AbpSettingUiHttpApiModule),
         typeof(FileManagementHttpApiModule),
         typeof(DataDictionaryHttpApiModule)
         )]

@@ -8,6 +8,8 @@ using Xhznl.HelloAbp.Localization;
 using Volo.Abp.Application.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace Volo.Abp.Identity
 {
@@ -24,7 +26,8 @@ namespace Volo.Abp.Identity
         public HelloIdentityUserAppService(IdentityUserManager userManager,
             IIdentityUserRepository userRepository,
             IIdentityRoleRepository roleRepository,
-            IStringLocalizer<HelloAbpResource> localizer) : base(userManager, userRepository, roleRepository)
+            IOptions<IdentityOptions> identityOptions,
+            IStringLocalizer<HelloAbpResource> localizer) : base(userManager, userRepository, roleRepository, identityOptions)
         {
             _localizer = localizer;
         }

@@ -118,7 +118,7 @@ namespace Volo.Abp.Identity
 
         [HttpGet]
         [Route("roles")]
-        public Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId, PagedAndSortedResultRequestDto roleInput)
+        public Task<PagedResultDto<IdentityRoleDto>> GetRolesAsync(Guid? ouId, GetIdentityRolesInput roleInput)
         {
             return UnitAppService.GetRolesAsync(ouId, roleInput);
         }

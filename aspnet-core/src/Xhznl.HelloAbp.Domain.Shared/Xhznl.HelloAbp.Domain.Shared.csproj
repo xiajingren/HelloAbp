@@ -3,21 +3,21 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Xhznl.HelloAbp</RootNamespace>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="EasyAbp.Abp.SettingUi.Domain.Shared" Version="1.1.9" />
-    <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.AuditLogging.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="3.1.2" />
+    <PackageReference Include="EasyAbp.Abp.SettingUi.Domain.Shared" Version="1.4.1" />
+    <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="4.3.3" />
     <ProjectReference Include="..\..\modules\file-management\src\Xhznl.FileManagement.Domain.Shared\Xhznl.FileManagement.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\modules\data-dictionary\src\Xhznl.DataDictionary.Domain.Shared\Xhznl.DataDictionary.Domain.Shared.csproj" />
   </ItemGroup>
@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.8" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,10 @@ import { resetRouter } from '@/router'
 
 const clientSetting = {
   grant_type: 'password',
-  scope: 'HelloAbp',
+  issuer: 'https://localhost:44367',
+  redirectUri: process.env.VUE_APP_BASE_API,
+  responseType: 'code',
+  scope: 'offline_access openid profile role email phone HelloAbp',
   username: '',
   password: '',
   client_id: 'HelloAbp_App',

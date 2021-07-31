@@ -17,6 +17,7 @@ using Volo.Abp.AuditLogging.Localization;
 using Xhznl.DataDictionary;
 using Xhznl.FileManagement;
 using Xhznl.FileManagement.Localization;
+using EasyAbp.Abp.SettingUi;
 
 namespace Xhznl.HelloAbp
 {
@@ -29,7 +30,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpPermissionManagementDomainSharedModule),
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpTenantManagementDomainSharedModule),
-        typeof(EasyAbp.Abp.SettingUi.SettingUiDomainSharedModule),
+        typeof(AbpSettingUiDomainSharedModule),
         typeof(FileManagementDomainSharedModule),
         typeof(DataDictionaryDomainSharedModule)
         )]

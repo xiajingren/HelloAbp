@@ -149,7 +149,7 @@ export default {
       currentId: '',
       currentParentName: '',
       temp: {
-        parentId: '',
+        parentId: null,
         displayName: ''
       },
       dialogFormVisible: false,
@@ -266,7 +266,7 @@ export default {
       this.currentId = ''
       this.currentParentName = ''
       this.temp = {
-        parentId: '',
+        parentId: null,
         displayName: ''
       }
     },

@@ -17,8 +17,8 @@ namespace Xhznl.FileManagement.Files
         public async Task<File> FindByBlobNameAsync(string blobName)
         {
             Check.NotNullOrWhiteSpace(blobName, nameof(blobName));
-
-            return await DbSet.FirstOrDefaultAsync(p => p.BlobName == blobName);
+            var dbset = await GetDbSetAsync();
+            return await dbset.FirstOrDefaultAsync(p => p.BlobName == blobName);
         }
     }
 }

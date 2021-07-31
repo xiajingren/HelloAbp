@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Account;
+﻿using EasyAbp.Abp.SettingUi;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -18,7 +19,7 @@ namespace Xhznl.HelloAbp
         typeof(AbpPermissionManagementApplicationModule),
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
-        typeof(EasyAbp.Abp.SettingUi.SettingUiApplicationModule),
+        typeof(AbpSettingUiApplicationModule),
         typeof(FileManagementApplicationModule),
         typeof(DataDictionaryApplicationModule)
         )]

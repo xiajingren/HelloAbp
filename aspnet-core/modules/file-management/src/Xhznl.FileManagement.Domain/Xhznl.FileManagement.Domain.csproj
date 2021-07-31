@@ -3,13 +3,13 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Xhznl.FileManagement</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.BlobStoring" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.BlobStoring" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="4.3.3" />
     <ProjectReference Include="..\Xhznl.FileManagement.Domain.Shared\Xhznl.FileManagement.Domain.Shared.csproj" />
   </ItemGroup>
 

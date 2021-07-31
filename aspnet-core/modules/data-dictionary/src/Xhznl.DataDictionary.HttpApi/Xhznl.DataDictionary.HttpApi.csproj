@@ -3,12 +3,12 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <RootNamespace>Xhznl.DataDictionary</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="3.1.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="4.3.3" />
     <ProjectReference Include="..\Xhznl.DataDictionary.Application.Contracts\Xhznl.DataDictionary.Application.Contracts.csproj" />
   </ItemGroup>
 
